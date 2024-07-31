@@ -132,6 +132,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 29318462}
+  - component: {fileID: 29318463}
   m_Layer: 0
   m_Name: Front Right Wheel
   m_TagString: Untagged
@@ -155,6 +156,19 @@ Transform:
   - {fileID: 3570975274148179791}
   m_Father: {fileID: 2369178739292505629}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &29318463
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 29318461}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1479f119bc2c0544db7b97c669c00515, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  wheelPosition: 0
 --- !u!1 &90046079
 GameObject:
   m_ObjectHideFlags: 0
@@ -211,14 +225,11 @@ MonoBehaviour:
   engine: {fileID: 11400000, guid: 52671cf79c3c59044ba4b7f6351d404a, type: 2}
   carAnime: {fileID: 11400000, guid: 5be007c757a5a74409627303a3e68504, type: 2}
   inputData: {fileID: 11400000, guid: db05a1c1057304743b70bed5b44f9e05, type: 2}
-  frontWheels:
-  - {fileID: 1783702261}
-  - {fileID: 29318462}
   allWheels:
-  - {fileID: 4837801160783373907}
-  - {fileID: 4378188931118483824}
-  - {fileID: 580311278565378431}
-  - {fileID: 3570975274148179791}
+  - {fileID: 1783702262}
+  - {fileID: 29318463}
+  - {fileID: 5738022009611572779}
+  - {fileID: 6439428870383364465}
   carBody: {fileID: 2614238657328608804}
 --- !u!54 &90046082
 Rigidbody:
@@ -6554,7 +6565,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b4356ab1d6f7b9840b635cc05c3be304, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  controls: 1
+  controls: 0
   inputData: {fileID: 11400000, guid: db05a1c1057304743b70bed5b44f9e05, type: 2}
 --- !u!1 &1497189391
 GameObject:
@@ -16539,6 +16550,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1783702261}
+  - component: {fileID: 1783702262}
   m_Layer: 0
   m_Name: Front Left Wheel
   m_TagString: Untagged
@@ -16562,6 +16574,19 @@ Transform:
   - {fileID: 580311278565378431}
   m_Father: {fileID: 2369178739292505629}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1783702262
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1783702260}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1479f119bc2c0544db7b97c669c00515, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  wheelPosition: 0
 --- !u!1 &1803272993
 GameObject:
   m_ObjectHideFlags: 0
@@ -16731,6 +16756,7 @@ GameObject:
   - component: {fileID: 4378188931118483824}
   - component: {fileID: 4577325590321534277}
   - component: {fileID: 6439428870383364464}
+  - component: {fileID: 6439428870383364465}
   m_Layer: 0
   m_Name: RearRightWheel
   m_TagString: Untagged
@@ -17208,6 +17234,7 @@ GameObject:
   - component: {fileID: 4837801160783373907}
   - component: {fileID: 2292415219606744882}
   - component: {fileID: 3077395129208341996}
+  - component: {fileID: 5738022009611572779}
   m_Layer: 0
   m_Name: RearLeftWheel
   m_TagString: Untagged
@@ -17215,6 +17242,19 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!114 &5738022009611572779
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5738022009611572778}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1479f119bc2c0544db7b97c669c00515, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  wheelPosition: 1
 --- !u!4 &6294174624698151953
 Transform:
   m_ObjectHideFlags: 0
@@ -17273,6 +17313,19 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!114 &6439428870383364465
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 391397315501016363}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1479f119bc2c0544db7b97c669c00515, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  wheelPosition: 1
 --- !u!4 &6835293941804841506
 Transform:
   m_ObjectHideFlags: 0

@@ -21,8 +21,7 @@ public class CarController : MonoBehaviour
     [SerializeField] private InputData inputData;
 
     [Header("<size=15>CAR ANIMATION")]
-    [SerializeField] private List<Transform> frontWheels;
-    [SerializeField] private List<Transform> allWheels;
+    [SerializeField] private List<WheelIdentity> allWheels;
 
     [Space]
     [SerializeField] private Transform carBody;
@@ -49,6 +48,7 @@ public class CarController : MonoBehaviour
         WheelRotation();
         BodyAnimation();
         DriftParticles();
+        AdjustCarSpeed();
     }
 
     private void CarAcceleration()
@@ -60,26 +60,48 @@ public class CarController : MonoBehaviour
         rotationDisk.rotation = Quaternion.Euler(0, rotationValue, 0);
 
         carModel.rotation = rotationDisk.rotation;  
-        rotationTransform.rotation = Quaternion.Lerp(rotationTransform.rotation, rotationDisk.rotation, engine.turnDamping * Time.deltaTime);
+        rotationTransform.rotation = Quaternion.Lerp
+        (
+            rotationTransform.rotation, 
+            rotationDisk.rotation, 
+            engine.turnDamping * Time.deltaTime
+        );
     }
 
     private void WheelRotation()
     {
-        currentWheelRotation = Mathf.MoveTowards(currentWheelRotation, inputData.sideValue * carAnime.maxWheelRotation, carAnime.rotationDamping * Time.deltaTime);
+        currentWheelRotation = Mathf.MoveTowards
+        (
+            currentWheelRotation, 
+            inputData.sideValue * carAnime.maxWheelRotation, 
+            carAnime.rotationDamping * Time.deltaTime
+        );
 
-        foreach (Transform wheel in frontWheels)
+        foreach (WheelIdentity wheel in allWheels)
         {
-            wheel.localRotation = Quaternion.Euler(0, currentWheelRotation, 0); ;
-        }
-
-        foreach (Transform wheel in allWheels)
-        {
-            wheel.Rotate(carAnime.wheelForwardRotation, 0, 0);
+            switch (wheel.GetWheelPosition())
+            {
+                case WheelPosition.FRONT:
+                    wheel.transform.localRotation = 
+                        Quaternion.Euler(0, currentWheelRotation, 0);
+                    wheel.transform.GetChild(0).Rotate(carAnime.wheelForwardRotation, 0, 0);
+                break;
+                case WheelPosition.REAR:
+                    wheel.transform.Rotate(carAnime.wheelForwardRotation, 0, 0);
+                break;
+            }
         }
     }
 
-    
-    
+    private void AdjustCarSpeed()
+    {
+        engine.carSpeed = Mathf.Lerp
+        (
+            engine.maxCarSpeed, 
+            engine.speedOnTurn, 
+            Mathf.Abs(inputData.sideValue)
+        );
+    }
 
     private void DriftParticles()
     {
