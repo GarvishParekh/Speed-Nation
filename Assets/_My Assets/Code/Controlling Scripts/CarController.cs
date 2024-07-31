@@ -1,15 +1,10 @@
 using UnityEngine;
 using System.Collections.Generic;
 
-public enum Controls
-{
-    KEYBOARD,
-    TOUCH
-}
+
 public class CarController : MonoBehaviour
 {
     Rigidbody playerRb;
-    [SerializeField] private Controls controls;
 
     [Header ("<size=15>COMPONENTS")]
     [Tooltip ("Apply velocity on the base of it's forward direction")]
@@ -23,6 +18,7 @@ public class CarController : MonoBehaviour
     [Header("<size=15>SCRIPTABLE")]
     [SerializeField] private CarEngine engine;
     [SerializeField] private CarAnimationData carAnime;
+    [SerializeField] private InputData inputData;
 
     [Header("<size=15>CAR ANIMATION")]
     [SerializeField] private List<Transform> frontWheels;
@@ -39,12 +35,6 @@ public class CarController : MonoBehaviour
     // how much rotation vehicle's wheels are having - related to animation
     private float currentWheelRotation = 0;
 
-    // raw side ways input data
-    private float sideInput;
-    // lerped saw side ways data
-    private float lerpedSideValue = 0;
-    private float driftValue = 0;
-
 
     private void Awake()
     {
@@ -54,7 +44,6 @@ public class CarController : MonoBehaviour
 
     private void FixedUpdate()
     {
-        LerpedSideValue();
         CarAcceleration();
         CarRotation();
         WheelRotation();
@@ -67,7 +56,7 @@ public class CarController : MonoBehaviour
 
     private void CarRotation()
     {
-        rotationValue += lerpedSideValue * engine.turnSpeed * Time.deltaTime;
+        rotationValue += inputData.lerpedSideValue * engine.turnSpeed * Time.deltaTime;
         rotationDisk.rotation = Quaternion.Euler(0, rotationValue, 0);
 
         carModel.rotation = rotationDisk.rotation;  
@@ -76,7 +65,7 @@ public class CarController : MonoBehaviour
 
     private void WheelRotation()
     {
-        currentWheelRotation = Mathf.MoveTowards(currentWheelRotation, sideInput * carAnime.maxWheelRotation, carAnime.rotationDamping * Time.deltaTime);
+        currentWheelRotation = Mathf.MoveTowards(currentWheelRotation, inputData.sideValue * carAnime.maxWheelRotation, carAnime.rotationDamping * Time.deltaTime);
 
         foreach (Transform wheel in frontWheels)
         {
@@ -90,39 +79,11 @@ public class CarController : MonoBehaviour
     }
 
     
-    private void LerpedSideValue()
-    {
-        switch (controls)
-        {
-            case Controls.KEYBOARD:
-                sideInput = Input.GetAxisRaw("Horizontal");
-               
-                    break;
-            case Controls.TOUCH:
-                if (isLeft)
-                {
-                    sideInput = -1;
-                }
-                else if (isRight)
-                {
-                    sideInput = 1;
-                }
-                else if (isRight == false && isLeft == false)
-                {
-                    sideInput = 0;
-                }
-                break;
-        }
-        if (sideInput != 0)
-            driftValue += Time.deltaTime;
-        else if (sideInput == 0)
-            driftValue = 0;
-        lerpedSideValue = Mathf.Lerp(lerpedSideValue, sideInput, 2.1f * Time.deltaTime);
-    }
+    
 
     private void DriftParticles()
     {
-        if (driftValue > 0.5f)
+        if (inputData.driftrValue > 0.5f)
         {
             foreach (ParticleSystem particles in driftParticles)
             {
@@ -140,29 +101,9 @@ public class CarController : MonoBehaviour
 
     private void BodyAnimation()
     {
-        currentBodyRotation = Mathf.MoveTowards(currentBodyRotation, sideInput * carAnime.maxBodyRotaion, carAnime.bodyRotationDamping * Time.deltaTime);
+        currentBodyRotation = Mathf.MoveTowards(currentBodyRotation, inputData.sideValue * carAnime.maxBodyRotaion, carAnime.bodyRotationDamping * Time.deltaTime);
         carBody.localRotation = Quaternion.Euler(0, 0, currentBodyRotation);
     }
 
-    bool isLeft = false;
-    bool isRight = false;
-    public void LeftTouchDown()
-    {
-        isLeft = true;
-    }
-
-    public void LeftTouchUp()
-    {
-        isLeft = false;
-    }
-
-    public void RightTouchDown()
-    {
-        isRight = true;
-    }
-
-    public void RightTouchUp()
-    {
-        isRight = false;
-    }
+    
 }

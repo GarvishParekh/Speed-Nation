@@ -182,7 +182,7 @@ Transform:
   m_GameObject: {fileID: 90046079}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.21, z: 0}
+  m_LocalPosition: {x: 0, y: 0.24, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -202,7 +202,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8fcaef639b873d9489160bceab1b7889, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  controls: 0
   rotationTransform: {fileID: 913851906}
   rotationDisk: {fileID: 961989623}
   carModel: {fileID: 1880317208736340981}
@@ -211,6 +210,7 @@ MonoBehaviour:
   - {fileID: 1627490055}
   engine: {fileID: 11400000, guid: 52671cf79c3c59044ba4b7f6351d404a, type: 2}
   carAnime: {fileID: 11400000, guid: 5be007c757a5a74409627303a3e68504, type: 2}
+  inputData: {fileID: 11400000, guid: db05a1c1057304743b70bed5b44f9e05, type: 2}
   frontWheels:
   - {fileID: 1783702261}
   - {fileID: 29318462}
@@ -5980,7 +5980,7 @@ Transform:
   m_GameObject: {fileID: 422746296}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0.7071068, z: 0.7071068, w: 0}
-  m_LocalPosition: {x: 0.613, y: -0.663, z: -0.319}
+  m_LocalPosition: {x: 0.613, y: -0.6198, z: -0.319}
   m_LocalScale: {x: 0.1, y: 0.1, z: 0.1}
   m_ConstrainProportionsScale: 1
   m_Children: []
@@ -6510,6 +6510,84 @@ MonoBehaviour:
             m_StringArgument: 
             m_BoolArgument: 0
           m_CallState: 2
+--- !u!1 &1412696240
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1412696241}
+  - component: {fileID: 1412696242}
+  m_Layer: 0
+  m_Name: InputManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1412696241
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1412696240}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1497189392}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1412696242
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1412696240}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b4356ab1d6f7b9840b635cc05c3be304, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  controls: 1
+  inputData: {fileID: 11400000, guid: db05a1c1057304743b70bed5b44f9e05, type: 2}
+--- !u!1 &1497189391
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1497189392}
+  m_Layer: 0
+  m_Name: '[Scripts]'
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1497189392
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1497189391}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0.613, y: 0.6294601, z: -1.5223492}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 1412696241}
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1553647931
 GameObject:
   m_ObjectHideFlags: 0
@@ -6537,7 +6615,7 @@ Transform:
   m_GameObject: {fileID: 1553647931}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0.7071068, z: 0.7071068, w: 0}
-  m_LocalPosition: {x: -0.61, y: -0.663, z: -0.319}
+  m_LocalPosition: {x: -0.61, y: -0.6198, z: -0.319}
   m_LocalScale: {x: 0.1, y: 0.1, z: 0.1}
   m_ConstrainProportionsScale: 1
   m_Children: []
@@ -17257,3 +17335,4 @@ SceneRoots:
   - {fileID: 693342101}
   - {fileID: 1770844350}
   - {fileID: 1749988920}
+  - {fileID: 1497189392}

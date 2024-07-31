@@ -1,18 +1,86 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
+
+public enum Controls
+{
+    KEYBOARD,
+    TOUCH
+}
 
 public class InputManager : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+    [SerializeField] private Controls controls;
+
+    [Header ("<size=15>SCRIPTABLE")]
+    [SerializeField] private InputData inputData;
+    // raw side ways input data
+    private float sideInput;
+    // lerped saw side ways data
+    private float lerpedSideValue = 0;
+    private float driftValue = 0;
+
+    // updates on touch inputs
+    bool isLeft = false;
+    bool isRight = false;
+
+    private void Update()
+        => LerpedSideValue();
+
+    private void LerpedSideValue()
     {
-        
+        switch (controls)
+        {
+            case Controls.KEYBOARD:
+                sideInput = Input.GetAxisRaw("Horizontal");
+            break;
+
+            case Controls.TOUCH:
+                if (isLeft) sideInput = -1;
+                else if (isRight) sideInput = 1;
+                else if (isRight == false && isLeft == false) sideInput = 0;
+            break;
+        }
+        UpdateDriftValue(sideInput);
+
+        lerpedSideValue = Mathf.Lerp(lerpedSideValue, sideInput, 2.1f * Time.deltaTime);
+
+        inputData.sideValue = sideInput;
+        inputData.lerpedSideValue = lerpedSideValue;
+        inputData.driftrValue = driftValue;
     }
 
-    // Update is called once per frame
-    void Update()
+    private void UpdateDriftValue(float _sideValue)
     {
-        
+        if (_sideValue != 0) driftValue += Time.deltaTime;
+        else if (_sideValue == 0) driftValue = 0;
+    }
+
+    #region Touch Inputs
+    public void LeftTouchDown()
+    {
+        isLeft = true;
+        isRight = false;    
+    }
+
+    public void LeftTouchUp()
+        => isLeft = false;
+
+    public void RightTouchDown()
+    {
+        isRight = true;
+        isLeft = false;
+    }
+
+    public void RightTouchUp()
+        => isRight = false; 
+    #endregion
+
+    public float GetSideInputs()
+    {
+        return sideInput;
+    }
+
+    public float GetLerpedSideInputs()
+    {
+        return lerpedSideValue;
     }
 }
