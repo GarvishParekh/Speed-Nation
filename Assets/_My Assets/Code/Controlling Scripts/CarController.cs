@@ -14,6 +14,7 @@ public class CarController : MonoBehaviour
     [Tooltip ("Model of the vehicle including wheels")]
     [SerializeField] private Transform carModel;
     [SerializeField] private List<ParticleSystem> driftParticles;
+    [SerializeField] private List<TrailRenderer> tireMarks;
 
     [Header("<size=15>SCRIPTABLE")]
     [SerializeField] private CarEngine engine;
@@ -111,12 +112,22 @@ public class CarController : MonoBehaviour
             {
                 particles.Play();
             }
+
+            foreach (TrailRenderer tireMark in tireMarks)
+            {
+                tireMark.emitting = true;
+            }
         }
         else
         {
             foreach (ParticleSystem particles in driftParticles)
             {
                 particles.Stop();
+            }
+
+            foreach (TrailRenderer tireMark in tireMarks)
+            {
+                tireMark.emitting = false;
             }
         }
     }
