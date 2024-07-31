@@ -11,4 +11,5 @@ public class CarEngine : ScriptableObject
     [Header("<sizze=15>HANDLING")]
     public float turnSpeed = 65f;
     public float turnDamping = 160f;
+    public float driftThreshold = 0.6f;
 }

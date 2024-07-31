@@ -57,10 +57,14 @@ public class CarController : MonoBehaviour
 
     private void CarRotation()
     {
+        // rotation of the disk 
         rotationValue += inputData.lerpedSideValue * engine.turnSpeed * Time.deltaTime;
         rotationDisk.rotation = Quaternion.Euler(0, rotationValue, 0);
 
+        // rotation of the car model according to the disk
         carModel.rotation = rotationDisk.rotation;  
+
+        // lerp the movement vecotor with rotation disk
         rotationTransform.rotation = Quaternion.Lerp
         (
             rotationTransform.rotation, 
@@ -71,6 +75,7 @@ public class CarController : MonoBehaviour
 
     private void WheelRotation()
     {
+        // calculation for front wheel side ways rotation 
         currentWheelRotation = Mathf.MoveTowards
         (
             currentWheelRotation, 
@@ -82,11 +87,14 @@ public class CarController : MonoBehaviour
         {
             switch (wheel.GetWheelPosition())
             {
+                // applying wheel forward and side ways rotation
                 case WheelPosition.FRONT:
                     wheel.transform.localRotation = 
                         Quaternion.Euler(0, currentWheelRotation, 0);
                     wheel.transform.GetChild(0).Rotate(carAnime.wheelForwardRotation, 0, 0);
                 break;
+
+                // applying wheel forward 
                 case WheelPosition.REAR:
                     wheel.transform.Rotate(carAnime.wheelForwardRotation, 0, 0);
                 break;
@@ -94,6 +102,7 @@ public class CarController : MonoBehaviour
         }
     }
 
+    // decrease the speed when the user turns
     private void AdjustCarSpeed()
     {
         engine.carSpeed = Mathf.Lerp
@@ -104,18 +113,37 @@ public class CarController : MonoBehaviour
         );
     }
 
+
+    // drift particles and tire marks if the vehicle turns after threshold
     private void DriftParticles()
     {
-        if (inputData.driftrValue > 0.5f)
+        if (inputData.driftrValue > engine.driftThreshold)
+        {
+            EmitDriftParticles(true);
+            EmitTierMarks(true);
+        }
+        else
+        {
+            EmitDriftParticles(false);
+            EmitTierMarks(false);
+        }
+    }
+
+    private void EmitTierMarks(bool _check)
+    {
+        foreach (TrailRenderer tireMark in tireMarks)
+        {
+            tireMark.emitting = _check;
+        }
+    }
+
+    private void EmitDriftParticles(bool _check)
+    {
+        if (_check)
         {
             foreach (ParticleSystem particles in driftParticles)
             {
-                particles.Play();
-            }
-
-            foreach (TrailRenderer tireMark in tireMarks)
-            {
-                tireMark.emitting = true;
+                particles.Play(true);
             }
         }
         else
@@ -124,19 +152,13 @@ public class CarController : MonoBehaviour
             {
                 particles.Stop();
             }
-
-            foreach (TrailRenderer tireMark in tireMarks)
-            {
-                tireMark.emitting = false;
-            }
         }
     }
 
+    // body animation according to the turning of the player 
     private void BodyAnimation()
     {
         currentBodyRotation = Mathf.MoveTowards(currentBodyRotation, inputData.sideValue * carAnime.maxBodyRotaion, carAnime.bodyRotationDamping * Time.deltaTime);
         carBody.localRotation = Quaternion.Euler(0, 0, currentBodyRotation);
     }
-
-    
 }
