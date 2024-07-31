@@ -313,8 +313,8 @@ MonoBehaviour:
     callback:
       m_PersistentCalls:
         m_Calls:
-        - m_Target: {fileID: 90046081}
-          m_TargetAssemblyTypeName: CarController, Assembly-CSharp
+        - m_Target: {fileID: 1412696242}
+          m_TargetAssemblyTypeName: InputManager, Assembly-CSharp
           m_MethodName: RightTouchDown
           m_Mode: 1
           m_Arguments:
@@ -329,8 +329,8 @@ MonoBehaviour:
     callback:
       m_PersistentCalls:
         m_Calls:
-        - m_Target: {fileID: 90046081}
-          m_TargetAssemblyTypeName: CarController, Assembly-CSharp
+        - m_Target: {fileID: 1412696242}
+          m_TargetAssemblyTypeName: InputManager, Assembly-CSharp
           m_MethodName: RightTouchUp
           m_Mode: 1
           m_Arguments:
@@ -6493,8 +6493,8 @@ MonoBehaviour:
     callback:
       m_PersistentCalls:
         m_Calls:
-        - m_Target: {fileID: 90046081}
-          m_TargetAssemblyTypeName: CarController, Assembly-CSharp
+        - m_Target: {fileID: 1412696242}
+          m_TargetAssemblyTypeName: InputManager, Assembly-CSharp
           m_MethodName: LeftTouchDown
           m_Mode: 1
           m_Arguments:
@@ -6509,8 +6509,8 @@ MonoBehaviour:
     callback:
       m_PersistentCalls:
         m_Calls:
-        - m_Target: {fileID: 90046081}
-          m_TargetAssemblyTypeName: CarController, Assembly-CSharp
+        - m_Target: {fileID: 1412696242}
+          m_TargetAssemblyTypeName: InputManager, Assembly-CSharp
           m_MethodName: LeftTouchUp
           m_Mode: 1
           m_Arguments:
