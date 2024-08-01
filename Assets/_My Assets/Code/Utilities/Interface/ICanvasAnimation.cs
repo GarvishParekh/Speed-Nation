@@ -1,5 +1,5 @@
-public interface IOpeningAnimation
+public interface ICanvasController
 {
-    public void EndScene();
-    public void EnterScene();
+    public void EnableCanvas();
+    public void DisableCanvas();
 }
