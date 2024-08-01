@@ -7399,7 +7399,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b4356ab1d6f7b9840b635cc05c3be304, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  controls: 1
+  controls: 0
   inputData: {fileID: 11400000, guid: db05a1c1057304743b70bed5b44f9e05, type: 2}
 --- !u!1001 &1474803700
 PrefabInstance:

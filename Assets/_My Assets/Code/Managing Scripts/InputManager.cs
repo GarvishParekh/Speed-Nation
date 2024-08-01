@@ -1,14 +1,9 @@
 using UnityEngine;
 
-public enum Controls
-{
-    KEYBOARD,
-    TOUCH
-}
+
 
 public class InputManager : MonoBehaviour
 {
-    [SerializeField] private Controls controls;
 
     [Header ("<size=15>SCRIPTABLE")]
     [SerializeField] private InputData inputData;
@@ -27,7 +22,7 @@ public class InputManager : MonoBehaviour
 
     private void LerpedSideValue()
     {
-        switch (controls)
+        switch (inputData.controls)
         {
             case Controls.KEYBOARD:
                 sideInput = Input.GetAxisRaw("Horizontal");
