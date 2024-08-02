@@ -21,9 +21,6 @@ public class CarController : MonoBehaviour
     [SerializeField] private CarAnimationData carAnime;
     [SerializeField] private InputData inputData;
 
-    [Header("<size=15>CAR ANIMATION")]
-    [SerializeField] private List<WheelIdentity> allWheels;
-
     [Space]
     [SerializeField] private Transform carBody;
 
@@ -32,8 +29,6 @@ public class CarController : MonoBehaviour
     private float rotationValue = -90;
     // how much rotation vehicle's body is having - related to animation 
     private float currentBodyRotation = 0;
-    // how much rotation vehicle's wheels are having - related to animation
-    private float currentWheelRotation = 0;
 
 
     private void Awake()
@@ -46,7 +41,6 @@ public class CarController : MonoBehaviour
     {
         CarAcceleration();
         CarRotation();
-        WheelRotation();
         BodyAnimation();
         DriftParticles();
         AdjustCarSpeed();
@@ -60,6 +54,7 @@ public class CarController : MonoBehaviour
         // rotation of the disk 
         rotationValue += inputData.lerpedSideValue * engine.turnSpeed * Time.deltaTime;
         rotationDisk.rotation = Quaternion.Euler(0, rotationValue, 0);
+            
 
         // rotation of the car model according to the disk
         carModel.rotation = rotationDisk.rotation;  
@@ -71,35 +66,6 @@ public class CarController : MonoBehaviour
             rotationDisk.rotation, 
             engine.turnDamping * Time.deltaTime
         );
-    }
-
-    private void WheelRotation()
-    {
-        // calculation for front wheel side ways rotation 
-        currentWheelRotation = Mathf.MoveTowards
-        (
-            currentWheelRotation, 
-            inputData.sideValue * carAnime.maxWheelRotation, 
-            carAnime.rotationDamping * Time.deltaTime
-        );
-
-        foreach (WheelIdentity wheel in allWheels)
-        {
-            switch (wheel.GetWheelPosition())
-            {
-                // applying wheel forward and side ways rotation
-                case WheelPosition.FRONT:
-                    wheel.transform.localRotation = 
-                        Quaternion.Euler(0, currentWheelRotation, 0);
-                    wheel.transform.GetChild(0).Rotate(carAnime.wheelForwardRotation, 0, 0);
-                break;
-
-                // applying wheel forward 
-                case WheelPosition.REAR:
-                    wheel.transform.Rotate(carAnime.wheelForwardRotation, 0, 0);
-                break;
-            }
-        }
     }
 
     // decrease the speed when the user turns
