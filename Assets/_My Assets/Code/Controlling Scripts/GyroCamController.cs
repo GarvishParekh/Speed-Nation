@@ -32,7 +32,7 @@ public class GyroCamController : MonoBehaviour
 
             // Apply the rotation to the camera
             Quaternion newRotation = initialRotation * rotationDelta;
-            transform.rotation = Quaternion.Lerp(transform.rotation, newRotation, 0.35f * Time.deltaTime);
+            transform.rotation = Quaternion.Lerp(transform.rotation, newRotation, 10f * Time.deltaTime);
         }
     }
 }
