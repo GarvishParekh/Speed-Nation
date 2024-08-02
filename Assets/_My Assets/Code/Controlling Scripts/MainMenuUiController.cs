@@ -14,5 +14,9 @@ public class MainMenuUiController : MonoBehaviour
     {
         uiManager.StartSceneChangeRoutine(ConstantKeys.SCENE_GAMEPLAY);
     }
+    public void _PracticeButton()
+    {
+        uiManager.StartSceneChangeRoutine(ConstantKeys.SCENE_PRACTICE);
+    }
     
 }

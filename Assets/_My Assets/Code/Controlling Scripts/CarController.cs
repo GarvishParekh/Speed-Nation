@@ -29,7 +29,7 @@ public class CarController : MonoBehaviour
 
 
     // how much rotation vehicle is having - related to controls
-    private float rotationValue = 0;
+    private float rotationValue = -90;
     // how much rotation vehicle's body is having - related to animation 
     private float currentBodyRotation = 0;
     // how much rotation vehicle's wheels are having - related to animation
