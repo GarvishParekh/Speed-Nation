@@ -11,7 +11,6 @@ public class GameplayUiController : MonoBehaviour
     {
         inputManager.enabled = false;
 
-        controlCanvas.SetActive(false);
         uiManager = UiManager.instance;
         uiManager.OpenShutter();
 
