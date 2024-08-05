@@ -33,7 +33,7 @@ public class CameraController : MonoBehaviour
         LeanTween.moveLocal(upperImage, Vector3.zero, 5).setEaseInOutSine();
         LeanTween.moveLocal(lowerImage, Vector3.zero, 5).setEaseInOutSine().setOnComplete(()=>
         {
-            gameplayUi.EnableControls();
+            //gameplayUi.EnableControls();
         });
 
         cameraTransform.position = cameraInitialTransform.position;
