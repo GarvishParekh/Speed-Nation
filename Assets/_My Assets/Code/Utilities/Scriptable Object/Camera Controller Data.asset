@@ -12,5 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 28f60845ea1d4ed4e9eeb78f3cdfbc1d, type: 3}
   m_Name: Camera Controller Data
   m_EditorClassIdentifier: 
-  maxCameraDamping: 5
-  minDamingValue: 2
+  maxCameraDamping: 4.6
+  minDamingValue: 1.5

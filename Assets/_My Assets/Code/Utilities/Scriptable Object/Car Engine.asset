@@ -12,9 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c4bdc347bb9988f47a26443ba8ca776c, type: 3}
   m_Name: Car Engine
   m_EditorClassIdentifier: 
-  carSpeed: 25
-  maxCarSpeed: 25
-  speedOnTurn: 20
+  carSpeed: 50
+  maxCarSpeed: 50
+  speedOnTurn: 48
   turnSpeed: 120
   turnDamping: 3.6
   driftThreshold: 0.6

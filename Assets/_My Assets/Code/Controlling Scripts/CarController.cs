@@ -33,6 +33,7 @@ public class CarController : MonoBehaviour
 
     private void Awake()
     {
+        rotationValue = -90;
         Application.targetFrameRate = 60;
         playerRb = GetComponent<Rigidbody>();   
     }
