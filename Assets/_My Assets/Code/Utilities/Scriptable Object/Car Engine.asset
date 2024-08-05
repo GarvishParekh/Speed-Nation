@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   carSpeed: 25
   maxCarSpeed: 25
-  speedOnTurn: 22
-  turnSpeed: 140
-  turnDamping: 4
+  speedOnTurn: 20
+  turnSpeed: 120
+  turnDamping: 3.6
   driftThreshold: 0.6
