@@ -1,7 +1,5 @@
 using UnityEngine;
 
-
-
 public class InputManager : MonoBehaviour
 {
 
@@ -16,6 +14,11 @@ public class InputManager : MonoBehaviour
     // updates on touch inputs
     bool isLeft = false;
     bool isRight = false;
+
+    private void Awake()
+    {
+        inputData.lerpedSideValue = 0;
+    }
 
     private void Update()
         => LerpedSideValue();
