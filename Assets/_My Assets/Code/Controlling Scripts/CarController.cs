@@ -47,8 +47,11 @@ public class CarController : MonoBehaviour
         AdjustCarSpeed();
     }
 
+    public Vector3 collisionDirection = new Vector3 (0,0,0);
     private void CarAcceleration()
-        => playerRb.velocity = rotationTransform.forward * engine.carSpeed;
+    {
+        playerRb.velocity = rotationTransform.forward * engine.carSpeed + collisionDirection;
+    }
 
     private void CarRotation()
     {

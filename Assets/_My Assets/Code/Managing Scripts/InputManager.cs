@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class InputManager : MonoBehaviour
 {
-
+    public VehicleCollisionController collisionCheck;
     [Header ("<size=15>SCRIPTABLE")]
     [SerializeField] private InputData inputData;
     // raw side ways input data
@@ -29,13 +29,13 @@ public class InputManager : MonoBehaviour
         {
             case Controls.KEYBOARD:
                 sideInput = Input.GetAxisRaw("Horizontal");
-            break;
+                break;
 
             case Controls.TOUCH:
                 if (isLeft) sideInput = -1;
                 else if (isRight) sideInput = 1;
                 else if (isRight == false && isLeft == false) sideInput = 0;
-            break;
+                break;
         }
         UpdateDriftValue(sideInput);
 

@@ -8,6 +8,7 @@ public class RalingAligner : MonoBehaviour
     [SerializeField] private float startingPosition;
     [SerializeField] private float offset;
     [SerializeField] private float randomizer = 5;
+    [SerializeField] private float degreeAngle = 5;
 
     [ContextMenu("ALIGN")]
     public void ALIGN()
@@ -28,6 +29,8 @@ public class RalingAligner : MonoBehaviour
             newPos.y = raling.localPosition.y;
             newPos.z = raling.localPosition.z;
             raling.localPosition = newPos;
+            float randomAngle = Random.Range(-degreeAngle, degreeAngle);
+            raling.rotation = Quaternion.Euler(0, randomAngle, 0);
         }
     }
 }
