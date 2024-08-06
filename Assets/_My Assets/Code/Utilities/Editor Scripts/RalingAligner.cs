@@ -29,6 +29,7 @@ public class RalingAligner : MonoBehaviour
             newPos.y = raling.localPosition.y;
             newPos.z = raling.localPosition.z;
             raling.localPosition = newPos;
+
             float randomAngle = Random.Range(-degreeAngle, degreeAngle);
             raling.rotation = Quaternion.Euler(0, randomAngle, 0);
         }

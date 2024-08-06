@@ -1,52 +1,38 @@
 using UnityEngine;
 
-public enum Crash
-{
-    ON,
-    OFF
-}
 public class VehicleCollisionController : MonoBehaviour
 {
-    Rigidbody carRb;
-    public Crash carsh;
-    public CarController carController;
-    public InputData inputData;
-    public float collisionDirZ;
-    public float collisionTimer = 0;
-    public float collisionTime = 0.2f;
-    public float impactForce = 0.5f;
+    [Header("<size=15>PARTICLES")]
+    [SerializeField] private ParticleSystem crashLeft;
+    [SerializeField] private ParticleSystem crashRight;
 
-    private void Awake()
-    {
-        carRb = GetComponent<Rigidbody>();
-    }
+    [Header ("<size=15>COMPONENTS")]
+    [SerializeField] private Transform camTransform;
+    [SerializeField] private Transform originalTransform;
+    [SerializeField] private LayerMask wallLayer;
 
-    private void OnCollisionEnter(Collision collision)
-    {
-        Debug.Log("Collision with: " + collision.collider.name);
-        if (collision.collider.CompareTag("Wall"))
-        {
-            carsh = Crash.ON;
-            Debug.Log("Collision");
-            Vector3 collisionForce = collision.contacts[0].normal * impactForce;
-            carRb.AddForce(collisionForce, ForceMode.VelocityChange);
-            //collisionTimer = collisionTime;
-        }
-    }
-
-    /*
+    [Header ("<size=15>VALUES")]
+    [SerializeField] private float rayCastLenght;
+    [SerializeField] private float shakeIntensity;
+    
     private void Update()
     {
-        if (collisionTimer > 0)
+        Debug.DrawRay(transform.position, -transform.right * rayCastLenght, Color.red);
+
+        // left 
+        if (Physics.Raycast(transform.position, -transform.right, rayCastLenght, wallLayer))
         {
-            carController.collisionDirection = new Vector3(0, 0, impactForce * collisionTimer);
-            collisionTimer -= Time.deltaTime;
+            crashLeft.gameObject.SetActive(true);
+            camTransform.localPosition = originalTransform.localPosition + Random.insideUnitSphere * shakeIntensity;
         }
-        else if (collisionTimer <= 0) 
+        else crashLeft.gameObject.SetActive(false);
+
+        // right
+        if (Physics.Raycast(transform.position, transform.right, rayCastLenght, wallLayer))
         {
-            carController.collisionDirection = new Vector3(0, 0, 0);
-            carsh = Crash.OFF;
+            crashRight.gameObject.SetActive(true);
+            camTransform.localPosition = originalTransform.localPosition + Random.insideUnitSphere * shakeIntensity;
         }
+        else crashRight.gameObject.SetActive(false);
     }
-    */
 }
