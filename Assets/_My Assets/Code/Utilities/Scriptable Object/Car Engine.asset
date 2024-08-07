@@ -15,6 +15,6 @@ MonoBehaviour:
   carSpeed: 65
   maxCarSpeed: 65
   speedOnTurn: 65
-  turnSpeed: 120
-  turnDamping: 4
+  turnSpeed: 100
+  turnDamping: 5
   driftThreshold: 0.6
