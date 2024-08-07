@@ -5,6 +5,8 @@ public class CarSpawnManager : MonoBehaviour
 {
     [Header ("<size=15>COMPONENTS")]
     [SerializeField] private Transform playerCar;
+    [SerializeField] private Transform leftEdgeTransform;
+    [SerializeField] private Transform rightEdgeTransform;
     [SerializeField] private List<Transform> TrafficCars = new List<Transform>();
 
     [Header("<size=15>VALUES")]
@@ -12,28 +14,54 @@ public class CarSpawnManager : MonoBehaviour
     [SerializeField] float timer;
 
     Vector3 spawnPoint;
+    Vector2 edgeValue;
 
-  
+    private void Awake()
+    {
+        edgeValue.x = leftEdgeTransform.position.z;
+        edgeValue.y = rightEdgeTransform.position.z;
+    }
 
     private void Update()
     {
         if (timer > 0)
         {
-            timer -= Time.deltaTime;   
+
+            timer -= Time.deltaTime;
         }
+
         else
         {
-            timer = Random.Range(spawnMinMaxTime.x, spawnMinMaxTime.y);
+            ResetTimer();
             spawnPoint.x = playerCar.position.x - 200;
             spawnPoint.y = 0.24f;
-            float randomPosition = Random.Range(-107f , -113f);
-            spawnPoint.z = randomPosition;
+            spawnPoint.z = GetRandomNumber(edgeValue.x, edgeValue.y);
 
-            int randomCar = Random.Range(0, TrafficCars.Count);
-            Transform spawnedCar = Instantiate(TrafficCars[0], spawnPoint, Quaternion.Euler(0, 90, 0));
+            Transform spawnedCar = TrafficCars[0];
+            Rigidbody spawnedCarRb = spawnedCar.GetComponent<Rigidbody>();
 
-            TrafficCars.Remove(spawnedCar); 
-            TrafficCars.Add(spawnedCar); 
+            spawnedCar.position = spawnPoint;
+            spawnedCar.rotation = Quaternion.Euler(0, 90, 0);
+
+            float randomSpeed = Random.Range(20, 25);
+            spawnedCarRb.velocity = spawnedCarRb.transform.forward * randomSpeed;
+
+            UpdateTrafficList(spawnedCar);
         }
+    }
+
+    private void ResetTimer ()
+        => timer = Random.Range(spawnMinMaxTime.x, spawnMinMaxTime.y);
+
+    private float GetRandomNumber (float min, float max)
+    {
+        float randomPosition = Random.Range(min, max);
+        return randomPosition;
+    }
+
+    private void UpdateTrafficList(Transform spawnedCar)
+    {
+        TrafficCars.Remove(spawnedCar);
+        TrafficCars.Add(spawnedCar);
     }
 }
