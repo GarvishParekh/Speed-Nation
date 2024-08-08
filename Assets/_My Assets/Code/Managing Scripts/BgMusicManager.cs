@@ -9,15 +9,13 @@ public class BgMusicManager : MonoBehaviour
 
     private void Awake()
     {
-        if (instance == null)
-        {
-            instance = this;
-        }
+        if (instance != null && instance != this)
+            Destroy(this.gameObject);
         else
         {
-            Destroy(this);
+            instance = this;
+            DontDestroyOnLoad(this);
         }
-        DontDestroyOnLoad(gameObject);  
     }
 
     private void OnEnable()
