@@ -58,7 +58,7 @@ public class CarController : MonoBehaviour
         // rotation of the disk 
         rotationValue += inputData.lerpedSideValue * engine.turnSpeed * Time.deltaTime;
         rotationDisk.rotation = Quaternion.Euler(0, rotationValue, 0);
-            
+        rotationValue = Mathf.Clamp(rotationValue, -135, -45);
 
         // rotation of the car model according to the disk
         carModel.rotation = rotationDisk.rotation;  

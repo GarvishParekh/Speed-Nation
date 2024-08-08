@@ -5,6 +5,7 @@ public class BgMusicManager : MonoBehaviour
 {
     public static BgMusicManager instance;
     [SerializeField] private GameObject bgMusic;
+    [SerializeField] private GameObject bgMusicMainMenu;
 
     private void Awake()
     {
@@ -34,12 +35,14 @@ public class BgMusicManager : MonoBehaviour
     {
         if (scene.name == ConstantKeys.SCENE_MAIN_MENU)
         {
-            bgMusic.SetActive(false);   
+            bgMusic.SetActive(false);
+            bgMusicMainMenu.SetActive(true);   
         }
     }
 
     public void StartMusic()
     {
-        bgMusic.SetActive(true);   
+        bgMusic.SetActive(true);
+        bgMusicMainMenu.SetActive(false);   
     }
 }
