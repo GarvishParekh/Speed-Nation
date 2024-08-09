@@ -88,4 +88,9 @@ public class CameraController : MonoBehaviour
 
     private void OnCarCollision()
         => camShakeTimer = camData.cameraShakeTime;
+
+    public void SetPlayer(Transform _player)
+    {
+        playerCar = _player;
+    }
 }

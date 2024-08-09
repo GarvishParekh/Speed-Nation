@@ -101,4 +101,9 @@ public class CarSpawnManager : MonoBehaviour
         afterCollision.Remove(dv); 
         afterCollision.Add(dv); 
     }
+
+    public void SetPlayer(Transform _player)
+    {
+        playerCar = _player;
+    }
 }

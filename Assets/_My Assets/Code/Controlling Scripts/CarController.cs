@@ -131,4 +131,14 @@ public class CarController : MonoBehaviour
         currentBodyRotation = Mathf.MoveTowards(currentBodyRotation, inputData.sideValue * carAnime.maxBodyRotaion, carAnime.bodyRotationDamping * Time.deltaTime);
         carBody.localRotation = Quaternion.Euler(0, 0, currentBodyRotation);
     }
+
+    public void SetRotationalDisk(Transform _rotationalDisk)
+    {
+        rotationDisk = _rotationalDisk;
+    }
+
+    public Transform GetRotationTransform()
+    {
+        return rotationTransform;
+    }
 }

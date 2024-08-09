@@ -2,7 +2,6 @@ using UnityEngine;
 
 public class InputManager : MonoBehaviour
 {
-    public VehicleCollisionController collisionCheck;
     [Header ("<size=15>SCRIPTABLE")]
     [SerializeField] private InputData inputData;
     // raw side ways input data

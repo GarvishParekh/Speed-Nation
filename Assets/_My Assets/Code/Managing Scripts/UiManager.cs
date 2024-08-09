@@ -10,6 +10,10 @@ public class UiManager : MonoBehaviour
     [SerializeField] private List<CanvasIdentity> uiCanvas;
     [SerializeField] private GameObject shutter;
 
+    [Header ("<size=15>CAMERAS")]
+    [SerializeField] private GameObject mainMenuCam;
+    [SerializeField] private GameObject garageCam;
+
     WaitForSeconds shutterTime = new WaitForSeconds(1f);
 
     private void Awake()
@@ -40,6 +44,17 @@ public class UiManager : MonoBehaviour
             }
         }
 
+        switch (desireName)
+        {
+            case CanvasNames.MAIN_MENU:
+                mainMenuCam.SetActive(true);
+                garageCam.SetActive(false);
+                break;
+            case CanvasNames.GARAGE:
+                mainMenuCam.SetActive(false);
+                garageCam.SetActive(true);
+                break;
+        }
         OpenShutter();
         yield return null;      
     }

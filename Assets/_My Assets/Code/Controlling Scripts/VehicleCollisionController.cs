@@ -35,4 +35,9 @@ public class VehicleCollisionController : MonoBehaviour
         }
         else crashRight.gameObject.SetActive(false);
     }
+
+    public void SetCameraController(CameraController _camController)
+    {
+        camController = _camController;
+    }
 }

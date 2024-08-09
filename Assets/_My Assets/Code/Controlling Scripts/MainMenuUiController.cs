@@ -22,5 +22,14 @@ public class MainMenuUiController : MonoBehaviour
     {
         uiManager.StartSceneChangeRoutine(ConstantKeys.SCENE_PRACTICE);
     }
-    
+
+    public void _GrageButton()
+    {
+        uiManager.StartCanvasRoutine(CanvasNames.GARAGE);
+    }
+
+    public void _MainMenuButton()
+    {
+        uiManager.StartCanvasRoutine(CanvasNames.MAIN_MENU);
+    }
 }
