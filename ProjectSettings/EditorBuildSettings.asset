@@ -14,10 +14,10 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/_My Assets/Scenes/PracticeScene.unity
     guid: 99c9720ab356a0642a771bea13969a05
-  - enabled: 0
-    path: Assets/_My Assets/Scenes/GameplayScene.unity
-    guid: 95ac05320e25bc54cb92087a0c80bf3f
   - enabled: 1
     path: Assets/_My Assets/Scenes/GameplaySceneEndless.unity
     guid: 3b384fe55bda7304da987c6e4d5a6444
+  - enabled: 1
+    path: Assets/_My Assets/Scenes/StoryScene.unity
+    guid: 95e92dc38ecc4bd40a11aa218875aa4b
   m_configObjects: {}
