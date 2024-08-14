@@ -9,6 +9,7 @@ public class CarSpawnManager : MonoBehaviour
     [SerializeField] private Transform rightEdgeTransform;
     [SerializeField] private List<Transform> TrafficCars = new List<Transform>();
     [SerializeField] private List<DestroyedVehicleController> afterCollision = new List<DestroyedVehicleController>();
+    [SerializeField] private List<ParticleSystem> carExplosionParticles = new List<ParticleSystem>();
 
     [Header("<size=15>VALUES")]
     [SerializeField] Vector2 spawnMinMaxTime;
@@ -85,9 +86,17 @@ public class CarSpawnManager : MonoBehaviour
         }
     }
 
+    Vector3 particleOffset = new Vector3(0, 1, 0);
     public void SpawnDestroyedCar(Transform trafficCar)
     {
         DestroyedVehicleController dv = afterCollision[0].GetComponent<DestroyedVehicleController>();
+
+        ParticleSystem explosionParticle = carExplosionParticles[0];
+        carExplosionParticles.Remove(explosionParticle);
+        carExplosionParticles.Add(explosionParticle);
+
+        explosionParticle.transform.position = trafficCar.position + particleOffset;
+        explosionParticle.Play(true);
 
         dv.gameObject.SetActive(true);
         dv.OnSpawn();
