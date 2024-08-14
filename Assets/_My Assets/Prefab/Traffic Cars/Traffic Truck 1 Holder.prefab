@@ -2437,8 +2437,8 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 1, y: 3.1863546, z: 2.01931}
-  m_Center: {x: 0, y: 1.595448, z: 1.7948723}
+  m_Size: {x: 2.6165764, y: 3.1863546, z: 2.4166107}
+  m_Center: {x: 0, y: 1.595448, z: 1.9935226}
 --- !u!114 &7799264787058875068
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2453,6 +2453,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   afterCollision: {fileID: 948389040905909049, guid: 493acf5608043274d90c74ca27a20380,
     type: 3}
+  carSpawnManager: {fileID: 0}
 --- !u!1 &8617107756484555640
 GameObject:
   m_ObjectHideFlags: 0

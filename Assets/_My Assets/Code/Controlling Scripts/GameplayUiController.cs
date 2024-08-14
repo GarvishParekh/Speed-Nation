@@ -1,4 +1,3 @@
-using System.Security.Cryptography;
 using UnityEngine;
 
 public class GameplayUiController : MonoBehaviour
@@ -12,8 +11,8 @@ public class GameplayUiController : MonoBehaviour
         inputManager.enabled = false;
 
         uiManager = UiManager.instance;
-        uiManager.OpenShutter();
-
+        //uiManager.OpenShutter();
+        uiManager.OpenCanvasWithShutter(CanvasNames.GAMEPLAY);
         Invoke(nameof(EnableControls), 9);
     }
 
@@ -24,6 +23,24 @@ public class GameplayUiController : MonoBehaviour
 
     public void _QuitButton()
     {
+        //Time.timeScale = 1;
         uiManager.StartSceneChangeRoutine(ConstantKeys.SCENE_MAIN_MENU);
+    }
+
+    public void _PuaseButton()
+    {
+        uiManager.OpenCanvasWithoutShutter(CanvasNames.PAUSE);   
+        Time.timeScale = 0;
+    }
+
+    public void _ResumeButton()
+    {
+        Time.timeScale = 1;
+        uiManager.OpenCanvasWithoutShutter(CanvasNames.GAMEPLAY);
+    }
+
+    public void _RestartButton()
+    {
+        uiManager.StartSceneChangeRoutine(ConstantKeys.SCENE_GAMEPLAY);
     }
 }

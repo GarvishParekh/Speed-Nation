@@ -21,17 +21,38 @@ public class UiManager : MonoBehaviour
         instance = this;
     }
 
-    public void StartCanvasRoutine(CanvasNames desireCanvas)
+    public void OpenCanvasWithShutter(CanvasNames desireCanvas)
     {
         Debug.Log("Start canvas routine");
         StartCoroutine(nameof(OpenUICanvas), desireCanvas);
     }
 
+    public void OpenCanvasWithoutShutter(CanvasNames desireName)
+    {
+        foreach (CanvasIdentity canvasInfo in uiCanvas)
+        {
+            if (canvasInfo.GetCanvasName() == desireName)
+            {
+                canvasInfo.GetComponent<ICanvasController>().EnableCanvas();
+            }
+            else
+            {
+                canvasInfo.GetComponent<ICanvasController>().DisableCanvas();
+            }
+        }
+    }
+
     private IEnumerator OpenUICanvas(CanvasNames desireName)
     {
+        float waitTime = 1;
         Debug.Log("Routine started");
         CloseShutter();
-        yield return shutterTime;
+        
+        while (waitTime > 0)
+        {
+            waitTime -= Time.unscaledDeltaTime;
+            yield return null;  
+        }
         foreach (CanvasIdentity canvasInfo in uiCanvas)
         {
             if (canvasInfo.GetCanvasName() == desireName)
@@ -66,21 +87,27 @@ public class UiManager : MonoBehaviour
 
     private IEnumerator ChangeScene(string sceneName)
     {
+        float waitTime = 1;
         Debug.Log("Routine started");
         CloseShutter();
-        yield return shutterTime;
-        
+        while (waitTime > 0)
+        {
+            waitTime -= Time.unscaledDeltaTime;
+            yield return null;
+        }
+
+        Time.timeScale = 1;
         SceneManager.LoadScene(sceneName);
     }
 
 
     public void CloseShutter()
     {
-        LeanTween.moveLocal(shutter, Vector3.zero, 0.5f);
+        LeanTween.moveLocal(shutter, Vector3.zero, 0.5f).setIgnoreTimeScale(true);
     }
 
     public void OpenShutter()
     {
-        LeanTween.moveLocal(shutter, new Vector3(-3000f, 0, 0), 0.5f);
+        LeanTween.moveLocal(shutter, new Vector3(-3000f, 0, 0), 0.5f).setIgnoreTimeScale(true);
     }
 }

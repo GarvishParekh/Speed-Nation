@@ -10,7 +10,7 @@ public class MainMenuUiController : MonoBehaviour
         uiManager = UiManager.instance;
         bgMusicManager = BgMusicManager.instance;
 
-        uiManager.StartCanvasRoutine(CanvasNames.MAIN_MENU);
+        uiManager.OpenCanvasWithShutter(CanvasNames.MAIN_MENU);
     }
 
     public void _DriveButton()
@@ -25,11 +25,11 @@ public class MainMenuUiController : MonoBehaviour
 
     public void _GrageButton()
     {
-        uiManager.StartCanvasRoutine(CanvasNames.GARAGE);
+        uiManager.OpenCanvasWithShutter(CanvasNames.GARAGE);
     }
 
     public void _MainMenuButton()
     {
-        uiManager.StartCanvasRoutine(CanvasNames.MAIN_MENU);
+        uiManager.OpenCanvasWithShutter(CanvasNames.MAIN_MENU);
     }
 }

@@ -7,6 +7,8 @@ public class CarStatsManager : MonoBehaviour
     [SerializeField] private float fuelCount = 100;
     [SerializeField] private float fuelConsuptionRate = 0.5f;
 
+    [SerializeField] private Transform fuelHolder;
+
     private void Update()
     {
         FuelConsuption(fuelConsuptionRate);
@@ -16,5 +18,14 @@ public class CarStatsManager : MonoBehaviour
     {
         fuelCount -= rate * Time.deltaTime;
         fuelCountText.text = fuelCount.ToString("0") + "%";
+
+        if (fuelCount < 90)
+        {
+            fuelHolder.localPosition = Vector3.zero + Random.insideUnitSphere * 4f;
+        }
+        else
+        {
+            fuelHolder.localPosition = Vector3.zero;
+        }
     }
 }

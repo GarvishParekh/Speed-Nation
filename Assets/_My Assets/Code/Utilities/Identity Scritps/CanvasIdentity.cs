@@ -14,5 +14,8 @@ public class CanvasIdentity : MonoBehaviour
 public enum CanvasNames
 {
     MAIN_MENU,
-    GARAGE
+    GARAGE,
+    GAMEPLAY,
+    PAUSE,
+    GAMEOVER
 }
