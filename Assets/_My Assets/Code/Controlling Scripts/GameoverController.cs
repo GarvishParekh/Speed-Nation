@@ -19,13 +19,13 @@ public class GameoverController : MonoBehaviour
     private void OnEnable()
     {
         CarStatsManager.NoHealthLeft += OnHealthCompleted;
-        CarStatsManager.NoFuelLeft += OnHealthCompleted;
+        CarStatsManager.NoFuelLeft += OnFuelCompleted;
     }
 
     private void OnDisable()
     {
         CarStatsManager.NoHealthLeft -= OnHealthCompleted;
-        CarStatsManager.NoFuelLeft -= OnHealthCompleted;
+        CarStatsManager.NoFuelLeft -= OnFuelCompleted;
     }
 
     private void OnHealthCompleted()
