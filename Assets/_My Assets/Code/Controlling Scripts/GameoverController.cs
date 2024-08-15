@@ -1,11 +1,12 @@
+using TMPro;
 using UnityEngine;
 using System.Collections;
-using Unity.VisualScripting;
 
 public class GameoverController : MonoBehaviour
 {
     UiManager uiManager;
     [SerializeField] private RenderTexture camRenderTexture;
+    [SerializeField] private TMP_Text gameoverReasonText;
     [SerializeField] private Camera ssCam;
 
     WaitForSeconds pointTwo = new WaitForSeconds(0.2f);
@@ -17,16 +18,24 @@ public class GameoverController : MonoBehaviour
 
     private void OnEnable()
     {
-        TrafficCarController.CarCollided += OnCarCollided;
+        CarStatsManager.NoHealthLeft += OnHealthCompleted;
+        CarStatsManager.NoFuelLeft += OnHealthCompleted;
     }
 
     private void OnDisable()
     {
-        TrafficCarController.CarCollided -= OnCarCollided;
+        CarStatsManager.NoHealthLeft -= OnHealthCompleted;
+        CarStatsManager.NoFuelLeft -= OnHealthCompleted;
     }
 
-    private void OnCarCollided()
+    private void OnHealthCompleted()
     {
+        StartCoroutine(nameof(TakeScreenshotCoroutine));    
+    }
+
+    private void OnFuelCompleted()
+    {
+        gameoverReasonText.text = "Out of fuel";
         StartCoroutine(nameof(TakeScreenshotCoroutine));    
     }
 

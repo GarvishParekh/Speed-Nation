@@ -4,6 +4,7 @@ using UnityEngine;
 public class ScoreManager : MonoBehaviour
 {
     [SerializeField] private TMP_Text scoreText;
+    [SerializeField] private TMP_Text resultScoreText;
     [SerializeField] private float scoreCount;
     
     // Update is called once per frame
@@ -15,6 +16,7 @@ public class ScoreManager : MonoBehaviour
     private void AddScore()
     {
         scoreCount += Time.deltaTime * 50;
-        scoreText.text = scoreCount.ToString("0"); 
+        scoreText.text = scoreCount.ToString("0");
+        resultScoreText.text = "Score: " + scoreCount.ToString("0"); 
     }
 }

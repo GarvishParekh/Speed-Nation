@@ -31,9 +31,10 @@ public class CarSpawnManager : MonoBehaviour
 
     private void Update()
     {
+        WaveTimer();
+        DangerWave();
         if (timer > 0)
         {
-
             timer -= Time.deltaTime;
         }
 
@@ -115,4 +116,54 @@ public class CarSpawnManager : MonoBehaviour
     {
         playerCar = _player;
     }
+
+    [Header ("<size=15>WAVE COUNTER")]
+    [SerializeField] private float waveIncomingTimer = 0;
+    [SerializeField] private float waveTime = 50;
+    [SerializeField] private float dangerWaveTime = 0;
+    private void WaveTimer()
+    {
+        if (waveIncomingTimer < waveTime)
+        {
+            waveIncomingTimer += Time.deltaTime;
+        }
+        else
+        {
+            WarningAnimation();
+            waveIncomingTimer = 0;
+            dangerWaveTime = 20;
+        }
+    }
+
+    [SerializeField] GameObject mainholder;
+    [SerializeField] CanvasGroup information;
+    private void WarningAnimation()
+    {
+        mainholder.transform.localScale = new Vector3 (0, 1, 1);
+        information.alpha = 0;
+        LeanTween.scale(mainholder, Vector3.one, 0.8f).setEaseInOutElastic().setOnComplete(() =>
+        {
+            LeanTween.alphaCanvas(information, 1, 0.25f).setOnComplete(() =>
+            {
+                LeanTween.alphaCanvas(information, 0, 0.25f).setDelay(2).setOnComplete(() =>
+                {
+                    LeanTween.scale(mainholder, new Vector3(0, 1, 1), 0.8f).setEaseInOutElastic();
+                });
+            });
+        });
+    }
+
+    private void DangerWave()
+    {
+        if (dangerWaveTime > 0)
+        {
+            dangerWaveTime -= Time.deltaTime;
+            spawnMinMaxTime = new Vector2(0.3f, 0.4f);
+        }
+        else
+        {
+            spawnMinMaxTime = new Vector2(0.8f, 1);
+        }
+    }
+
 }
