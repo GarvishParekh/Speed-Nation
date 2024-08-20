@@ -8,4 +8,9 @@ public static class ConstantKeys
 
     // playerpref tag
     public static string SELECTED_CAR = "SelectedCar";
+
+    // options
+    public static string POSTPROCESSING = "PostProcessing";
+    public static string MUSIC = "Music";
+    public static string SOUNDS = "Sounds";
 }

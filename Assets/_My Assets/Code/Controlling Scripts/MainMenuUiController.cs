@@ -1,9 +1,33 @@
+using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class MainMenuUiController : MonoBehaviour
 {
     UiManager uiManager;
     BgMusicManager bgMusicManager;
+
+    [SerializeField] private Color onColor;
+    [SerializeField] private Color offColor;
+
+    [Header("<size=15>POST PROCESSING UI")]
+    [SerializeField] private Toggle postProcessingToggle;
+    [SerializeField] private TMP_Text postProcessingText;
+
+    [Header("<size=15>MUSIC UI")]
+    [SerializeField] private Toggle musicToggle;
+    [SerializeField] private TMP_Text musicText;
+
+    [Header("<size=15>SOUND EFFECTS UI")]
+    [SerializeField] private Toggle soundEffectToggle;
+    [SerializeField] private TMP_Text soundEffectText;
+
+    private void Awake()
+    {
+        LoadPostProcessing();
+        LoadMusic();
+        LoadSoundEffects();
+    }
 
     private void Start()
     {
@@ -31,5 +55,82 @@ public class MainMenuUiController : MonoBehaviour
     public void _MainMenuButton()
     {
         uiManager.OpenCanvasWithShutter(CanvasNames.MAIN_MENU);
+    }
+
+    public void _OpenSettingsButton()
+    {
+        uiManager.OpenCanvasWithShutter(CanvasNames.OPTIONS);
+    }
+
+    public void _CloseSettingsButton()
+    {
+        uiManager.OpenCanvasWithShutter(CanvasNames.MAIN_MENU);
+    }
+
+    public void _PostProcessingToggle()
+    {
+        GenericToggle(postProcessingToggle, postProcessingText, "Post Processing: High", "Post Processing: Low", ConstantKeys.POSTPROCESSING);
+    }
+
+    public void _MusicToggle()
+    {
+        GenericToggle(musicToggle, musicText, "Music: On", "Music: Off", ConstantKeys.MUSIC);
+    }
+
+    public void _SoundToggle()
+    {
+        GenericToggle(soundEffectToggle, soundEffectText, "Sound Effects: On", "Sound Effects: Off", ConstantKeys.SOUNDS);
+    }
+
+    public void GenericToggle(Toggle toggle, TMP_Text displapText, string onString, string offString, string tag)
+    {
+        if (toggle.isOn)
+        {
+            displapText.text = onString;
+            displapText.color = onColor;
+            PlayerPrefs.SetInt(tag, 1);
+        }
+        else
+        {
+            displapText.text = offString;
+            displapText.color = offColor;
+            PlayerPrefs.SetInt(tag, 0);
+        }
+    }
+
+    private void LoadPostProcessing()
+    {
+        int toggleInt = PlayerPrefs.GetInt(ConstantKeys.POSTPROCESSING, 1);
+
+        if (toggleInt == 0)
+            postProcessingToggle.isOn = false;
+        if (toggleInt == 1)
+            postProcessingToggle.isOn = true;
+
+        _PostProcessingToggle();
+    }
+
+    private void LoadMusic()
+    {
+        int toggleInt = PlayerPrefs.GetInt(ConstantKeys.MUSIC, 1);
+
+        if (toggleInt == 0)
+            musicToggle.isOn = false;
+        if (toggleInt == 1)
+            musicToggle.isOn = true;
+
+        _MusicToggle();
+    }
+
+    private void LoadSoundEffects()
+    {
+        int toggleInt = PlayerPrefs.GetInt(ConstantKeys.SOUNDS, 1);
+
+        if (toggleInt == 0)
+            soundEffectToggle.isOn = false;
+        if (toggleInt == 1)
+            soundEffectToggle.isOn = true;
+
+        _SoundToggle();
     }
 }

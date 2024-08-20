@@ -17,5 +17,6 @@ public enum CanvasNames
     GARAGE,
     GAMEPLAY,
     PAUSE,
-    GAMEOVER
+    GAMEOVER,
+    OPTIONS
 }

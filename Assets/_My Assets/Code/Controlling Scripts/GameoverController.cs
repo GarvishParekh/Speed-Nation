@@ -1,9 +1,11 @@
 using TMPro;
 using UnityEngine;
 using System.Collections;
+using System;
 
 public class GameoverController : MonoBehaviour
 {
+    public static Action Gameover;
     UiManager uiManager;
     [SerializeField] private RenderTexture camRenderTexture;
     [SerializeField] private TMP_Text gameoverReasonText;
@@ -30,11 +32,13 @@ public class GameoverController : MonoBehaviour
 
     private void OnHealthCompleted()
     {
+        Gameover?.Invoke();
         StartCoroutine(nameof(TakeScreenshotCoroutine));    
     }
 
     private void OnFuelCompleted()
     {
+        Gameover?.Invoke();
         gameoverReasonText.text = "Out of fuel";
         StartCoroutine(nameof(TakeScreenshotCoroutine));    
     }

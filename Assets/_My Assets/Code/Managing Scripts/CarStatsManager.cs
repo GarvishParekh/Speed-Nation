@@ -98,4 +98,14 @@ public class CarStatsManager : MonoBehaviour
         totalCarSmashedCount += 1;
         totalCarSmashedText.text = "Car smashed: " + totalCarSmashedCount.ToString("0");
     }
+
+    public float GetFuelScore()
+    {
+        return fuelCount * 10;
+    }
+
+    public float GetCarSmashedScore()
+    {
+        return totalCarSmashedCount * 10;
+    }
 }
