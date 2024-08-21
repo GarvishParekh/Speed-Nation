@@ -1,0 +1,41 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3588072f5b263a344b6bdd3c7caea540, type: 3}
+  m_Name: CarDetailsData
+  m_EditorClassIdentifier: 
+  carDetail:
+  - carName: Sedan
+    carIndex: 0
+    carDescription: "Experience the thrill with our sleek sedan\u2014fast, agile,
+      and perfect for tight turns. A blend of style and performance that keeps you
+      in control on every race."
+    carIconSprite: {fileID: 21300000, guid: 7a102a567c29f0141b9e8630ca8a1491, type: 3}
+    lockStatus: 1
+    isSelected: 1
+  - carName: Hatchback
+    carIndex: 1
+    carDescription: "Navigate the track with agility in our hatchback\u2014compact,
+      nimble, and versatile. Perfect for quick maneuvers and sharp turns, combining
+      practicality with performance."
+    carIconSprite: {fileID: 21300000, guid: d6fc6103b555af347a76ba7a44bbbe8d, type: 3}
+    lockStatus: 1
+    isSelected: 0
+  - carName: Muscle
+    carIndex: 2
+    carDescription: "Unleash raw power with our muscle car\u2014intense acceleration,
+      aggressive styling, and a roar that commands attention. Built for speed and
+      dominance on the track."
+    carIconSprite: {fileID: 21300000, guid: 21e88918627fc2044a55b9b978213645, type: 3}
+    lockStatus: 1
+    isSelected: 0
+  selectedColor: {r: 0.882353, g: 0.42352945, b: 0.10980393, a: 1}
+  unSelectedColor: {r: 1, g: 1, b: 1, a: 1}

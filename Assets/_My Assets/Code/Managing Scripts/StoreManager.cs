@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 public enum GarageCars
@@ -10,14 +11,15 @@ public enum GarageCars
 public class StoreManager : MonoBehaviour
 {
     [SerializeField] private CarsData[] carsData;
+    [SerializeField] private CarDetailsData carDetailData;
+    [SerializeField] private List<CarCardIdentity> carCards = new List<CarCardIdentity>();
 
     int selectedCar = 0;
     int garageDisplayCar = 0;
 
-    private void Start()
+    private void Awake()
     {
-        selectedCar = PlayerPrefs.GetInt(ConstantKeys.SELECTED_CAR);
-        DisplayCar(selectedCar);
+        DisplayAndUpdateSelectedCar();
     }
 
     private void DisplayCar(int _selectedCar)
@@ -29,24 +31,26 @@ public class StoreManager : MonoBehaviour
         carsData[_selectedCar].carModel.SetActive(true);
     }
 
-    public void _NextButton()
+    public void _SelectCarButton(int index)
     {
-        garageDisplayCar += 1;
-        if (garageDisplayCar >= carsData.Length)
-            garageDisplayCar = 0;
+        PlayerPrefs.SetInt(ConstantKeys.SELECTED_CAR, index);
+        DisplayAndUpdateSelectedCar();
 
-        PlayerPrefs.SetInt(ConstantKeys.SELECTED_CAR, garageDisplayCar);
-        DisplayCar(garageDisplayCar);
+        foreach (CarCardIdentity carIdentity in carCards)
+        {
+            carIdentity.UpdateUi();
+        }
     }
 
-    public void _PreviousButton()
+    private void DisplayAndUpdateSelectedCar()
     {
-        garageDisplayCar -= 1;
-        if (garageDisplayCar < 0)
-            garageDisplayCar = carsData.Length-1;
-
-        PlayerPrefs.SetInt(ConstantKeys.SELECTED_CAR, garageDisplayCar);
-        DisplayCar(garageDisplayCar);
+        selectedCar = PlayerPrefs.GetInt(ConstantKeys.SELECTED_CAR);
+        foreach (CarDetail carDetail in carDetailData.carDetail)
+        {
+            if (carDetail.carIndex == selectedCar) carDetail.isSelected = true;
+            else carDetail.isSelected = false;
+        }
+        DisplayCar(selectedCar);
     }
 }
 
