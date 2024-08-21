@@ -1,9 +1,12 @@
+using System;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class MainMenuUiController : MonoBehaviour
 {
+    public static Action SettingsUpdated;
+
     UiManager uiManager;
     BgMusicManager bgMusicManager;
 
@@ -22,19 +25,16 @@ public class MainMenuUiController : MonoBehaviour
     [SerializeField] private Toggle soundEffectToggle;
     [SerializeField] private TMP_Text soundEffectText;
 
-    private void Awake()
-    {
-        LoadPostProcessing();
-        LoadMusic();
-        LoadSoundEffects();
-    }
-
     private void Start()
     {
         uiManager = UiManager.instance;
         bgMusicManager = BgMusicManager.instance;
 
         uiManager.OpenCanvasWithShutter(CanvasNames.MAIN_MENU);
+
+        LoadPostProcessing();
+        LoadMusic();
+        LoadSoundEffects();
     }
 
     public void _DriveButton()
@@ -96,6 +96,8 @@ public class MainMenuUiController : MonoBehaviour
             displapText.color = offColor;
             PlayerPrefs.SetInt(tag, 0);
         }
+
+        SettingsUpdated?.Invoke();
     }
 
     private void LoadPostProcessing()

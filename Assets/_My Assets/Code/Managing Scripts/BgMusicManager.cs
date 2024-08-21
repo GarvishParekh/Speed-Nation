@@ -6,6 +6,7 @@ public class BgMusicManager : MonoBehaviour
     public static BgMusicManager instance;
     [SerializeField] private GameObject bgMusic;
     [SerializeField] private GameObject bgMusicMainMenu;
+    [SerializeField] private GameObject statusObject;
 
     private void Awake()
     {
@@ -42,5 +43,10 @@ public class BgMusicManager : MonoBehaviour
     {
         bgMusic.SetActive(true);
         bgMusicMainMenu.SetActive(false);   
+    }
+
+    public void OnSettingsLoaded(bool check)
+    {
+        statusObject.SetActive(check);
     }
 }

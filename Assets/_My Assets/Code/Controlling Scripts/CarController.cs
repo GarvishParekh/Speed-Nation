@@ -15,11 +15,13 @@ public class CarController : MonoBehaviour
     [SerializeField] private Transform carModel;
     [SerializeField] private List<ParticleSystem> driftParticles;
     [SerializeField] private List<TrailRenderer> tireMarks;
+    [SerializeField] private AudioSource engineSFX;
 
     [Header("<size=15>SCRIPTABLE")]
     [SerializeField] private CarEngine engine;
     [SerializeField] private CarAnimationData carAnime;
     [SerializeField] private InputData inputData;
+    [SerializeField] private GameSettingsData settingsData;
 
     [Space]
     [SerializeField] private Transform carBody;
@@ -36,6 +38,14 @@ public class CarController : MonoBehaviour
         rotationValue = -90;
         Application.targetFrameRate = 60;
         playerRb = GetComponent<Rigidbody>();   
+
+        if (settingsData.soundEffectsStatus == SoundEffectsStatus.OFF)
+        {
+            if (engineSFX != null)
+            {
+                engineSFX.enabled = false;
+            }
+        }
     }
 
     private void FixedUpdate()
