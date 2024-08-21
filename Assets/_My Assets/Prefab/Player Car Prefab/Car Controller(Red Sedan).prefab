@@ -402,9 +402,11 @@ MonoBehaviour:
   carModel: {fileID: 6146638219027133947}
   driftParticles: []
   tireMarks: []
+  engineSFX: {fileID: 0}
   engine: {fileID: 11400000, guid: a2e4e06da9a15504aad34f045ee133cd, type: 2}
   carAnime: {fileID: 11400000, guid: 3f7411b681a46374bb260b7678e48acc, type: 2}
   inputData: {fileID: 11400000, guid: db05a1c1057304743b70bed5b44f9e05, type: 2}
+  settingsData: {fileID: 11400000, guid: d56ba94aba753ab4a9c3b5ae7327cd7e, type: 2}
   carBody: {fileID: 5813270714127145321}
   collisionDirection: {x: 0, y: 0, z: 0}
 --- !u!136 &-5665327688590316622
