@@ -18,5 +18,6 @@ public enum CanvasNames
     GAMEPLAY,
     PAUSE,
     GAMEOVER,
-    OPTIONS
+    OPTIONS,
+    SHOP
 }

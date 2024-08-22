@@ -82,6 +82,11 @@ public class MainMenuUiController : MonoBehaviour
         GenericToggle(soundEffectToggle, soundEffectText, "Sound Effects: On", "Sound Effects: Off", ConstantKeys.SOUNDS);
     }
 
+    public void _ShopButton()
+    {
+        uiManager.OpenCanvasWithShutter(CanvasNames.SHOP);
+    }
+
     public void GenericToggle(Toggle toggle, TMP_Text displapText, string onString, string offString, string tag)
     {
         if (toggle.isOn)
