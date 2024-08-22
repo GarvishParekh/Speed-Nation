@@ -1,8 +1,7 @@
-using System.Runtime.InteropServices;
 using UnityEngine;
-//using UnityEngine.Android;
-//using Google.Play.Review;
-//using System.Collections;
+using UnityEngine.Android;
+using Google.Play.Review;
+using System.Collections;
 
 public class InAppReviewManager : MonoBehaviour
 {
