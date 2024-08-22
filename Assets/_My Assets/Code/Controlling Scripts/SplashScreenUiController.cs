@@ -32,7 +32,7 @@ public class SplashScreenUiController : MonoBehaviour
                     {
                         LeanTween.alphaCanvas(mainCanvasGroup, 0, 1f).setDelay(3f).setEaseInOutSine().setOnComplete(() =>
                         {
-                            SceneManager.LoadScene(ConstantKeys.STORY_SCENE);
+                            SceneManager.LoadScene(ConstantKeys.SCENE_MAIN_MENU);
                         });
                     });
                 });

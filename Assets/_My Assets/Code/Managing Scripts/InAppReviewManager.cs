@@ -1,7 +1,8 @@
+using System.Runtime.InteropServices;
 using UnityEngine;
-using UnityEngine.Android;
-using Google.Play.Review;
-using System.Collections;
+//using UnityEngine.Android;
+//using Google.Play.Review;
+//using System.Collections;
 
 public class InAppReviewManager : MonoBehaviour
 {
@@ -43,18 +44,5 @@ public class InAppReviewManager : MonoBehaviour
             // Handle error case here
         }
     }
-#elif UNITY_iOS
- private InAppReviewIOS inAppReview;
-
-    void Start()
-    {
-        inAppReview = new InAppReviewIOS();
-    }
-
-    public void PromptForReview()
-    {
-        inAppReview.RequestReview();
-    }
 #endif
-
 }
