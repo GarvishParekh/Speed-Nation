@@ -19,5 +19,6 @@ public enum CanvasNames
     PAUSE,
     GAMEOVER,
     OPTIONS,
-    SHOP
+    SHOP,
+    LEVEL_SELECTION
 }

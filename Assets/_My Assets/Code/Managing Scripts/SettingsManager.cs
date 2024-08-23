@@ -70,10 +70,10 @@ public class SettingsManager : MonoBehaviour
         switch (settingsData.musicStatus)
         {
             case MusicStatus.ON:
-                musicManager.OnSettingsLoaded(true);
+                musicManager?.OnSettingsLoaded(true);
             break;
             case MusicStatus.OFF:
-                musicManager.OnSettingsLoaded(false);
+                musicManager?.OnSettingsLoaded(false);
             break;
         }
     }

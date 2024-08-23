@@ -6,6 +6,7 @@ public class CarStatsManager : MonoBehaviour
 {
     public static Action NoHealthLeft;
     public static Action NoFuelLeft;
+
     [Header ("<size=15>User interface")]
     [SerializeField] private TMP_Text fuelCountText;
     [SerializeField] private TMP_Text resultFuelCountText;
@@ -27,11 +28,13 @@ public class CarStatsManager : MonoBehaviour
     private void OnEnable()
     {
         TrafficCarController.CarCollided += OnCarCollided;
+        FuelPickupController.FuelCollected += OnFuelPickup;
     }
 
     private void OnDisable()
     {
         TrafficCarController.CarCollided -= OnCarCollided;
+        FuelPickupController.FuelCollected -= OnFuelPickup;
     }
 
     private void Update()
@@ -108,4 +111,6 @@ public class CarStatsManager : MonoBehaviour
     {
         return totalCarSmashedCount * 10;
     }
+
+    private void OnFuelPickup() => fuelCount = 100;
 }

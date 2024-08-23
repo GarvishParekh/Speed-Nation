@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Wall
   - Traffic
+  - Fuel
   layers:
   - Default
   - TransparentFX

@@ -1,12 +1,16 @@
 using UnityEngine;
+
+#if UNITY_ANDROID
 using UnityEngine.Android;
 using Google.Play.Review;
 using System.Collections;
+#endif
 
 public class InAppReviewManager : MonoBehaviour
 {
 
 #if UNITY_ANDROID
+
     private ReviewManager _reviewManager;
     private PlayReviewInfo _playReviewInfo;
     private void Start()

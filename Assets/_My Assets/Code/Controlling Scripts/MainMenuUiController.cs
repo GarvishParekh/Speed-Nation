@@ -37,10 +37,14 @@ public class MainMenuUiController : MonoBehaviour
         LoadSoundEffects();
     }
 
-    public void _DriveButton()
+    public void _LetsGoButton()
     {
         bgMusicManager.StartMusic();
         uiManager.StartSceneChangeRoutine(ConstantKeys.SCENE_GAMEPLAY);
+    }
+    public void _DriveButton()
+    {
+        uiManager.OpenCanvasWithShutter(CanvasNames.LEVEL_SELECTION);
     }
     public void _PracticeButton()
     {
@@ -139,5 +143,22 @@ public class MainMenuUiController : MonoBehaviour
             soundEffectToggle.isOn = true;
 
         _SoundToggle();
+    }
+
+    public void _InstagramButton()
+    {
+        Application.OpenURL("https://www.instagram.com/ninesquare.games/");
+    }
+
+    string googleplayURL = "https://play.google.com/store/apps/details?id=com.theintellify.speednation&hl=en-IN";
+    public void _RateMyGameButton()
+    {
+        Application.OpenURL(googleplayURL);
+    }
+
+    string discordURL = "https://discord.gg/g6ktYQZZ";
+    public void _DiscordButton()
+    {
+        Application.OpenURL(discordURL);
     }
 }
