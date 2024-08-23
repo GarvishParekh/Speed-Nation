@@ -145,15 +145,25 @@ public class MainMenuUiController : MonoBehaviour
         _SoundToggle();
     }
 
+
+
     public void _InstagramButton()
     {
         Application.OpenURL("https://www.instagram.com/ninesquare.games/");
     }
 
     string googleplayURL = "https://play.google.com/store/apps/details?id=com.theintellify.speednation&hl=en-IN";
+    string appSoreURL = "https://apps.apple.com/pl/app/speed-nation/id6502994204";
     public void _RateMyGameButton()
     {
-        Application.OpenURL(googleplayURL);
+        #if UNITY_ANDROID
+            Application.OpenURL(googleplayURL);
+
+        #elif UNITY_IOS
+            Application.OpenURL(appSoreURL);
+        #else
+            Application.OpenURL(googleplayURL);
+        #endif
     }
 
     string discordURL = "https://discord.gg/g6ktYQZZ";
