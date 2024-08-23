@@ -20,5 +20,6 @@ public enum CanvasNames
     GAMEOVER,
     OPTIONS,
     SHOP,
-    LEVEL_SELECTION
+    LEVEL_SELECTION,
+    UPDATE
 }
