@@ -6,16 +6,23 @@ using System;
 public class GameoverController : MonoBehaviour
 {
     public static Action Gameover;
+
     UiManager uiManager;
+    AdsManager adsManager;
+
+    [SerializeField] private AdsData adsData;
     [SerializeField] private RenderTexture camRenderTexture;
     [SerializeField] private TMP_Text gameoverReasonText;
     [SerializeField] private Camera ssCam;
 
     WaitForSeconds pointTwo = new WaitForSeconds(0.2f);
 
+    bool isGameover = false;
+
     private void Start()
     {
         uiManager = UiManager.instance;
+        adsManager = AdsManager.instance;
     }
 
     private void OnEnable()
@@ -30,17 +37,28 @@ public class GameoverController : MonoBehaviour
         CarStatsManager.NoFuelLeft -= OnFuelCompleted;
     }
 
+    private void Update()
+    {
+        if (isGameover)
+        {
+            if (Time.timeScale > 0)
+            {
+                Time.timeScale = 0;
+            }
+        }
+    }
+
     private void OnHealthCompleted()
     {
         Gameover?.Invoke();
-        StartCoroutine(nameof(TakeScreenshotCoroutine));    
+        StartCoroutine(nameof(TakeScreenshotCoroutine));
     }
 
     private void OnFuelCompleted()
     {
         Gameover?.Invoke();
         gameoverReasonText.text = "Out of fuel";
-        StartCoroutine(nameof(TakeScreenshotCoroutine));    
+        StartCoroutine(nameof(TakeScreenshotCoroutine));  
     }
 
     private IEnumerator TakeScreenshotCoroutine()
@@ -72,5 +90,10 @@ public class GameoverController : MonoBehaviour
 
         uiManager.OpenCanvasWithoutShutter(CanvasNames.GAMEOVER);
         ssCam.gameObject.SetActive(false);
+
+        int adsPossiblity = UnityEngine.Random.Range(0, 2); 
+        if (adsPossiblity == 0)  adsManager.ShowInterstitialAd();
+        
+        isGameover = true;
     }
 }
