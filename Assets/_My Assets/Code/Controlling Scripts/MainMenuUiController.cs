@@ -166,9 +166,21 @@ public class MainMenuUiController : MonoBehaviour
         #endif
     }
 
-    string discordURL = "https://discord.gg/g6ktYQZZ";
+    string discordURL = "https://discord.gg/QerZpCMhYs";
     public void _DiscordButton()
     {
         Application.OpenURL(discordURL);
+    }
+
+    public void _UpdateButton()
+    {
+    #if UNITY_ANDROID
+                Application.OpenURL(googleplayURL);
+
+    #elif UNITY_IOS
+            Application.OpenURL(appSoreURL);
+    #else
+                Application.OpenURL(googleplayURL);
+    #endif
     }
 }

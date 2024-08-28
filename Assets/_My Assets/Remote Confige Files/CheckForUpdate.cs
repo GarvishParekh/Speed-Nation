@@ -73,7 +73,7 @@ public class CheckForUpdate : MonoBehaviour
         {
             case ConfigOrigin.Remote:
 
-                //update_Check_RC = RemoteConfigService.Instance.appConfig.GetBool("Version_Check");
+                update_Check_RC = RemoteConfigService.Instance.appConfig.GetBool("Version_Check");
                 if (update_Check_RC)
                 {
 #if UNITY_IPHONE
@@ -84,7 +84,7 @@ public class CheckForUpdate : MonoBehaviour
                     android_Version_RC = RemoteConfigService.Instance.appConfig.GetString("Android_Version");
                     retrivedVersion = android_Version_RC;
 
-                    # endif
+# endif
 
                     if (retrivedVersion != myGameVersion)
                     {

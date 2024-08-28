@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b9e5eafb85e421844b230ca839883711, type: 3}
   m_Name: Ads Data
   m_EditorClassIdentifier: 
-  deviceType: 0
+  deviceType: 1
   rewardAvailability: 0
   androidAdsID:
     interstitialID: ca-app-pub-4892570451993674/5335635195
