@@ -10,69 +10,30 @@ public class CarSpawnManager : MonoBehaviour
     [SerializeField] private List<Transform> TrafficCars = new List<Transform>();
     [SerializeField] private List<DestroyedVehicleController> afterCollision = new List<DestroyedVehicleController>();
     [SerializeField] private List<ParticleSystem> carExplosionParticles = new List<ParticleSystem>();
+    [SerializeField] private List<Transform> trafficZSpawnPoints = new List<Transform>();
+    [SerializeField] private Transform tollPrefab;
 
     [Header("<size=15>VALUES")]
     [SerializeField] Vector2 spawnMinMaxTime;
+    [SerializeField] Vector2 normalSpawnRate;
+    [SerializeField] Vector2 dangerSpawnRate;
     [SerializeField] float timer;
 
-    Vector3 spawnPoint;
-    Vector2 edgeValue;
+    Vector3 trafficSpawnPoint;
+    bool canSpawn = true;
 
-    private void Awake()
+    private void OnEnable()
     {
-        edgeValue.x = leftEdgeTransform.position.z;
-        edgeValue.y = rightEdgeTransform.position.z;
+        CarController.TollHit += OnTollHit;
+    }
+
+    private void OnDisable()
+    {
+        CarController.TollHit -= OnTollHit;
     }
 
     private void Start()
-    {
-        ShuffleList(TrafficCars);
-    }
-
-    private void Update()
-    {
-        WaveTimer();
-        DangerWave();
-        if (timer > 0)
-        {
-            timer -= Time.deltaTime;
-        }
-
-        else
-        {
-            ResetTimer();
-            spawnPoint.x = playerCar.position.x - 200;
-            spawnPoint.y = 0.24f;
-            spawnPoint.z = GetRandomNumber(edgeValue.x, edgeValue.y);
-
-            Transform spawnedCar = TrafficCars[0];
-            Rigidbody spawnedCarRb = spawnedCar.GetComponent<Rigidbody>();
-
-            spawnedCar.gameObject.SetActive(true);
-            spawnedCar.position = spawnPoint;
-            spawnedCar.rotation = Quaternion.Euler(0, 90, 0);
-
-            float randomSpeed = Random.Range(20, 25);
-            spawnedCarRb.velocity = spawnedCarRb.transform.forward * randomSpeed;
-
-            UpdateTrafficList(spawnedCar);
-        }
-    }
-
-    private void ResetTimer ()
-        => timer = Random.Range(spawnMinMaxTime.x, spawnMinMaxTime.y);
-
-    private float GetRandomNumber (float min, float max)
-    {
-        float randomPosition = Random.Range(min, max);
-        return randomPosition;
-    }
-
-    private void UpdateTrafficList(Transform spawnedCar)
-    {
-        TrafficCars.Remove(spawnedCar);
-        TrafficCars.Add(spawnedCar);
-    }
+        => ShuffleList(TrafficCars);
     public void ShuffleList<T>(List<T> list)
     {
         System.Random random = new System.Random();
@@ -86,6 +47,51 @@ public class CarSpawnManager : MonoBehaviour
             list[j] = temp;
         }
     }
+
+    private void Update()
+    {
+        if (!canSpawn) return;
+
+        SpawnToll();
+
+        WaveTimer();
+        DangerWave();
+        if (timer > 0)
+        {
+            timer -= Time.deltaTime;
+        }
+
+        else
+        {
+            ResetTimer();
+            trafficSpawnPoint.x = playerCar.position.x - 200;
+            trafficSpawnPoint.y = 0.24f;
+            int randomIndex = Random.Range(0, trafficZSpawnPoints.Count);
+            trafficSpawnPoint.z = trafficZSpawnPoints[randomIndex].position.z;
+
+            Transform spawnedCar = TrafficCars[0];
+            Rigidbody spawnedCarRb = spawnedCar.GetComponent<Rigidbody>();
+
+            spawnedCar.gameObject.SetActive(true);
+            spawnedCar.position = trafficSpawnPoint;
+            spawnedCar.rotation = Quaternion.Euler(0, 90, 0);
+
+            float randomSpeed = Random.Range(20, 25);
+            spawnedCarRb.velocity = spawnedCarRb.transform.forward * randomSpeed;
+
+            UpdateTrafficList(spawnedCar);
+        }
+    }
+
+    private void ResetTimer ()
+        => timer = Random.Range(spawnMinMaxTime.x, spawnMinMaxTime.y);
+
+    private void UpdateTrafficList(Transform spawnedCar)
+    {
+        TrafficCars.Remove(spawnedCar);
+        TrafficCars.Add(spawnedCar);
+    }
+    
 
     Vector3 particleOffset = new Vector3(0, 1, 0);
     public void SpawnDestroyedCar(Transform trafficCar)
@@ -113,9 +119,7 @@ public class CarSpawnManager : MonoBehaviour
     }
 
     public void SetPlayer(Transform _player)
-    {
-        playerCar = _player;
-    }
+        => playerCar = _player;
 
     [Header ("<size=15>WAVE COUNTER")]
     [SerializeField] private float waveIncomingTimer = 0;
@@ -137,6 +141,9 @@ public class CarSpawnManager : MonoBehaviour
 
     [SerializeField] GameObject mainholder;
     [SerializeField] CanvasGroup information;
+
+    [SerializeField] private float spawnTollTimer = 0;
+    [SerializeField] private float spawnTollTimerThreshold = 60f;
     private void WarningAnimation()
     {
         mainholder.transform.localScale = new Vector3 (0, 1, 1);
@@ -158,12 +165,37 @@ public class CarSpawnManager : MonoBehaviour
         if (dangerWaveTime > 0)
         {
             dangerWaveTime -= Time.deltaTime;
-            spawnMinMaxTime = new Vector2(0.3f, 0.4f);
+            spawnMinMaxTime = dangerSpawnRate;
         }
         else
         {
-            spawnMinMaxTime = new Vector2(0.8f, 1);
+            spawnMinMaxTime = normalSpawnRate;
         }
+    }
+
+    private void SpawnToll()
+    {
+        if (spawnTollTimer > spawnTollTimerThreshold)
+        {
+            if (canSpawn)
+            {
+                trafficSpawnPoint.x = playerCar.position.x - 200;
+                trafficSpawnPoint.y = 0;
+                trafficSpawnPoint.z = -115f;
+                tollPrefab.position = trafficSpawnPoint;
+            }
+            canSpawn = false;
+        }
+        else
+        {
+            spawnTollTimer += Time.deltaTime;
+        }
+    }
+
+    private void OnTollHit()
+    {
+        canSpawn = true;
+        spawnTollTimer = 0;
     }
 
 }

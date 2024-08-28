@@ -10,6 +10,7 @@ public class ScoreManager : MonoBehaviour
     [SerializeField] private TMP_Text scoreText;
     [SerializeField] private TMP_Text totalScoreText;
     [SerializeField] private TMP_Text resultScoreText;
+    [SerializeField] private TMP_Text totalTimeSpentText;
     [SerializeField] private TMP_Text newHighscoreText;
 
     [Header("<size=15>VALUES")]
@@ -47,7 +48,10 @@ public class ScoreManager : MonoBehaviour
 
     private void CalculateTotalScore()
     {
-        totalScoreCount = scoreCount + carStatsManager.GetFuelScore() + carStatsManager.GetCarSmashedScore();
+        float timeSpent = carStatsManager.GetTotalTimePlayed();
+
+        totalTimeSpentText.text = "Time spent: " + timeSpent.ToString("0") + "s";
+        totalScoreCount = scoreCount + timeSpent + carStatsManager.GetCarSmashedScore();
         totalScoreText.text = "Total: " + totalScoreCount.ToString("0");
 
         if (totalScoreCount > currentHighscoreCount)

@@ -1,6 +1,6 @@
 using UnityEngine;
 using System.Collections.Generic;
-
+using System;
 
 public class CarController : MonoBehaviour
 {
@@ -16,6 +16,9 @@ public class CarController : MonoBehaviour
     [SerializeField] private List<ParticleSystem> driftParticles;
     [SerializeField] private List<TrailRenderer> tireMarks;
     [SerializeField] private AudioSource engineSFX;
+
+    [Header("<size=15>VALUES")]
+    [SerializeField] private float speedMultiplier = 0;
 
     [Header("<size=15>SCRIPTABLE")]
     [SerializeField] private CarEngine engine;
@@ -60,7 +63,8 @@ public class CarController : MonoBehaviour
     public Vector3 collisionDirection = new Vector3 (0,0,0);
     private void CarAcceleration()
     {
-        playerRb.velocity = rotationTransform.forward * engine.carSpeed + collisionDirection;
+        float vehicleSpeed = engine.carSpeed + speedMultiplier;
+        playerRb.velocity = rotationTransform.forward * vehicleSpeed + collisionDirection;
     }
 
     private void CarRotation()
@@ -150,5 +154,15 @@ public class CarController : MonoBehaviour
     public Transform GetRotationTransform()
     {
         return rotationTransform;
+    }
+
+    public static Action TollHit;
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.CompareTag ("Toll"))
+        {
+            TollHit?.Invoke();
+            speedMultiplier += 2;
+        }
     }
 }

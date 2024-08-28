@@ -7,6 +7,7 @@ TagManager:
   - Wall
   - Traffic
   - Fuel
+  - Toll
   layers:
   - Default
   - TransparentFX
