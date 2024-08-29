@@ -4,6 +4,8 @@ using UnityEngine;
 public class CarDetailsData : ScriptableObject
 {
     public CarDetail[] carDetail;
+    public Sprite selectedCarSprite;
+    public Sprite unSelectedCarSprite;
     public Color selectedColor;
     public Color unSelectedColor;
 }

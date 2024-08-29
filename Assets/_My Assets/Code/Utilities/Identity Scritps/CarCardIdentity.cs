@@ -41,16 +41,16 @@ public class CarCardIdentity : MonoBehaviour
         if (carDetailsData.carDetail[carIndex].isSelected)
         {
             transform.localScale = Vector3.one * 1.1f;
-            selectedButton.image.color = carDetailsData.selectedColor;
+            selectedButton.image.sprite = carDetailsData.selectedCarSprite;
             selectedText.color = carDetailsData.unSelectedColor;
-            selectedText.text = "Selected";
+            selectedText.text = "SELECTED";
         }
         else
         {
             transform.localScale = Vector3.one;
-            selectedButton.image.color = carDetailsData.unSelectedColor;
+            selectedButton.image.sprite = carDetailsData.unSelectedCarSprite;
             selectedText.color = carDetailsData.selectedColor;
-            selectedText.text = "Select";
+            selectedText.text = "SELECT";
         }
     }
 

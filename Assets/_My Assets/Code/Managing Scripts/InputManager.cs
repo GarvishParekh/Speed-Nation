@@ -29,16 +29,7 @@ public class InputManager : MonoBehaviour
         {
             case Controls.KEYBOARD:
                 sideInput = Input.GetAxisRaw("Horizontal");
-                if (sideInput == 0)
-                {
-                    if (timer < 0) inputData.isPressed = false;
-                    else timer -= Time.deltaTime;
-                }
-                if (sideInput != 0)
-                {
-                    timer = 0.15f;
-                    inputData.isPressed = true;
-                }
+                
                 break;
 
             case Controls.TOUCH:
@@ -46,6 +37,17 @@ public class InputManager : MonoBehaviour
                 else if (isRight) sideInput = 1;
                 else if (isRight == false && isLeft == false) sideInput = 0;
                 break;
+        }
+        // input calculation
+        if (sideInput == 0)
+        {
+            if (timer < 0) inputData.isPressed = false;
+            else timer -= Time.deltaTime;
+        }
+        if (sideInput != 0)
+        {
+            timer = 0.15f;
+            inputData.isPressed = true;
         }
         UpdateDriftValue(sideInput);
 
