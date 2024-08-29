@@ -15,4 +15,6 @@ public class InputData : ScriptableObject
     public float sideValue;
     public float lerpedSideValue;
     public float driftrValue;
+
+    public bool isPressed = false;
 }

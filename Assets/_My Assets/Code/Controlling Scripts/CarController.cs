@@ -51,6 +51,10 @@ public class CarController : MonoBehaviour
         }
     }
 
+    private void Update()
+    {
+    }
+
     private void FixedUpdate()
     {
         CarAcceleration();
@@ -69,8 +73,15 @@ public class CarController : MonoBehaviour
 
     private void CarRotation()
     {
-        // rotation of the disk 
-        rotationValue += inputData.lerpedSideValue * engine.turnSpeed * Time.deltaTime;
+        if (inputData.isPressed)
+        {
+            rotationValue += inputData.lerpedSideValue * engine.turnSpeed * Time.deltaTime;
+        }
+        else
+        {
+            rotationValue = Mathf.MoveTowards(rotationValue, -90, 4.0f * Time.deltaTime);
+        }
+
         rotationDisk.rotation = Quaternion.Euler(0, rotationValue, 0);
         rotationValue = Mathf.Clamp(rotationValue, -135, -45);
 

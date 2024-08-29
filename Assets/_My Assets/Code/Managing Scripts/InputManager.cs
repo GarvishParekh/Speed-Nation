@@ -22,12 +22,23 @@ public class InputManager : MonoBehaviour
     private void Update()
         => LerpedSideValue();
 
+    float timer = 0.2f;
     private void LerpedSideValue()
     {
         switch (inputData.controls)
         {
             case Controls.KEYBOARD:
                 sideInput = Input.GetAxisRaw("Horizontal");
+                if (sideInput == 0)
+                {
+                    if (timer < 0) inputData.isPressed = false;
+                    else timer -= Time.deltaTime;
+                }
+                if (sideInput != 0)
+                {
+                    timer = 0.15f;
+                    inputData.isPressed = true;
+                }
                 break;
 
             case Controls.TOUCH:

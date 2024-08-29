@@ -6,7 +6,7 @@ public class CarSpawnController : MonoBehaviour
     [SerializeField] private GameObject[] allCars;
     [SerializeField] private Transform spawnPoint;
 
-    [SerializeField] private CarSpawnManager carSpawnManager;
+    [SerializeField] private TrafficSpawnManager trafficSpawnManager;
     [SerializeField] private CameraController cameraController;
     [SerializeField] private Transform carRotationTransform;
     [SerializeField] private Transform carHolder;
@@ -29,6 +29,6 @@ public class CarSpawnController : MonoBehaviour
         cc.SetRotationalDisk(rotationDisk);
 
         cameraController.SetPlayer(cc.GetRotationTransform());
-        carSpawnManager.SetPlayer(carHolder);   
+        trafficSpawnManager.SetPlayer(carHolder);   
     }
 }
