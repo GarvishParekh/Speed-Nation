@@ -19,6 +19,17 @@ public class BgMusicManager : MonoBehaviour
         }
     }
 
+    private void Start()
+    {
+        bgMusicMainMenu.SetActive(false);
+        Invoke(nameof(StartMusicWithOffset), 2f);
+    }
+
+    private void StartMusicWithOffset()
+    {
+        bgMusicMainMenu.SetActive(true);
+    }    
+
     private void OnEnable()
     {
         SceneManager.sceneLoaded += OnSceneLoaded;
