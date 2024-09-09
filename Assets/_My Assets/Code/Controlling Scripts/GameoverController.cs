@@ -27,14 +27,12 @@ public class GameoverController : MonoBehaviour
 
     private void OnEnable()
     {
-        CarStatsManager.NoHealthLeft += OnHealthCompleted;
-        CarStatsManager.NoFuelLeft += OnFuelCompleted;
+        CarStatsManager.NoTimeLeft += OnTimeComplete;
     }
 
     private void OnDisable()
     {
-        CarStatsManager.NoHealthLeft -= OnHealthCompleted;
-        CarStatsManager.NoFuelLeft -= OnFuelCompleted;
+        CarStatsManager.NoTimeLeft -= OnTimeComplete;
     }
 
     private void Update()
@@ -48,17 +46,10 @@ public class GameoverController : MonoBehaviour
         }
     }
 
-    private void OnHealthCompleted()
+    private void OnTimeComplete()
     {
         Gameover?.Invoke();
         StartCoroutine(nameof(TakeScreenshotCoroutine));
-    }
-
-    private void OnFuelCompleted()
-    {
-        Gameover?.Invoke();
-        gameoverReasonText.text = "Out of fuel";
-        StartCoroutine(nameof(TakeScreenshotCoroutine));  
     }
 
     private IEnumerator TakeScreenshotCoroutine()

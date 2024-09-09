@@ -13,6 +13,7 @@ public class MainMenuUiController : MonoBehaviour
     [SerializeField] private Color onColor;
     [SerializeField] private Color offColor;
 
+    [SerializeField] private TMP_Text highscoreText;
     [Header("<size=15>POST PROCESSING UI")]
     [SerializeField] private Toggle postProcessingToggle;
     [SerializeField] private TMP_Text postProcessingText;
@@ -35,6 +36,7 @@ public class MainMenuUiController : MonoBehaviour
         LoadPostProcessing();
         LoadMusic();
         LoadSoundEffects();
+        SetHighscore();
     }
 
     public void _LetsGoButton()
@@ -182,5 +184,11 @@ public class MainMenuUiController : MonoBehaviour
     #else
                 Application.OpenURL(googleplayURL);
     #endif
+    }
+
+    public void SetHighscore()
+    {
+        int highscoreCount = PlayerPrefs.GetInt(ConstantKeys.HIGHSCORE, 0);
+        highscoreText.text = "HIGHSCORE: " + highscoreCount.ToString("0");
     }
 }

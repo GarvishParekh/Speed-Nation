@@ -8,7 +8,7 @@ public class TrafficCarController : MonoBehaviour
     bool wasCollided = false;
 
     [SerializeField] private GameObject afterCollision;
-    [SerializeField] private CarSpawnManager carSpawnManager;
+    [SerializeField] private TrafficSpawnManager carSpawnManager;
 
     private void Awake()
     {

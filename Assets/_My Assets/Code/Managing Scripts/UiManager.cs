@@ -103,7 +103,7 @@ public class UiManager : MonoBehaviour
 
     public void CloseShutter()
     {
-        LeanTween.moveLocal(shutter, Vector3.zero, 0.5f).setIgnoreTimeScale(true);
+        LeanTween.moveLocal(shutter, new Vector3(620.0f, 0,0), 0.5f).setIgnoreTimeScale(true);
     }
 
     public void OpenShutter()

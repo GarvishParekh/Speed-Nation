@@ -13,11 +13,15 @@ public class LevelSpawnManager : MonoBehaviour
     [SerializeField] private int fuelSpawnCount = 0;
     [SerializeField] private Transform fuelCollectedParticles;
 
+    [SerializeField] private bool canpawnFuel = false;
+
     public void SpawnAtNextPosition(Transform _level, Transform lastPosition)
     {
         fuelSpawnCount++;
         _level.position = spawnPlace.position;
         spawnPlace.position = lastPosition.position;
+
+        if (!canpawnFuel) return;
 
         if (fuelSpawnCount > 10)
         {

@@ -20,7 +20,7 @@ MonoBehaviour:
       in control on every race."
     carIconSprite: {fileID: 21300000, guid: 7a102a567c29f0141b9e8630ca8a1491, type: 3}
     lockStatus: 1
-    isSelected: 1
+    isSelected: 0
   - carName: Hatchback
     carIndex: 1
     carDescription: "Navigate the track with agility in our hatchback\u2014compact,
@@ -28,7 +28,7 @@ MonoBehaviour:
       practicality with performance."
     carIconSprite: {fileID: 21300000, guid: d6fc6103b555af347a76ba7a44bbbe8d, type: 3}
     lockStatus: 1
-    isSelected: 0
+    isSelected: 1
   - carName: Muscle
     carIndex: 2
     carDescription: "Unleash raw power with our muscle car\u2014intense acceleration,
@@ -37,5 +37,8 @@ MonoBehaviour:
     carIconSprite: {fileID: 21300000, guid: 21e88918627fc2044a55b9b978213645, type: 3}
     lockStatus: 1
     isSelected: 0
+  selectedCarSprite: {fileID: 21300000, guid: 785c0b06f7bd67b44b2bf3b068061f2f, type: 3}
+  unSelectedCarSprite: {fileID: 21300000, guid: e4ea95fe5866d1249bee3f0c93dc2295,
+    type: 3}
   selectedColor: {r: 0.882353, g: 0.42352945, b: 0.10980393, a: 1}
   unSelectedColor: {r: 1, g: 1, b: 1, a: 1}

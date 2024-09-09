@@ -1,6 +1,6 @@
 using UnityEngine;
 using System.Collections.Generic;
-
+using System;
 
 public class CarController : MonoBehaviour
 {
@@ -16,6 +16,9 @@ public class CarController : MonoBehaviour
     [SerializeField] private List<ParticleSystem> driftParticles;
     [SerializeField] private List<TrailRenderer> tireMarks;
     [SerializeField] private AudioSource engineSFX;
+
+    [Header("<size=15>VALUES")]
+    [SerializeField] private float speedMultiplier = 0;
 
     [Header("<size=15>SCRIPTABLE")]
     [SerializeField] private CarEngine engine;
@@ -48,6 +51,10 @@ public class CarController : MonoBehaviour
         }
     }
 
+    private void Update()
+    {
+    }
+
     private void FixedUpdate()
     {
         CarAcceleration();
@@ -60,13 +67,21 @@ public class CarController : MonoBehaviour
     public Vector3 collisionDirection = new Vector3 (0,0,0);
     private void CarAcceleration()
     {
-        playerRb.velocity = rotationTransform.forward * engine.carSpeed + collisionDirection;
+        float vehicleSpeed = engine.carSpeed + speedMultiplier;
+        playerRb.velocity = rotationTransform.forward * vehicleSpeed + collisionDirection;
     }
 
     private void CarRotation()
     {
-        // rotation of the disk 
-        rotationValue += inputData.lerpedSideValue * engine.turnSpeed * Time.deltaTime;
+        if (inputData.isPressed)
+        {
+            rotationValue += inputData.lerpedSideValue * engine.turnSpeed * Time.deltaTime;
+        }
+        else
+        {
+            rotationValue = Mathf.MoveTowards(rotationValue, -90, 4.0f * Time.deltaTime);
+        }
+
         rotationDisk.rotation = Quaternion.Euler(0, rotationValue, 0);
         rotationValue = Mathf.Clamp(rotationValue, -135, -45);
 
@@ -150,5 +165,15 @@ public class CarController : MonoBehaviour
     public Transform GetRotationTransform()
     {
         return rotationTransform;
+    }
+
+    public static Action TollHit;
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.CompareTag ("Toll"))
+        {
+            TollHit?.Invoke();
+            speedMultiplier += 2;
+        }
     }
 }
