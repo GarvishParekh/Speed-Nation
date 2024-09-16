@@ -15,6 +15,8 @@ public class CarDetail
 {
     public string carName;
     public int carIndex;
+
+    [TextArea]
     public string carDescription;
     public Sprite carIconSprite;
     public LockStatus lockStatus;

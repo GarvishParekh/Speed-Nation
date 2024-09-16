@@ -14,6 +14,10 @@ public class MainMenuUiController : MonoBehaviour
     [SerializeField] private Color offColor;
 
     [SerializeField] private TMP_Text highscoreText;
+
+    [Header("<size=15>UI EFFECTS")]
+    [SerializeField] private GameObject arrowObject;
+
     [Header("<size=15>POST PROCESSING UI")]
     [SerializeField] private Toggle postProcessingToggle;
     [SerializeField] private TMP_Text postProcessingText;
@@ -37,6 +41,7 @@ public class MainMenuUiController : MonoBehaviour
         LoadMusic();
         LoadSoundEffects();
         SetHighscore();
+        ArrowAnimation();
     }
 
     public void _LetsGoButton()
@@ -147,6 +152,10 @@ public class MainMenuUiController : MonoBehaviour
         _SoundToggle();
     }
 
+    private void ArrowAnimation()
+    {
+        LeanTween.moveLocalX(arrowObject, 1000, 1.5f).setLoopCount(-1);
+    }
 
 
     public void _InstagramButton()

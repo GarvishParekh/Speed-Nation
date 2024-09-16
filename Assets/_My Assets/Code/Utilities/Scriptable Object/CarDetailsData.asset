@@ -15,25 +15,25 @@ MonoBehaviour:
   carDetail:
   - carName: Sedan
     carIndex: 0
-    carDescription: "Experience the thrill with our sleek sedan\u2014fast, agile,
-      and perfect for tight turns. A blend of style and performance that keeps you
-      in control on every race."
+    carDescription: "    Experience the thrill with our sleek \n   sedan\u2014fast,
+      agile, and perfect for \n  tight turns. A blend of style and \n performance
+      that keeps you in \ncontrol on every race."
     carIconSprite: {fileID: 21300000, guid: 7a102a567c29f0141b9e8630ca8a1491, type: 3}
     lockStatus: 1
-    isSelected: 0
+    isSelected: 1
   - carName: Hatchback
     carIndex: 1
-    carDescription: "Navigate the track with agility in our hatchback\u2014compact,
-      nimble, and versatile. Perfect for quick maneuvers and sharp turns, combining
-      practicality with performance."
+    carDescription: "     Navigate the track with agility in \n    our hatchback\u2014compact,
+      nimble, \n   and versatile. Perfect for quick \n  maneuvers and sharp turns,
+      \n combining practicality \nwith performance."
     carIconSprite: {fileID: 21300000, guid: d6fc6103b555af347a76ba7a44bbbe8d, type: 3}
     lockStatus: 1
-    isSelected: 1
+    isSelected: 0
   - carName: Muscle
     carIndex: 2
-    carDescription: "Unleash raw power with our muscle car\u2014intense acceleration,
-      aggressive styling, and a roar that commands attention. Built for speed and
-      dominance on the track."
+    carDescription: "     Unleash raw power with our \n    muscle car\u2014intense
+      acceleration, \n   aggressive styling, and a roar that \n  commands attention.
+      Built for \n speed and dominance \non the track."
     carIconSprite: {fileID: 21300000, guid: 21e88918627fc2044a55b9b978213645, type: 3}
     lockStatus: 1
     isSelected: 0

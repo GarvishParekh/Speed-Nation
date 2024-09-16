@@ -12,9 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c4bdc347bb9988f47a26443ba8ca776c, type: 3}
   m_Name: Car Engine (Hatchback)
   m_EditorClassIdentifier: 
-  carSpeed: 50
-  maxCarSpeed: 50
-  speedOnTurn: 50
+  carSpeed: 60
+  maxCarSpeed: 60
+  speedOnTurn: 60
   turnSpeed: 90
-  turnDamping: 10
+  turnDamping: 20
   driftThreshold: 0.6

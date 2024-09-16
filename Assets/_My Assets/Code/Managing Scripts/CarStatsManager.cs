@@ -54,7 +54,7 @@ public class CarStatsManager : MonoBehaviour
 
     private void OnCarCollided()
     {
-        LoseTime(5.0f);
+        //LoseTime(5.0f);
         totalCarSmashedCount += 1;
         totalCarSmashedText.text = "Car smashed: " + totalCarSmashedCount.ToString("0");
     }
@@ -66,6 +66,8 @@ public class CarStatsManager : MonoBehaviour
     
     private void ClockFunction()
     {
+        return;
+
         if (isNotified) return;
 
         if (clockTimer > 0)
