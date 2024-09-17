@@ -8,6 +8,7 @@ TagManager:
   - Traffic
   - Fuel
   - Toll
+  - Cinamitic Cam
   layers:
   - Default
   - TransparentFX
