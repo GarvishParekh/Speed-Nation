@@ -12,22 +12,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 469c24fdb3bd6431b92cc1465bd9166b, type: 3}
   m_Name: RemoteConfigDataStoreAsset
   m_EditorClassIdentifier: 
-  _rsKeyList: "[\r\n  {\r\n    \"metadata\": {\r\n      \"entityId\": \"c7680e4a-b2cb-4f37-92c4-299c64c80c0d\"\r\n   
+  _rsKeyList: "[\r\n  {\r\n    \"metadata\": {\r\n      \"entityId\": \"0a439a6d-b862-42d9-ad7d-ddd95c5ab5a4\"\r\n   
     },\r\n    \"rs\": {\r\n      \"key\": \"Version_Check\",\r\n      \"type\": \"bool\",\r\n     
     \"value\": true\r\n    }\r\n  },\r\n  {\r\n    \"metadata\": {\r\n      \"entityId\":
-    \"879ccd36-e1c6-4405-b0f9-0f6728fd2668\"\r\n    },\r\n    \"rs\": {\r\n     
+    \"eca064df-1f1f-417e-b5db-850ace1c00a9\"\r\n    },\r\n    \"rs\": {\r\n     
     \"key\": \"Android_Version\",\r\n      \"type\": \"string\",\r\n      \"value\":
     \"4.0.3\"\r\n    }\r\n  },\r\n  {\r\n    \"metadata\": {\r\n      \"entityId\":
-    \"f9336f24-8470-435b-8574-18bc43c2228c\"\r\n    },\r\n    \"rs\": {\r\n     
+    \"0c519729-28be-4c3d-9ad1-3084c7f6ba1b\"\r\n    },\r\n    \"rs\": {\r\n     
     \"key\": \"iOS_Version\",\r\n      \"type\": \"string\",\r\n      \"value\":
     \"4.0.3\"\r\n    }\r\n  }\r\n]"
-  _rsLastCachedKeyList: "[\r\n  {\r\n    \"metadata\": {\r\n      \"entityId\": \"c7680e4a-b2cb-4f37-92c4-299c64c80c0d\"\r\n   
+  _rsLastCachedKeyList: "[\r\n  {\r\n    \"metadata\": {\r\n      \"entityId\": \"0a439a6d-b862-42d9-ad7d-ddd95c5ab5a4\"\r\n   
     },\r\n    \"rs\": {\r\n      \"key\": \"Version_Check\",\r\n      \"type\": \"bool\",\r\n     
     \"value\": true\r\n    }\r\n  },\r\n  {\r\n    \"metadata\": {\r\n      \"entityId\":
-    \"879ccd36-e1c6-4405-b0f9-0f6728fd2668\"\r\n    },\r\n    \"rs\": {\r\n     
+    \"eca064df-1f1f-417e-b5db-850ace1c00a9\"\r\n    },\r\n    \"rs\": {\r\n     
     \"key\": \"Android_Version\",\r\n      \"type\": \"string\",\r\n      \"value\":
     \"4.0.3\"\r\n    }\r\n  },\r\n  {\r\n    \"metadata\": {\r\n      \"entityId\":
-    \"f9336f24-8470-435b-8574-18bc43c2228c\"\r\n    },\r\n    \"rs\": {\r\n     
+    \"0c519729-28be-4c3d-9ad1-3084c7f6ba1b\"\r\n    },\r\n    \"rs\": {\r\n     
     \"key\": \"iOS_Version\",\r\n      \"type\": \"string\",\r\n      \"value\":
     \"4.0.3\"\r\n    }\r\n  }\r\n]"
   _environments: "[\r\n  {\r\n    \"projectId\": \"41e1be62-562a-4ab2-96cb-d615b8c9756c\",\r\n   

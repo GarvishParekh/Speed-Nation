@@ -6,7 +6,8 @@ public enum CarsName
 {
     SEDAN,
     HATCHBACK,
-    MUSCLE
+    MUSCLE,
+    SUPER
 }
 
 public enum LockStatus
@@ -21,6 +22,8 @@ public class CarCardIdentity : MonoBehaviour
 
     [Header ("<size=15>USER INTERFACE")]
     [SerializeField] private Button selectedButton;
+    [SerializeField] private GameObject lockScreen;
+    [SerializeField] private TMP_Text requriedScoreText;
 
     private void Start()
     {
@@ -30,6 +33,19 @@ public class CarCardIdentity : MonoBehaviour
     private void LoadCarDetails()
     {
         int carIndex = (int)carsName;
+
+        int currentScore = PlayerPrefs.GetInt(ConstantKeys.HIGHSCORE, 0);
+        int requriedScoreCount = carDetailsData.carDetail[carIndex].requriedScore;
+
+        if (requriedScoreCount > currentScore)
+        {
+            selectedButton.interactable = false;
+            lockScreen.SetActive(true);
+            requriedScoreText.text = $"Score <color=#E26E20>{requriedScoreCount} PTS</color> to unlock";
+        }
+        else lockScreen.SetActive(false);
+
+
         if (carDetailsData.carDetail[carIndex].isSelected)
         {
             transform.localScale = Vector3.one * 1.1f;
