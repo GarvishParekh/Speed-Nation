@@ -1,28 +1,36 @@
 {
   "project_info": {
-    "project_number": "27260853649",
-    "project_id": "speed-nation-ios-f1f2f",
-    "storage_bucket": "speed-nation-ios-f1f2f.appspot.com"
+    "project_number": "1016663705904",
+    "firebase_url": "https://speed-nation-8ec3b-default-rtdb.firebaseio.com",
+    "project_id": "speed-nation-8ec3b",
+    "storage_bucket": "speed-nation-8ec3b.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:27260853649:ios:f7e96541926d5a119e8e30",
+        "mobilesdk_app_id": "1:1016663705904:android:92862f81c7c1613b1da0f5",
         "android_client_info": {
           "package_name": "com.theintellify.speednation"
         }
       },
+      "oauth_client": [
+        {
+          "client_id": "1016663705904-qnjtt0ca1f21gqno92n4hjd09oa2hi7j.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.theintellify.speednation",
+            "certificate_hash": "dce6c439af02a31d2d4239a14804636c2c206e46"
+          }
+        }
+      ],
       "api_key": [
         {
-          "current_key": "AIzaSyCsKo3l4CfOYueZ3PXa3tGUH_O8wHfAFEs"
+          "current_key": "AIzaSyC3auX3BihnneT-kxvaQ8CyZtAS72h6_jc"
         }
       ],
       "services": {
-        "analytics_service": {
-          "status": 0
-        },
         "appinvite_service": {
-          "status": 1
+          "other_platform_oauth_client": []
         }
       }
     }

@@ -1,8 +1,10 @@
+using Firebase.Auth;
 using TMPro;
 using UnityEngine;
 
 public class ScoreManager : MonoBehaviour
 {
+    FirebaseInitlization firebaseScript;
     [Header("<size=15>SCRIPTS")]
     [SerializeField] private CarStatsManager carStatsManager;
 
@@ -33,6 +35,7 @@ public class ScoreManager : MonoBehaviour
 
     private void Start()
     {
+        firebaseScript = FirebaseInitlization.instance;
         currentHighscoreCount = PlayerPrefs.GetInt(ConstantKeys.HIGHSCORE, 0);
     }
 
@@ -60,6 +63,7 @@ public class ScoreManager : MonoBehaviour
         if (totalScoreCount > currentHighscoreCount)
         {
             PlayerPrefs.SetInt(ConstantKeys.HIGHSCORE, (int)totalScoreCount);
+            firebaseScript.UpdateHighscoreOnServer();
             highscoreObject.gameObject.SetActive(true);
             gameoverObject.gameObject.SetActive(false);
         }

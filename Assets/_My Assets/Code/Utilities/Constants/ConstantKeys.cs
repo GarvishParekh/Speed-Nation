@@ -11,6 +11,7 @@ public static class ConstantKeys
     // playerpref tag
     public static string SELECTED_CAR = "SelectedCar";
     public static string HIGHSCORE = "highscore";
+    public static string USERNAME = "username";
 
     // options
     public static string POSTPROCESSING = "PostProcessing";

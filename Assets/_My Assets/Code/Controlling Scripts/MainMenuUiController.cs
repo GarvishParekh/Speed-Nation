@@ -9,6 +9,7 @@ public class MainMenuUiController : MonoBehaviour
 
     UiManager uiManager;
     BgMusicManager bgMusicManager;
+    [SerializeField] private UpdateLeaderBoards updateLeaderboards;
 
     [SerializeField] private Color onColor;
     [SerializeField] private Color offColor;
@@ -25,6 +26,10 @@ public class MainMenuUiController : MonoBehaviour
     [Header("<size=15>MUSIC UI")]
     [SerializeField] private Toggle musicToggle;
     [SerializeField] private TMP_Text musicText;
+    [SerializeField] private TMP_InputField userNameInputFiled;
+    [SerializeField] private Button confirmUserNameButton;
+    [SerializeField] private TMP_Text userNameDisplayText;
+    
 
     [Header("<size=15>SOUND EFFECTS UI")]
     [SerializeField] private Toggle soundEffectToggle;
@@ -35,7 +40,14 @@ public class MainMenuUiController : MonoBehaviour
         uiManager = UiManager.instance;
         bgMusicManager = BgMusicManager.instance;
 
-        uiManager.OpenCanvasWithShutter(CanvasNames.MAIN_MENU);
+        string userNameString = PlayerPrefs.GetString(ConstantKeys.USERNAME, "");
+
+        if (userNameString == string.Empty) uiManager.OpenCanvasWithShutter(CanvasNames.ENTER_USER_NAME);
+        else
+        {
+            userNameDisplayText.text = userNameString;
+            uiManager.OpenCanvasWithShutter(CanvasNames.MAIN_MENU);
+        }
 
         LoadPostProcessing();
         LoadMusic();
@@ -199,5 +211,33 @@ public class MainMenuUiController : MonoBehaviour
     {
         int highscoreCount = PlayerPrefs.GetInt(ConstantKeys.HIGHSCORE, 0);
         highscoreText.text = "HIGHSCORE: " + highscoreCount.ToString("0");
+    }
+
+    public void _SetUserName()
+    {
+        PlayerPrefs.SetString(ConstantKeys.USERNAME, userNameInputFiled.text);
+
+        userNameDisplayText.text = userNameInputFiled.text;
+        uiManager.OpenCanvasWithShutter(CanvasNames.MAIN_MENU);
+    }
+
+    public void CheckForInputField()
+    {
+        if (userNameInputFiled.text.Length > 0) confirmUserNameButton.gameObject.SetActive(true);
+        else confirmUserNameButton.gameObject.SetActive(false);
+    }
+
+    public void _OpenLeaderboards()
+    {
+        uiManager.OpenCanvasWithShutter(CanvasNames.LEADERBOARDS);
+        updateLeaderboards.UpdateUI();
+    }
+
+    private void Update()
+    {
+        if (Input.GetKeyDown (KeyCode.R))
+        {
+            PlayerPrefs.DeleteAll();
+        }
     }
 }

@@ -21,5 +21,7 @@ public enum CanvasNames
     OPTIONS,
     SHOP,
     LEVEL_SELECTION,
-    UPDATE
+    UPDATE,
+    LEADERBOARDS,
+    ENTER_USER_NAME
 }
