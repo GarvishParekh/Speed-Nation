@@ -1,6 +1,7 @@
 using TMPro;
 using System;
 using UnityEngine;
+using System.Collections.Generic;
 
 public class CarStatsManager : MonoBehaviour
 {
@@ -10,6 +11,7 @@ public class CarStatsManager : MonoBehaviour
     [SerializeField] private TMP_Text totalCarSmashedText;
     [SerializeField] private TMP_Text totalTimeSpentText;
     [SerializeField] private TMP_Text timerText;
+    [SerializeField] private List<GameObject> healthBar = new List<GameObject>();
 
     [Header ("<size=15>Animation")]
     [SerializeField] private Transform timerHolder;
@@ -54,9 +56,21 @@ public class CarStatsManager : MonoBehaviour
 
     private void OnCarCollided()
     {
-        LoseTime(5.0f);
+        LoseHealth();
+        //LoseTime(5.0f);
         totalCarSmashedCount += 1;
         totalCarSmashedText.text = "Car smashed: " + totalCarSmashedCount.ToString("0");
+    }
+
+    int healtCount = 2;
+    private void LoseHealth()
+    {
+        healthBar[healtCount].SetActive(false);
+        healtCount--;
+        if (healtCount < 0)
+        {
+            NoTimeLeft?.Invoke();
+        }
     }
 
     public float GetCarSmashedScore()
@@ -66,6 +80,8 @@ public class CarStatsManager : MonoBehaviour
     
     private void ClockFunction()
     {
+        return;
+
         if (isNotified) return;
 
         if (clockTimer > 0)

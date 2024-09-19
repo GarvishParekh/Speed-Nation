@@ -15,30 +15,29 @@ MonoBehaviour:
   carDetail:
   - carName: Sedan
     carIndex: 0
-    carDescription: "Experience the thrill with our sleek sedan\u2014fast, agile,
-      and perfect for tight turns. A blend of style and performance that keeps you
-      in control on every race."
-    carIconSprite: {fileID: 21300000, guid: 7a102a567c29f0141b9e8630ca8a1491, type: 3}
+    requriedScore: 0
+    selectedSprite: {fileID: 21300000, guid: 0aefa58b4202742468075302d4fd4adb, type: 3}
+    unSelectedSprite: {fileID: 21300000, guid: de16cd84a844f7a4eba836fc3e965265, type: 3}
     lockStatus: 1
     isSelected: 0
   - carName: Hatchback
     carIndex: 1
-    carDescription: "Navigate the track with agility in our hatchback\u2014compact,
-      nimble, and versatile. Perfect for quick maneuvers and sharp turns, combining
-      practicality with performance."
-    carIconSprite: {fileID: 21300000, guid: d6fc6103b555af347a76ba7a44bbbe8d, type: 3}
-    lockStatus: 1
-    isSelected: 1
-  - carName: Muscle
-    carIndex: 2
-    carDescription: "Unleash raw power with our muscle car\u2014intense acceleration,
-      aggressive styling, and a roar that commands attention. Built for speed and
-      dominance on the track."
-    carIconSprite: {fileID: 21300000, guid: 21e88918627fc2044a55b9b978213645, type: 3}
+    requriedScore: 10000
+    selectedSprite: {fileID: 21300000, guid: f3b86063f6ac0644195e31609e37bd38, type: 3}
+    unSelectedSprite: {fileID: 21300000, guid: 8d07acc1b96ce9a4f81a7170b871ae06, type: 3}
     lockStatus: 1
     isSelected: 0
-  selectedCarSprite: {fileID: 21300000, guid: 785c0b06f7bd67b44b2bf3b068061f2f, type: 3}
-  unSelectedCarSprite: {fileID: 21300000, guid: e4ea95fe5866d1249bee3f0c93dc2295,
-    type: 3}
-  selectedColor: {r: 0.882353, g: 0.42352945, b: 0.10980393, a: 1}
-  unSelectedColor: {r: 1, g: 1, b: 1, a: 1}
+  - carName: Muscle
+    carIndex: 2
+    requriedScore: 20000
+    selectedSprite: {fileID: 21300000, guid: 763a4bad4709eee459c1adddc84a8ee7, type: 3}
+    unSelectedSprite: {fileID: 21300000, guid: de4ef38b113b43046bf7bcf9b1cd5b25, type: 3}
+    lockStatus: 1
+    isSelected: 0
+  - carName: Super
+    carIndex: 3
+    requriedScore: 50000
+    selectedSprite: {fileID: 21300000, guid: 5f792fb852a71394ab902fdce90435f9, type: 3}
+    unSelectedSprite: {fileID: 21300000, guid: b6bc4e29ab5f7a44eacf44d1f201f63a, type: 3}
+    lockStatus: 1
+    isSelected: 0

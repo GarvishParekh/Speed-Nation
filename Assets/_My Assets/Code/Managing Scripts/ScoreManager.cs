@@ -11,7 +11,10 @@ public class ScoreManager : MonoBehaviour
     [SerializeField] private TMP_Text totalScoreText;
     [SerializeField] private TMP_Text resultScoreText;
     [SerializeField] private TMP_Text totalTimeSpentText;
-    [SerializeField] private TMP_Text newHighscoreText;
+
+    [Space]
+    [SerializeField] private GameObject gameoverObject;
+    [SerializeField] private GameObject highscoreObject;
 
     [Header("<size=15>VALUES")]
     [SerializeField] private float scoreCount;
@@ -57,8 +60,13 @@ public class ScoreManager : MonoBehaviour
         if (totalScoreCount > currentHighscoreCount)
         {
             PlayerPrefs.SetInt(ConstantKeys.HIGHSCORE, (int)totalScoreCount);
-            newHighscoreText.gameObject.SetActive(true);
+            highscoreObject.gameObject.SetActive(true);
+            gameoverObject.gameObject.SetActive(false);
         }
-        else newHighscoreText.gameObject.SetActive(false);
+        else
+        {
+            highscoreObject.gameObject.SetActive(false);
+            gameoverObject.gameObject.SetActive(true);
+        }
     }
 }
