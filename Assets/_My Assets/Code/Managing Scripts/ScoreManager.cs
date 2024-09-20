@@ -63,7 +63,17 @@ public class ScoreManager : MonoBehaviour
         if (totalScoreCount > currentHighscoreCount)
         {
             PlayerPrefs.SetInt(ConstantKeys.HIGHSCORE, (int)totalScoreCount);
-            firebaseScript.UpdateHighscoreOnServer();
+            firebaseScript.UpdateHighscoreOnServer(sucess =>
+            {
+                if (sucess)
+                {
+                    Debug.Log($"Highscore updated sucessfully");
+                }
+                else
+                {
+                    Debug.Log($"Error updating highscore");
+                }
+            });
             highscoreObject.gameObject.SetActive(true);
             gameoverObject.gameObject.SetActive(false);
         }

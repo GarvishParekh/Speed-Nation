@@ -1,11 +1,17 @@
-using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
-using UnityEngine.Windows;
+using System.Collections.Generic;
 
 public class UpdateLeaderBoards : MonoBehaviour
 {
     FirebaseInitlization firebaseScript;
     [SerializeField] private List<LeaderboardCellIdentity> cellIdentity = new List<LeaderboardCellIdentity>();
+    
+    [SerializeField] private TMP_Text myRankText;
+
+    [SerializeField] private GameObject fetchingYourData;
+    [SerializeField] private GameObject somethingWentWrong;
+    [SerializeField] private GameObject leaderboardData;
 
     private void Start()
     {
@@ -15,29 +21,59 @@ public class UpdateLeaderBoards : MonoBehaviour
     // Update is called once per frame
     public void UpdateUI()
     {
-        firebaseScript.UpdateHighscoreOnServer();
-        firebaseScript.FetchLeaderboardsFromServer();
+        DisplayStatus(fetchingYourData);
 
-        Invoke(nameof(Delay), 1);
-    }
-
-    private void Delay()
-    {
-        List<string> lbList = firebaseScript.GetLeaderboardsList();
-        int index = 0;
-        foreach (LeaderboardCellIdentity cell in cellIdentity)
+        firebaseScript.UpdateHighscoreOnServer(sucess =>
         {
-            if (index < lbList.Count)
+            if (sucess)
             {
-                string[] parts = lbList[index].Split("_");
-                cell.SetNameAndRank(parts[0], int.Parse(parts[1]));
+                Debug.Log($"Highscore updated sucessfully");
             }
             else
             {
-                cell.SetNameAndRank("-", 0);
+                Debug.Log($"Error updating highscore");
             }
+        });
+        firebaseScript.FetchLeaderboardsFromServer(sucess =>
+        {
+            if (sucess)
+            {
+                DisplayStatus(leaderboardData);
 
-            index++;
-        }
+                List<string> lbList = firebaseScript.GetLeaderboardsList();
+                int index = 0;
+                foreach (LeaderboardCellIdentity cell in cellIdentity)
+                {
+                    if (index < lbList.Count)
+                    {
+                        string[] parts = lbList[index].Split("_");
+                        cell.SetNameAndRank(parts[0], int.Parse(parts[1]));
+                    }
+                    else
+                    {
+                        cell.SetNameAndRank("-", 0);
+                    }
+
+                    index++;
+                }
+
+                myRankText.text = $"YOUR RANK IS {firebaseScript.GetMyRank().ToString()}th";
+            }
+            else
+            {
+                DisplayStatus(somethingWentWrong);
+                return;
+            }
+        });
+
+    }
+
+    private void DisplayStatus(GameObject panelToShow)
+    {
+        fetchingYourData.SetActive(false);
+        somethingWentWrong.SetActive(false);
+        leaderboardData.SetActive(false);
+
+        panelToShow.SetActive(true);   
     }
 }

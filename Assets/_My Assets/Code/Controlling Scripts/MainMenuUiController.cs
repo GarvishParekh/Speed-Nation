@@ -22,6 +22,7 @@ public class MainMenuUiController : MonoBehaviour
     [Header("<size=15>POST PROCESSING UI")]
     [SerializeField] private Toggle postProcessingToggle;
     [SerializeField] private TMP_Text postProcessingText;
+    [SerializeField] private TMP_Text serverConnectionText;
 
     [Header("<size=15>MUSIC UI")]
     [SerializeField] private Toggle musicToggle;
@@ -35,8 +36,20 @@ public class MainMenuUiController : MonoBehaviour
     [SerializeField] private Toggle soundEffectToggle;
     [SerializeField] private TMP_Text soundEffectText;
 
+    private void OnEnable()
+    {
+        FirebaseInitlization.ServerConnection += UpdateServerConnectionStatus;
+    }
+
+    private void OnDisable()
+    {
+        FirebaseInitlization.ServerConnection -= UpdateServerConnectionStatus;
+        
+    }
+
     private void Start()
     {
+        serverConnectionText.text = "CONNECTING...";
         uiManager = UiManager.instance;
         bgMusicManager = BgMusicManager.instance;
 
@@ -239,5 +252,23 @@ public class MainMenuUiController : MonoBehaviour
         {
             PlayerPrefs.DeleteAll();
         }
+    }
+
+    public void UpdateServerConnectionStatus(bool sucess)
+    {
+        if (sucess)
+        {
+            serverConnectionText.text = "CONNECTED";
+        }
+        else
+        {
+            serverConnectionText.text = "CONNECTION FAILED";
+        }
+    }
+
+    public void _EditUserNameButton()
+    {
+        confirmUserNameButton.gameObject.SetActive(false);   
+        uiManager.OpenCanvasWithShutter(CanvasNames.ENTER_USER_NAME);
     }
 }

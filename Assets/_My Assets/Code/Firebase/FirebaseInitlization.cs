@@ -1,3 +1,4 @@
+using System; 
 using Firebase;
 using UnityEngine;
 using Firebase.Analytics;
@@ -8,14 +9,18 @@ using System.Collections.Generic;
 
 public class FirebaseInitlization : MonoBehaviour
 {
+    public static Action<bool> ServerConnection;
+
     public static FirebaseInitlization instance;
     [SerializeField] private List<string> leaderboardData;
+    [SerializeField] private int myRank = 0;
+
+    bool canUseFirestore = false;
 
 
     private void Awake()
     {
         CreateSingleton();
-        FirestoreInitializer();
     }
 
     private void CreateSingleton()
@@ -33,7 +38,20 @@ public class FirebaseInitlization : MonoBehaviour
 
     private void Start()
     {
-        FirebaseAnalyticsInitilization();
+        FirestoreInitializer(sucess =>
+        {
+            if (sucess)
+            {
+                ServerConnection?.Invoke(true);
+                canUseFirestore = true;
+                FirebaseAnalyticsInitilization();
+            }
+            else
+            {
+                ServerConnection?.Invoke(false);
+                canUseFirestore = false;
+            }
+        });
     }
 
     private void FirebaseAnalyticsInitilization()
@@ -60,36 +78,45 @@ public class FirebaseInitlization : MonoBehaviour
             else
             {
                 UnityEngine.Debug.LogError(System.String.Format(
-                  "Could not resolve all Firebase dependencies: {0}", dependencyStatus));
+                    "Could not resolve all Firebase dependencies: {0}", dependencyStatus));
                 // Firebase Unity SDK is not safe to use here.
             }
         });
     }
 
     private FirebaseFirestore firestore;
-    private void FirestoreInitializer()
+    private void FirestoreInitializer(Action<bool> onComplete)
     {
-        // Initialize Firebase
-        FirebaseApp.CheckAndFixDependenciesAsync().ContinueWithOnMainThread(task => {
-            FirebaseApp app = FirebaseApp.DefaultInstance;
+        FirebaseApp.CheckAndFixDependenciesAsync().ContinueWithOnMainThread(task =>
+        {
+            Firebase.DependencyStatus dependencyStatus = task.Result;
 
-            // Initialize Firebase Firestore
-            InitializeFirestore();
+            Debug.Log(task.Result);
+
+            if (dependencyStatus == Firebase.DependencyStatus.Available)
+            {
+                // Firebase is ready, initialize Firestore
+                firestore = FirebaseFirestore.DefaultInstance;
+                Debug.Log("Firestore successfully initialized.");
+                onComplete?.Invoke(true);  // Notify success
+            }
+            else
+            {
+                Debug.LogError($"Could not resolve all Firebase dependencies: {dependencyStatus}");
+                onComplete?.Invoke(false);  // Notify failure
+            }
         });
-    }
-
-    void InitializeFirestore()
-    {
-        firestore = FirebaseFirestore.DefaultInstance;
-        Debug.Log("Firebase Firestore initialized");
-        //UpdateHighscoreOnServer();
-        //FetchLeaderboardsFromServer();
     }
 
     string userName = "Garvish";
     int scoreCount = 500;
-    public void UpdateHighscoreOnServer()
+    public void UpdateHighscoreOnServer(Action<bool> onComplete)
     {
+        if (!canUseFirestore)
+        {
+            onComplete?.Invoke(false);  // Notify success
+            return;
+        }
         userName = PlayerPrefs.GetString(ConstantKeys.USERNAME);
         scoreCount = PlayerPrefs.GetInt(ConstantKeys.HIGHSCORE, 0);
 
@@ -97,17 +124,25 @@ public class FirebaseInitlization : MonoBehaviour
         docRef.SetAsync(new { Score = scoreCount, PlayerName = userName}).ContinueWithOnMainThread(task => {
             if (task.IsCompleted)
             {
+                onComplete?.Invoke(true);   
                 Debug.Log("Test document written to Firebase Firestore");
             }
             else
             {
+                onComplete?.Invoke(false);   
                 Debug.LogError("Failed to write test document");
             }
         });
     }
 
-    public void FetchLeaderboardsFromServer()
+    public void FetchLeaderboardsFromServer(Action<bool> onComplete)
     {
+        if (!canUseFirestore)
+        {
+            onComplete?.Invoke(false);  // Notify success
+            return;
+        }
+        int myScore = 0;
         leaderboardData.Clear();
         CollectionReference collectionRef = firestore.Collection("Leaderboards");
 
@@ -117,12 +152,14 @@ public class FirebaseInitlization : MonoBehaviour
             if (task.IsFaulted)
             {
                 Debug.LogError("Error getting documents: " + task.Exception);
+                onComplete?.Invoke(false);
                 return;
             }
 
             QuerySnapshot snapshot = task.Result;
 
             int loopCount = 0;
+            string yourID = SystemInfo.deviceUniqueIdentifier;
             // Loop through all documents in descending order of "Score"
             foreach (DocumentSnapshot document in snapshot.Documents)
             {
@@ -133,23 +170,34 @@ public class FirebaseInitlization : MonoBehaviour
                     var data = document.ToDictionary();
                     string documentId = document.Id;
                     string playerName = data.ContainsKey("PlayerName") ? data["PlayerName"].ToString() : "Unknown";
-                    int score = data.ContainsKey("Score") ? int.Parse(data["Score"].ToString()) : 0;
+                    myScore = data.ContainsKey("Score") ? int.Parse(data["Score"].ToString()) : 0;
 
-                    leaderboardData.Add($"{playerName}_{score}");
 
-                    // Display document ID and data
-                    Debug.Log($"Rank: {loopCount} | PlayerName: {playerName} | Score: {score}");
+                    if (loopCount < 10)
+                    {
+                        leaderboardData.Add($"{playerName}_{myScore}");
+                        // Display document ID and data
+                        Debug.Log($"Rank: {loopCount} | PlayerName: {playerName} | Score: {myScore}");
+                    }
+                    if (documentId == yourID) myRank = loopCount;
                 }
                 else
                 {
                     Debug.Log("Document does not exist!");
                 }
             }
+
+            onComplete?.Invoke(true);
         });
     }
 
     public List<string> GetLeaderboardsList()
     {
         return leaderboardData;
+    }
+
+    public int GetMyRank()
+    {
+        return myRank;
     }
 }
