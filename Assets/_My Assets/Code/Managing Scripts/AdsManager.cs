@@ -31,7 +31,6 @@ public class AdsManager : MonoBehaviour
 
     void Awake()
     {
-        MobileAds.RaiseAdEventsOnUnityMainThread = true;
         CreateSingleton();
     }
 
@@ -50,6 +49,7 @@ public class AdsManager : MonoBehaviour
 
     private void Start()
     {
+        MobileAds.RaiseAdEventsOnUnityMainThread = true;
         FetchID();
         MobileAds.Initialize(initStatus => 
         {

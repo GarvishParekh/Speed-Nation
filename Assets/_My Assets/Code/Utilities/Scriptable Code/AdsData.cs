@@ -22,10 +22,6 @@ public class AdsData : ScriptableObject
     [Space]
     public AdsID androidAdsID;
     public AdsID iOSAdsID;
-
-    [Space]
-    public float totalTimeSpent;
-    public float adsTimer;
 }
 
 [Serializable]

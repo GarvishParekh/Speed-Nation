@@ -17,7 +17,6 @@ public class CarStatsManager : MonoBehaviour
     [SerializeField] private Transform timerHolder;
 
     [Header("Values")]
-    [SerializeField] private float clockTimer = 50;
     [SerializeField] private float totalTimePlayed = 0;
     [SerializeField] private float healthShakeCounter = 0;
     [SerializeField] private float totalCarSmashedCount = 0;
@@ -27,13 +26,11 @@ public class CarStatsManager : MonoBehaviour
     private void OnEnable()
     {
         TrafficCarController.CarCollided += OnCarCollided;
-        CarController.TollHit += OnTollHit;
     }
 
     private void OnDisable()
     {
         TrafficCarController.CarCollided -= OnCarCollided;
-        CarController.TollHit -= OnTollHit;
     }
 
     private void Update()
@@ -80,37 +77,14 @@ public class CarStatsManager : MonoBehaviour
     
     private void ClockFunction()
     {
-        return;
-
         if (isNotified) return;
 
-        if (clockTimer > 0)
-        {
-            clockTimer -= Time.deltaTime;
-            totalTimePlayed += Time.deltaTime;
-            timerText.text = clockTimer.ToString("0") + "s";
-        }
-        else
-        {
-            isNotified = true;
-            NoTimeLeft?.Invoke();
-            clockTimer = 0;
-        }
+        totalTimePlayed += Time.deltaTime;
     }
 
-    private void LoseTime (float _timeToLose)
-    {
-        clockTimer -= _timeToLose;
-        if (clockTimer < 0) clockTimer = 0;
-    }
 
     public float GetTotalTimePlayed()
     {
         return totalTimePlayed;
-    }
-
-    private void OnTollHit()
-    {
-        clockTimer += 100;
     }
 }

@@ -15,7 +15,9 @@ public class FirebaseInitlization : MonoBehaviour
     [SerializeField] private List<string> leaderboardData;
     [SerializeField] private int myRank = 0;
 
-    bool canUseFirestore = false;
+    public bool canUseFirestore = false;
+
+    string encryptDeviceID;
 
 
     private void Awake()
@@ -38,6 +40,7 @@ public class FirebaseInitlization : MonoBehaviour
 
     private void Start()
     {
+        encryptDeviceID = HashingHelper.GetSha256Hash(SystemInfo.deviceUniqueIdentifier);
         FirestoreInitializer(sucess =>
         {
             if (sucess)
@@ -120,7 +123,8 @@ public class FirebaseInitlization : MonoBehaviour
         userName = PlayerPrefs.GetString(ConstantKeys.USERNAME);
         scoreCount = PlayerPrefs.GetInt(ConstantKeys.HIGHSCORE, 0);
 
-        DocumentReference docRef = firestore.Collection("Leaderboards").Document(SystemInfo.deviceUniqueIdentifier);
+        
+        DocumentReference docRef = firestore.Collection("Leaderboards").Document(encryptDeviceID);
         docRef.SetAsync(new { Score = scoreCount, PlayerName = userName}).ContinueWithOnMainThread(task => {
             if (task.IsCompleted)
             {
@@ -159,7 +163,6 @@ public class FirebaseInitlization : MonoBehaviour
             QuerySnapshot snapshot = task.Result;
 
             int loopCount = 0;
-            string yourID = SystemInfo.deviceUniqueIdentifier;
             // Loop through all documents in descending order of "Score"
             foreach (DocumentSnapshot document in snapshot.Documents)
             {
@@ -172,14 +175,15 @@ public class FirebaseInitlization : MonoBehaviour
                     string playerName = data.ContainsKey("PlayerName") ? data["PlayerName"].ToString() : "Unknown";
                     myScore = data.ContainsKey("Score") ? int.Parse(data["Score"].ToString()) : 0;
 
-
+                    // store top 9 data on device
                     if (loopCount < 10)
                     {
                         leaderboardData.Add($"{playerName}_{myScore}");
                         // Display document ID and data
                         Debug.Log($"Rank: {loopCount} | PlayerName: {playerName} | Score: {myScore}");
                     }
-                    if (documentId == yourID) myRank = loopCount;
+                    // find out which one is our score for ranking the player 
+                    if (documentId == encryptDeviceID) myRank = loopCount;
                 }
                 else
                 {
@@ -200,4 +204,10 @@ public class FirebaseInitlization : MonoBehaviour
     {
         return myRank;
     }
+
+    public bool GetConnectionStatus()
+    {
+        return canUseFirestore;
+    }
+
 }

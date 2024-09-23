@@ -23,14 +23,18 @@ public class ScoreManager : MonoBehaviour
     [SerializeField] private float totalScoreCount;
     [SerializeField] private float currentHighscoreCount;
 
+    bool canCalculateScore = false;
+
     private void OnEnable()
     {
         GameoverController.Gameover += CalculateTotalScore;
+        GameplayUiController.CountdownComplete += OnCompleteCountdown;
     }
 
     private void OnDisable()
     {
         GameoverController.Gameover -= CalculateTotalScore;
+        GameplayUiController.CountdownComplete -= OnCompleteCountdown;
     }
 
     private void Start()
@@ -42,8 +46,12 @@ public class ScoreManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (!canCalculateScore) return;
+
         AddScore();
     }
+
+    private void OnCompleteCountdown() => canCalculateScore = true;    
 
     private void AddScore()
     {

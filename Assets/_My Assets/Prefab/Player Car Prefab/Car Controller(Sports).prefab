@@ -5125,7 +5125,7 @@ Transform:
   m_GameObject: {fileID: 871808332999710449}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 37.41, y: 0, z: -47.837456}
+  m_LocalPosition: {x: 0, y: 0, z: -0.72}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -5180,8 +5180,8 @@ MonoBehaviour:
   tireMarks: []
   engineSFX: {fileID: 4014040709693427772}
   speedMultiplier: 0
-  engine: {fileID: 11400000, guid: 1a7515c8a3423004e92d7d09714d939c, type: 2}
-  carAnime: {fileID: 11400000, guid: 5be007c757a5a74409627303a3e68504, type: 2}
+  engine: {fileID: 11400000, guid: 587361c3193f87c409a9eb6beb80646f, type: 2}
+  carAnime: {fileID: 11400000, guid: 847189dbb19800f469d82af88d994092, type: 2}
   inputData: {fileID: 11400000, guid: db05a1c1057304743b70bed5b44f9e05, type: 2}
   settingsData: {fileID: 11400000, guid: d56ba94aba753ab4a9c3b5ae7327cd7e, type: 2}
   carBody: {fileID: 7333318145492035049}

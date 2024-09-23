@@ -1,8 +1,11 @@
 using UnityEngine;
 using System.Collections;
+using System;
 
 public class GameplayUiController : MonoBehaviour
 {
+    public static Action CountdownComplete;
+
     UiManager uiManager;
     [SerializeField] private InputManager inputManager;
     [SerializeField] private GameObject controlCanvas;
@@ -21,7 +24,6 @@ public class GameplayUiController : MonoBehaviour
         uiManager.OpenCanvasWithShutter(CanvasNames.GAMEPLAY);
 
         StartCoroutine(nameof(StartCountDown));
-        Invoke(nameof(EnableControls), 9);
     }
 
     private void EnableControls()
@@ -69,29 +71,27 @@ public class GameplayUiController : MonoBehaviour
 
         yield return new WaitForSeconds(1.5f);
 
-        LeanTween.scale(twoObject, Vector3.one, 1.0f).setEaseInOutSine();
-        LeanTween.rotateZ(twoObject, 2160, 1.0f).setEaseInOutSine().setOnComplete(() =>
+        LeanTween.scale(twoObject, Vector3.one, 1.0f).setEaseInOutSine().setOnComplete(() =>
         {
             LeanTween.scale(twoObject, Vector3.zero, 0.15f).setEaseInOutSine().setDelay(0.3f);
         });
 
         yield return new WaitForSeconds(1.5f);
 
-        LeanTween.scale(oneObject, Vector3.one, 1.0f).setEaseInOutSine();
-        LeanTween.rotateZ(oneObject, 2160, 1.0f).setEaseInOutSine().setOnComplete(() =>
+        LeanTween.scale(oneObject, Vector3.one, 1.0f).setEaseInOutSine().setOnComplete(() =>
         {
-            LeanTween.scale(oneObject, Vector3.zero, 0.15f).setEaseInOutSine().setDelay(0.3f); 
+            LeanTween.scale(oneObject, Vector3.zero, 0.15f).setEaseInOutSine().setDelay(0.3f);
         });
 
         yield return new WaitForSeconds(1.5f);
 
-        LeanTween.scale(goObject, Vector3.one, 1.0f).setEaseInOutSine();
-        LeanTween.rotateZ(goObject, 2160, 1.0f).setEaseInOutSine().setOnComplete(() =>
+        LeanTween.scale(goObject, Vector3.one, 1.0f).setEaseInOutSine().setOnComplete(() =>
         {
             LeanTween.alphaCanvas(goObject.GetComponent<CanvasGroup>(), 0, 0.35f).setEaseInOutSine().setDelay(0.3f);
             LeanTween.scale(goObject, Vector3.one * 20, 2f).setEaseInOutSine().setDelay(0.3f);
         });
 
+        CountdownComplete?.Invoke();
         EnableControls();
     }
 }

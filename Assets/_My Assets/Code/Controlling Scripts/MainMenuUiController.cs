@@ -7,6 +7,7 @@ public class MainMenuUiController : MonoBehaviour
 {
     public static Action SettingsUpdated;
 
+    FirebaseInitlization firebaseInitilization;
     UiManager uiManager;
     BgMusicManager bgMusicManager;
     [SerializeField] private UpdateLeaderBoards updateLeaderboards;
@@ -49,7 +50,16 @@ public class MainMenuUiController : MonoBehaviour
 
     private void Start()
     {
-        serverConnectionText.text = "CONNECTING...";
+        firebaseInitilization = FirebaseInitlization.instance;
+
+        if (firebaseInitilization.GetConnectionStatus())
+        {
+            serverConnectionText.text = "CONNECTED";
+        }
+        else
+        {
+            serverConnectionText.text = "CONNECTING...";
+        }
         uiManager = UiManager.instance;
         bgMusicManager = BgMusicManager.instance;
 
@@ -256,6 +266,11 @@ public class MainMenuUiController : MonoBehaviour
 
     public void UpdateServerConnectionStatus(bool sucess)
     {
+        if (firebaseInitilization.GetConnectionStatus())
+        {
+            serverConnectionText.text = "CONNECTED";
+            return;
+        }
         if (sucess)
         {
             serverConnectionText.text = "CONNECTED";

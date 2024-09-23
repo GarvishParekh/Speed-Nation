@@ -82,8 +82,7 @@ public class GameoverController : MonoBehaviour
         uiManager.OpenCanvasWithoutShutter(CanvasNames.GAMEOVER);
         ssCam.gameObject.SetActive(false);
 
-        int adsPossiblity = UnityEngine.Random.Range(0, 2); 
-        if (adsPossiblity == 0)  adsManager.ShowInterstitialAd();
+        adsManager.ShowInterstitialAd();
         
         isGameover = true;
     }
