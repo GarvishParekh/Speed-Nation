@@ -1,4 +1,3 @@
-using Firebase.Auth;
 using TMPro;
 using UnityEngine;
 
@@ -70,6 +69,9 @@ public class ScoreManager : MonoBehaviour
 
         if (totalScoreCount > currentHighscoreCount)
         {
+            highscoreObject.gameObject.SetActive(true);
+            gameoverObject.gameObject.SetActive(false);
+
             PlayerPrefs.SetInt(ConstantKeys.HIGHSCORE, (int)totalScoreCount);
             firebaseScript.UpdateHighscoreOnServer(sucess =>
             {
@@ -82,8 +84,6 @@ public class ScoreManager : MonoBehaviour
                     Debug.Log($"Error updating highscore");
                 }
             });
-            highscoreObject.gameObject.SetActive(true);
-            gameoverObject.gameObject.SetActive(false);
         }
         else
         {

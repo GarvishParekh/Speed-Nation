@@ -1,8 +1,11 @@
 using UnityEngine;
+using UnityEngine.UI;
 
 public class LaneTriggerController : MonoBehaviour
 {
     bool isInPosition = false;
+
+    [SerializeField] private Image laneFillImage;
 
     [SerializeField] private float timer = 0;
     [SerializeField] private float timeToChange = 0;
@@ -17,6 +20,7 @@ public class LaneTriggerController : MonoBehaviour
             timer = 0;
             ActionManager.PlayerOnLane?.Invoke();
         }
+        laneFillImage.fillAmount = timer;
     }
 
     private void OnTriggerEnter(Collider other)
