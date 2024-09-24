@@ -404,6 +404,7 @@ MonoBehaviour:
   tireMarks: []
   engineSFX: {fileID: 0}
   speedMultiplier: 0
+  boostingSpeed: 30
   engine: {fileID: 11400000, guid: a2e4e06da9a15504aad34f045ee133cd, type: 2}
   carAnime: {fileID: 11400000, guid: 3f7411b681a46374bb260b7678e48acc, type: 2}
   inputData: {fileID: 11400000, guid: db05a1c1057304743b70bed5b44f9e05, type: 2}

@@ -15,6 +15,22 @@ public class GameplayUiController : MonoBehaviour
     [SerializeField] private GameObject oneObject;
     [SerializeField] private GameObject goObject;
 
+    [Space]
+    [SerializeField] private CanvasGroup onBoostComponents;
+
+    [Space]
+    [SerializeField] private ParticleSystem speedingLines;
+
+    private void OnEnable()
+    {
+        ActionManager.PlayerBoosting += OnPlayerBoost;
+    }
+
+    private void OnDisable()
+    {
+        ActionManager.PlayerBoosting -= OnPlayerBoost;
+    }
+
     private void Start()
     {
         inputManager.enabled = false;
@@ -94,4 +110,21 @@ public class GameplayUiController : MonoBehaviour
         CountdownComplete?.Invoke();
         EnableControls();
     }
+
+    private void OnPlayerBoost(bool check)
+    {
+        if (check)
+        {
+            LeanTween.alphaCanvas(onBoostComponents, 0, 0.25f).setEaseInOutSine();
+            LeanTween.scale(onBoostComponents.gameObject, Vector3.one * 2, 0.5f).setEaseInOutSine();
+            speedingLines.Play();
+        }
+        else
+        {
+            LeanTween.alphaCanvas(onBoostComponents, 1, 0.35f).setEaseInOutSine();
+            LeanTween.scale(onBoostComponents.gameObject, Vector3.one, 0.25f).setEaseInOutSine();
+            speedingLines.Stop();   
+        }
+    }
+
 }

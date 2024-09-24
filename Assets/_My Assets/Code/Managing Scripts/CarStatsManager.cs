@@ -26,11 +26,13 @@ public class CarStatsManager : MonoBehaviour
     private void OnEnable()
     {
         TrafficCarController.CarCollided += OnCarCollided;
+        ActionManager.PlayerBoosting += OnPlayerBoost;
     }
 
     private void OnDisable()
     {
         TrafficCarController.CarCollided -= OnCarCollided;
+        ActionManager.PlayerBoosting -= OnPlayerBoost;
     }
 
     private void Update()
@@ -62,6 +64,8 @@ public class CarStatsManager : MonoBehaviour
     int healtCount = 2;
     private void LoseHealth()
     {
+        if (isBoosting) return;
+
         healthBar[healtCount].SetActive(false);
         healtCount--;
         if (healtCount < 0)
@@ -86,5 +90,11 @@ public class CarStatsManager : MonoBehaviour
     public float GetTotalTimePlayed()
     {
         return totalTimePlayed;
+    }
+
+    bool isBoosting = false;
+    private void OnPlayerBoost (bool check)
+    {
+        isBoosting = check; 
     }
 }

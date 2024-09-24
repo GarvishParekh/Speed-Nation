@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 public class CarSpawnController : MonoBehaviour
@@ -14,10 +15,14 @@ public class CarSpawnController : MonoBehaviour
 
     private void Start()
     {
-        SpawnCar();
+        SpawnCar(success =>
+        {
+            if (success) ActionManager.PlayCarSpawned?.Invoke(carHolder);
+        });
+        
     }
 
-    private void SpawnCar()
+    private void SpawnCar(Action<bool> isCompleted)
     {
         selectedCar = PlayerPrefs.GetInt(ConstantKeys.SELECTED_CAR, 0);
         carHolder = Instantiate(allCars[selectedCar], spawnPoint.position, Quaternion.Euler(0, -90, 0)).transform;
@@ -29,6 +34,8 @@ public class CarSpawnController : MonoBehaviour
         cc.SetRotationalDisk(rotationDisk);
 
         cameraController.SetPlayer(cc.GetRotationTransform());
-        trafficSpawnManager.SetPlayer(carHolder);   
+        trafficSpawnManager.SetPlayer(carHolder);
+
+        isCompleted?.Invoke(true);
     }
 }

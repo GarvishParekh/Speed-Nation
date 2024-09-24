@@ -5963,6 +5963,8 @@ MonoBehaviour:
   driftParticles: []
   tireMarks: []
   engineSFX: {fileID: 4002247336740923900}
+  speedMultiplier: 0
+  boostingSpeed: 30
   engine: {fileID: 11400000, guid: 52671cf79c3c59044ba4b7f6351d404a, type: 2}
   carAnime: {fileID: 11400000, guid: 1cef95d4953bd124fa985452653e80a6, type: 2}
   inputData: {fileID: 11400000, guid: db05a1c1057304743b70bed5b44f9e05, type: 2}

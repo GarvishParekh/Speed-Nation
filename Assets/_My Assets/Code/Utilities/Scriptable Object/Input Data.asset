@@ -14,6 +14,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   controls: 1
   sideValue: 0
-  lerpedSideValue: 0
+  lerpedSideValue: 0.07603903
   driftrValue: 0
-  isPressed: 1
+  isPressed: 0

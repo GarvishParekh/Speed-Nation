@@ -22,6 +22,8 @@ public class FirebaseInitlization : MonoBehaviour
 
     private void Awake()
     {
+        string testString = HashingHelper.GetSha256Hash("Garvish");
+        Debug.Log($"HASH KEY: {testString}");
         CreateSingleton();
     }
 

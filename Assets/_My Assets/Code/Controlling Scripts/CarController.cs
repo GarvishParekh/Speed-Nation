@@ -13,12 +13,16 @@ public class CarController : MonoBehaviour
     [SerializeField] private Transform rotationDisk;
     [Tooltip ("Model of the vehicle including wheels")]
     [SerializeField] private Transform carModel;
-    [SerializeField] private List<ParticleSystem> driftParticles;
+    [SerializeField] private List<ParticleSystem> boostPaticles;
     [SerializeField] private List<TrailRenderer> tireMarks;
     [SerializeField] private AudioSource engineSFX;
 
     [Header("<size=15>VALUES")]
     [SerializeField] private float speedMultiplier = 0;
+    [SerializeField] private float boostingSpeed = 0;
+
+    float boostingValue = 0;
+    float boostingInputValue = 0;
 
     [Header("<size=15>SCRIPTABLE")]
     [SerializeField] private CarEngine engine;
@@ -35,6 +39,15 @@ public class CarController : MonoBehaviour
     // how much rotation vehicle's body is having - related to animation 
     private float currentBodyRotation = 0;
 
+    private void OnEnable()
+    {
+        ActionManager.PlayerBoosting += OnPlayerBoost;
+    }
+
+    private void OnDisable()
+    {
+        ActionManager.PlayerBoosting -= OnPlayerBoost;
+    }
 
     private void Awake()
     {
@@ -51,10 +64,6 @@ public class CarController : MonoBehaviour
         }
     }
 
-    private void Update()
-    {
-    }
-
     private void FixedUpdate()
     {
         CarAcceleration();
@@ -67,7 +76,7 @@ public class CarController : MonoBehaviour
     public Vector3 collisionDirection = new Vector3 (0,0,0);
     private void CarAcceleration()
     {
-        float vehicleSpeed = engine.carSpeed + speedMultiplier;
+        float vehicleSpeed = engine.carSpeed + speedMultiplier + boostingInputValue;
         playerRb.velocity = rotationTransform.forward * vehicleSpeed + collisionDirection;
     }
 
@@ -114,12 +123,10 @@ public class CarController : MonoBehaviour
     {
         if (inputData.driftrValue > engine.driftThreshold)
         {
-            EmitDriftParticles(true);
             EmitTierMarks(true);
         }
         else
         {
-            EmitDriftParticles(false);
             EmitTierMarks(false);
         }
     }
@@ -129,24 +136,6 @@ public class CarController : MonoBehaviour
         foreach (TrailRenderer tireMark in tireMarks)
         {
             tireMark.emitting = _check;
-        }
-    }
-
-    private void EmitDriftParticles(bool _check)
-    {
-        if (_check)
-        {
-            foreach (ParticleSystem particles in driftParticles)
-            {
-                particles.Play(true);
-            }
-        }
-        else
-        {
-            foreach (ParticleSystem particles in driftParticles)
-            {
-                particles.Stop();
-            }
         }
     }
 
@@ -174,6 +163,35 @@ public class CarController : MonoBehaviour
         {
             TollHit?.Invoke();
             speedMultiplier += 2;
+        }
+    }
+
+    private void OnPlayerBoost(bool check)
+    {
+        if (check)
+        {
+            LeanTween.value(gameObject, boostingValue, boostingSpeed, 3).setOnUpdate((float newValue) =>
+            {
+                boostingValue = newValue; // Update the camFieldOfView as the tween progresses
+                boostingInputValue = boostingValue;
+            });
+
+            foreach (ParticleSystem boostParticle in boostPaticles)
+            {
+                boostParticle.Play(true);
+            }
+        }
+        else
+        {
+            LeanTween.value(gameObject, boostingValue, 0, 3).setOnUpdate((float newValue) =>
+            {
+                boostingValue = newValue; // Update the camFieldOfView as the tween progresses
+                boostingInputValue = boostingValue;
+            });
+            foreach (ParticleSystem boostParticle in boostPaticles)
+            {
+                boostParticle.Stop(true);
+            }
         }
     }
 }
