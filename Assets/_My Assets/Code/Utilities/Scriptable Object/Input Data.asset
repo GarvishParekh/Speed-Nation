@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b779f75561a94cd47b8e5475ce933fd0, type: 3}
   m_Name: Input Data
   m_EditorClassIdentifier: 
-  controls: 0
+  controls: 1
   sideValue: 0
   lerpedSideValue: 0.0057334807
   driftrValue: 0

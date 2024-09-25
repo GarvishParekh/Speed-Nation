@@ -33,12 +33,14 @@ public class BoostController : MonoBehaviour
     {
         ActionManager.PlayerOnLane += IfPlayerOnLane;
         ActionManager.PlayCarSpawned += OnPlayerCarSpanned;
+        ActionManager.TurtiolInitilize += OnTutriolInitiate;
     }
 
     private void OnDisable()
     {
         ActionManager.PlayerOnLane -= IfPlayerOnLane;
         ActionManager.PlayCarSpawned -= OnPlayerCarSpanned;
+        ActionManager.TurtiolInitilize -= OnTutriolInitiate;
     }
 
     private void Start()
@@ -95,7 +97,7 @@ public class BoostController : MonoBehaviour
     private void IfPlayerOnLane()
     {
         ChangeLane(false);
-        AddBoost();
+        AddBoost(addingBoostValue);
     }
 
     private void DisplayDesireUiObject(int selectedLaneIndex)
@@ -109,11 +111,11 @@ public class BoostController : MonoBehaviour
         }
     }
 
-    private void AddBoost()
+    private void AddBoost(int boostScoreToAdd)
     {
         if (activateBoost) return;
 
-        boostIndex += addingBoostValue;
+        boostIndex += boostScoreToAdd;
         UpdateBoostUi();
         if (boostIndex >= 11)
         {
@@ -141,5 +143,10 @@ public class BoostController : MonoBehaviour
             }
             else boostUi.SetActive(false);
         }
+    }
+
+    private void OnTutriolInitiate()
+    {
+        AddBoost(9);
     }
 }

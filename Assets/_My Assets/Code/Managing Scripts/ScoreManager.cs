@@ -27,13 +27,13 @@ public class ScoreManager : MonoBehaviour
     private void OnEnable()
     {
         GameoverController.Gameover += CalculateTotalScore;
-        GameplayUiController.CountdownComplete += OnCompleteCountdown;
+        ActionManager.countDownCompleted += OnCompleteCountdown;
     }
 
     private void OnDisable()
     {
         GameoverController.Gameover -= CalculateTotalScore;
-        GameplayUiController.CountdownComplete -= OnCompleteCountdown;
+        ActionManager.countDownCompleted -= OnCompleteCountdown;
     }
 
     private void Start()

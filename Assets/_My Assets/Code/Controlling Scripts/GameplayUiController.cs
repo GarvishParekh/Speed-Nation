@@ -1,11 +1,8 @@
 using UnityEngine;
 using System.Collections;
-using System;
 
 public class GameplayUiController : MonoBehaviour
 {
-    public static Action CountdownComplete;
-
     UiManager uiManager;
     [SerializeField] private InputManager inputManager;
     [SerializeField] private GameObject controlCanvas;
@@ -103,12 +100,13 @@ public class GameplayUiController : MonoBehaviour
 
         LeanTween.scale(goObject, Vector3.one, 1.0f).setEaseInOutSine().setOnComplete(() =>
         {
-            LeanTween.alphaCanvas(goObject.GetComponent<CanvasGroup>(), 0, 0.35f).setEaseInOutSine().setDelay(0.3f);
+            LeanTween.alphaCanvas(goObject.GetComponent<CanvasGroup>(), 0, 0.35f).setEaseInOutSine().setDelay(0.3f).setOnComplete(() =>
+            {
+                ActionManager.countDownCompleted?.Invoke();
+                EnableControls();
+            }); ;
             LeanTween.scale(goObject, Vector3.one * 20, 2f).setEaseInOutSine().setDelay(0.3f);
         });
-
-        CountdownComplete?.Invoke();
-        EnableControls();
     }
 
     private void OnPlayerBoost(bool check)
@@ -126,5 +124,4 @@ public class GameplayUiController : MonoBehaviour
             speedingLines.Stop();   
         }
     }
-
 }

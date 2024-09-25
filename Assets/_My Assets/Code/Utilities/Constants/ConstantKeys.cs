@@ -12,6 +12,7 @@ public static class ConstantKeys
     public static string SELECTED_CAR = "SelectedCar";
     public static string HIGHSCORE = "highscore";
     public static string USERNAME = "username";
+    public static string TUTORIAL_COMPLETED = "turtiolCompleted";
 
     // options
     public static string POSTPROCESSING = "PostProcessing";
