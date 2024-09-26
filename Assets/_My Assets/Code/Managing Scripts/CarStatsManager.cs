@@ -25,13 +25,13 @@ public class CarStatsManager : MonoBehaviour
 
     private void OnEnable()
     {
-        TrafficCarController.CarCollided += OnCarCollided;
+        ActionManager.CarCollided += OnCarCollided;
         ActionManager.PlayerBoosting += OnPlayerBoost;
     }
 
     private void OnDisable()
     {
-        TrafficCarController.CarCollided -= OnCarCollided;
+        ActionManager.CarCollided -= OnCarCollided;
         ActionManager.PlayerBoosting -= OnPlayerBoost;
     }
 
@@ -53,7 +53,7 @@ public class CarStatsManager : MonoBehaviour
         timerHolder.localPosition = Vector3.zero;
     }
 
-    private void OnCarCollided()
+    private void OnCarCollided(Transform t)
     {
         LoseHealth();
         //LoseTime(5.0f);

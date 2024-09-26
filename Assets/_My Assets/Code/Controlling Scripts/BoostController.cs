@@ -9,6 +9,7 @@ public class BoostController : MonoBehaviour
 
     [Space]
     [SerializeField] private Transform[] lanesTransform;
+    [SerializeField] private GameObject[] blinkingEffectObj;
 
     [Header ("<size=15>USER INTERFACE")]
     [SerializeField] private GameObject[] laneUiObject;
@@ -104,10 +105,17 @@ public class BoostController : MonoBehaviour
     {
         foreach (GameObject laneUi in laneUiObject)
         {
-            if (laneUi.transform.GetSiblingIndex() == selectedLaneIndex) 
-                laneUi.SetActive (true);
+            if (laneUi.transform.GetSiblingIndex() == selectedLaneIndex)
+            {
+                laneUi.SetActive(true);
+                blinkingEffectObj[laneUi.transform.GetSiblingIndex()].SetActive(true);
+            }
 
-            else laneUi.SetActive (false);
+            else 
+            {
+                laneUi.SetActive(false);
+                blinkingEffectObj[laneUi.transform.GetSiblingIndex()].SetActive(false);
+            }
         }
     }
 
@@ -147,6 +155,6 @@ public class BoostController : MonoBehaviour
 
     private void OnTutriolInitiate()
     {
-        AddBoost(9);
+        AddBoost(8);
     }
 }

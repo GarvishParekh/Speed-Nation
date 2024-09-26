@@ -7,6 +7,7 @@ public class LaneTriggerController : MonoBehaviour
     bool isPlayerBoosting = false;
 
     [SerializeField] private Image laneFillImage;
+    [SerializeField] private Material laneMaterial;
 
     [SerializeField] private float timer = 0;
     [SerializeField] private float timeToChange = 0;
@@ -28,7 +29,15 @@ public class LaneTriggerController : MonoBehaviour
 
     private void Update()
     {
-        if (isPlayerBoosting) return;
+        if (isPlayerBoosting)
+        {
+            laneMaterial.SetInt("_canBlink", 0) ;
+            return;
+        }
+        else
+        {
+            laneMaterial.SetInt("_canBlink", 1) ;
+        }
 
         if (!isInPosition) return;
 

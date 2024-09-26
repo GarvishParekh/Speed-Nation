@@ -124,21 +124,31 @@ public class FirebaseInitlization : MonoBehaviour
         }
         userName = PlayerPrefs.GetString(ConstantKeys.USERNAME);
         scoreCount = PlayerPrefs.GetInt(ConstantKeys.HIGHSCORE, 0);
-
         
-        DocumentReference docRef = firestore.Collection("Leaderboards").Document(encryptDeviceID);
-        docRef.SetAsync(new { Score = scoreCount, PlayerName = userName}).ContinueWithOnMainThread(task => {
-            if (task.IsCompleted)
-            {
-                onComplete?.Invoke(true);   
-                Debug.Log("Test document written to Firebase Firestore");
-            }
-            else
-            {
-                onComplete?.Invoke(false);   
-                Debug.LogError("Failed to write test document");
-            }
-        });
+        try
+        {
+            DocumentReference docRef = firestore.Collection("Leaderboards").Document(encryptDeviceID);
+            docRef.SetAsync(new { Score = scoreCount, PlayerName = userName }).ContinueWithOnMainThread(task => {
+                if (task.IsCompleted)
+                {
+                    onComplete?.Invoke(true);
+                    Debug.Log("Test document written to Firebase Firestore");
+                }
+                else
+                {
+                    onComplete?.Invoke(false);
+                    Debug.LogError("Failed to write test document");
+                }
+            });
+        }
+        catch (FirebaseException firebaseEx)
+        {
+            Debug.LogError("FirebaseException caught: " + firebaseEx.Message);
+        }
+        catch (System.Exception ex)
+        {
+            Debug.LogError("General Exception caught: " + ex.Message);
+        }
     }
 
     public void FetchLeaderboardsFromServer(Action<bool> onComplete)

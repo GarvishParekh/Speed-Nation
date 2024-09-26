@@ -1,9 +1,11 @@
 using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 public class GameplayUiController : MonoBehaviour
 {
     UiManager uiManager;
+    [SerializeField] private Camera mainCamera;
     [SerializeField] private InputManager inputManager;
     [SerializeField] private GameObject controlCanvas;
 
@@ -11,6 +13,7 @@ public class GameplayUiController : MonoBehaviour
     [SerializeField] private GameObject twoObject;
     [SerializeField] private GameObject oneObject;
     [SerializeField] private GameObject goObject;
+    [SerializeField] private List<CanvasGroup> plus500 = new List<CanvasGroup>();
 
     [Space]
     [SerializeField] private CanvasGroup onBoostComponents;
@@ -21,11 +24,13 @@ public class GameplayUiController : MonoBehaviour
     private void OnEnable()
     {
         ActionManager.PlayerBoosting += OnPlayerBoost;
+        ActionManager.CarCollided += OnCarCollision;
     }
 
     private void OnDisable()
     {
         ActionManager.PlayerBoosting -= OnPlayerBoost;
+        ActionManager.CarCollided -= OnCarCollision;
     }
 
     private void Start()
@@ -109,8 +114,10 @@ public class GameplayUiController : MonoBehaviour
         });
     }
 
+    bool isBoosting = false;
     private void OnPlayerBoost(bool check)
     {
+        isBoosting = check; 
         if (check)
         {
             LeanTween.alphaCanvas(onBoostComponents, 0, 0.25f).setEaseInOutSine();
@@ -123,5 +130,21 @@ public class GameplayUiController : MonoBehaviour
             LeanTween.scale(onBoostComponents.gameObject, Vector3.one, 0.25f).setEaseInOutSine();
             speedingLines.Stop();   
         }
+    }
+
+    private void OnCarCollision(Transform collisionTransform)
+    {
+        if (!isBoosting) return;
+        
+        Vector3 screenPosition = mainCamera.WorldToScreenPoint(collisionTransform.position);
+        CanvasGroup uiElement = plus500[0];
+        uiElement.transform.position = screenPosition;
+
+        uiElement.transform.localScale = Vector3.one * Random.Range (0.5f, 2.3f);
+        LeanTween.moveY(uiElement.GetComponent<RectTransform>(), 300, 0.5f).setEaseInOutSine();
+        LeanTween.alphaCanvas(uiElement, 1, 0.5f).setEaseInOutSine().setLoopPingPong(1);
+
+        plus500.Remove(uiElement);
+        plus500.Add(uiElement);
     }
 }

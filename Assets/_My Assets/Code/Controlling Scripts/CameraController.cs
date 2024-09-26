@@ -31,13 +31,13 @@ public class CameraController : MonoBehaviour
 
     private void OnEnable()
     {
-        TrafficCarController.CarCollided += OnCarCollision;
+        ActionManager.CarCollided += OnCarCollision;
         ActionManager.PlayerBoosting += OnPlayerBoost;
     }
 
     private void OnDisable()
     {
-        TrafficCarController.CarCollided -= OnCarCollision;
+        ActionManager.CarCollided -= OnCarCollision;
         ActionManager.PlayerBoosting -= OnPlayerBoost;
     }
 
@@ -94,7 +94,7 @@ public class CameraController : MonoBehaviour
         }
     }
 
-    private void OnCarCollision()
+    private void OnCarCollision(Transform t)
         => camShakeTimer = camData.cameraShakeTime;
 
     public void SetPlayer(Transform _player)

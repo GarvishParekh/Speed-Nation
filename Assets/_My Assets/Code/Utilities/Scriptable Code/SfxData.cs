@@ -4,4 +4,6 @@ using UnityEngine;
 public class SfxData : ScriptableObject
 {
     public AudioClip[] crashSfx;
+    public AudioClip nosSfx;
+    public AudioClip boostCollectionSfx;
 }

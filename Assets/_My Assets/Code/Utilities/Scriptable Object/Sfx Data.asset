@@ -16,3 +16,5 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 04223624863a0b141a650e53f344b5a5, type: 3}
   - {fileID: 8300000, guid: 7b1eab84eb43c0c4fb110dbdcc477447, type: 3}
   - {fileID: 8300000, guid: eae0e22f1a1c93443b9763e7ef04007b, type: 3}
+  nosSfx: {fileID: 8300000, guid: 459c3c7b58ddd384f80e0bcce6076fc4, type: 3}
+  boostCollectionSfx: {fileID: 8300000, guid: 8f74c90406c76054faff8d26ef62ed62, type: 3}

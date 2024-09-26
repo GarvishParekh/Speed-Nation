@@ -8,4 +8,5 @@ public class ActionManager : MonoBehaviour
     public static Action<bool> PlayerBoosting;
     public static Action countDownCompleted;
     public static Action TurtiolInitilize;
+    public static Action<Transform> CarCollided;
 }

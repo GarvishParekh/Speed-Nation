@@ -1,4 +1,5 @@
 using TMPro;
+using Firebase;
 using UnityEngine;
 
 public class ScoreManager : MonoBehaviour
@@ -73,17 +74,29 @@ public class ScoreManager : MonoBehaviour
             gameoverObject.gameObject.SetActive(false);
 
             PlayerPrefs.SetInt(ConstantKeys.HIGHSCORE, (int)totalScoreCount);
-            firebaseScript.UpdateHighscoreOnServer(sucess =>
+
+            try
             {
-                if (sucess)
+                firebaseScript.UpdateHighscoreOnServer(sucess =>
                 {
-                    Debug.Log($"Highscore updated sucessfully");
-                }
-                else
-                {
-                    Debug.Log($"Error updating highscore");
-                }
-            });
+                    if (sucess)
+                    {
+                        Debug.Log($"Highscore updated sucessfully");
+                    }
+                    else
+                    {
+                        Debug.Log($"Error updating highscore");
+                    }
+                });
+            }
+            catch (FirebaseException firebaseEx)
+            {
+                Debug.LogError("FirebaseException caught: " + firebaseEx.Message);
+            }
+            catch (System.Exception ex)
+            {
+                Debug.LogError("General Exception caught: " + ex.Message);
+            }
         }
         else
         {
