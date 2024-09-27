@@ -36,23 +36,23 @@ public class UpdateLeaderBoards : MonoBehaviour
         });
         firebaseScript.FetchLeaderboardsFromServer(sucess =>
         {
-            if (sucess)
-            {
-                DisplayStatus(leaderboardData);
+        if (sucess)
+        {
+            DisplayStatus(leaderboardData);
 
-                List<string> lbList = firebaseScript.GetLeaderboardsList();
-                int index = 0;
-                foreach (LeaderboardCellIdentity cell in cellIdentity)
+            List<string> lbNameList = firebaseScript.GetLeaderboardsList();
+            List<int> lbScoreList = firebaseScript.GetLeaderboardsScoreList();
+            int index = 0;
+            foreach (LeaderboardCellIdentity cell in cellIdentity)
+            {
+                if (index < lbNameList.Count)
                 {
-                    if (index < lbList.Count)
-                    {
-                        string[] parts = lbList[index].Split("_");
-                        cell.SetNameAndRank(parts[0], int.Parse(parts[1]));
-                    }
-                    else
-                    {
-                        cell.SetNameAndRank("-", 0);
-                    }
+                        cell.SetNameAndRank(lbNameList[index], lbScoreList[index]);
+                }
+                else
+                {
+                    cell.SetNameAndRank("-", 0);
+                }
 
                     index++;
                 }

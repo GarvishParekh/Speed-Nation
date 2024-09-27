@@ -12,7 +12,8 @@ public class FirebaseInitlization : MonoBehaviour
     public static Action<bool> ServerConnection;
 
     public static FirebaseInitlization instance;
-    [SerializeField] private List<string> leaderboardData;
+    [SerializeField] private List<string> leaderboardsNameData;
+    [SerializeField] private List<int> leaderboardsScoreData;
     [SerializeField] private int myRank = 0;
 
     public bool canUseFirestore = false;
@@ -159,7 +160,8 @@ public class FirebaseInitlization : MonoBehaviour
             return;
         }
         int myScore = 0;
-        leaderboardData.Clear();
+        leaderboardsNameData.Clear();
+        leaderboardsScoreData.Clear();
         CollectionReference collectionRef = firestore.Collection("Leaderboards");
 
         // Fetch documents in descending order by "Score"
@@ -190,7 +192,8 @@ public class FirebaseInitlization : MonoBehaviour
                     // store top 9 data on device
                     if (loopCount < 10)
                     {
-                        leaderboardData.Add($"{playerName}_{myScore}");
+                        leaderboardsNameData.Add(playerName);
+                        leaderboardsScoreData.Add(myScore);
                         // Display document ID and data
                         Debug.Log($"Rank: {loopCount} | PlayerName: {playerName} | Score: {myScore}");
                     }
@@ -209,7 +212,12 @@ public class FirebaseInitlization : MonoBehaviour
 
     public List<string> GetLeaderboardsList()
     {
-        return leaderboardData;
+        return leaderboardsNameData;
+    }
+
+    public List<int> GetLeaderboardsScoreList()
+    {
+        return leaderboardsScoreData;
     }
 
     public int GetMyRank()
