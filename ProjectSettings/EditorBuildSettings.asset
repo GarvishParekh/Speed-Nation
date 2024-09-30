@@ -12,9 +12,6 @@ EditorBuildSettings:
     path: Assets/_My Assets/Scenes/GarageScene.unity
     guid: d9ed21124b72171499eddf13b74fac0a
   - enabled: 1
-    path: Assets/_My Assets/Scenes/PracticeScene.unity
-    guid: 99c9720ab356a0642a771bea13969a05
-  - enabled: 1
     path: Assets/_My Assets/Scenes/GameplaySceneEndless.unity
     guid: 3b384fe55bda7304da987c6e4d5a6444
   - enabled: 1

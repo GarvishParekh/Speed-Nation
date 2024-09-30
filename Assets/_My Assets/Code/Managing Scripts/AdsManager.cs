@@ -8,12 +8,6 @@ public enum AdType
     rewardedAd
 }
 
-public enum RewardAdPlacement
-{
-    UserReward,
-    DoubleUpReward
-}
-
 
 public class AdsManager : MonoBehaviour
 {
@@ -49,12 +43,13 @@ public class AdsManager : MonoBehaviour
 
     private void Start()
     {
+        // ads will carsh in android specially in video ads
         MobileAds.RaiseAdEventsOnUnityMainThread = true;
         FetchID();
         MobileAds.Initialize(initStatus => 
         {
             LoadInterstitialAd();
-            LoadRewardedAd();
+            //LoadRewardedAd();
         });
     }
 
@@ -101,39 +96,6 @@ public class AdsManager : MonoBehaviour
                 {
                     rewardedAd.Show((AdRequest) =>
                     {
-                        Debug.Log("Showing rewarded ads");
-                    });
-                }
-                #endregion
-                break;
-        }
-    }
-
-    // with placement
-    private void ShoawAds(AdType adType, RewardAdPlacement rewardAdPlacement)
-    {
-        switch (adType)
-        {
-            case AdType.interstitialAd:
-                #region Show ad
-                if (interstitialAd != null && interstitialAd.CanShowAd())
-                {
-                    Debug.Log("Showing interstitial ad.");
-                    interstitialAd.Show();
-                }
-                else
-                {
-                    Debug.LogError("Interstitial ad is not ready yet.");
-                }
-                #endregion
-                break;
-            case AdType.rewardedAd:
-                #region Show ad
-                if (rewardedAd != null && rewardedAd.CanShowAd())
-                {
-                    rewardedAd.Show((AdRequest) =>
-                    {
-                        GetReward?.Invoke();
                         Debug.Log("Showing rewarded ads");
                     });
                 }
@@ -289,24 +251,6 @@ public class AdsManager : MonoBehaviour
             Debug.LogError("Rewarded ad failed to open full screen content " + "with error : " + error);
             LoadRewardedAd();
         };
-    }
-
-    public void ShowRewardedAdUerReward()
-        => ShoawAds(AdType.rewardedAd, RewardAdPlacement.UserReward);
-
-    public void ShowRewardedAdDoubleUp()
-        => ShoawAds(AdType.rewardedAd, RewardAdPlacement.DoubleUpReward);
-
-    public void CanShowRewardedAd()
-    {
-        if (rewardedAd == null || rewardedAd.CanShowAd() == false)
-        {
-            adsData.rewardAvailability = RewardAvailability.UNAVAILABLE;
-        }
-        else
-        {
-            adsData.rewardAvailability = RewardAvailability.AVAILABLE;
-        }
     }
     #endregion
 }

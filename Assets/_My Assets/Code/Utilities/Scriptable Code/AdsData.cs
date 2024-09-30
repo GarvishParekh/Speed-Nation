@@ -17,7 +17,6 @@ public enum RewardAvailability
 public class AdsData : ScriptableObject
 {
     public DeviceType deviceType;
-    public RewardAvailability rewardAvailability;
 
     [Space]
     public AdsID androidAdsID;

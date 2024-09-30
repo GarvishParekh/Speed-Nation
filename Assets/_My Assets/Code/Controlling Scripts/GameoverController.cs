@@ -10,7 +10,6 @@ public class GameoverController : MonoBehaviour
     UiManager uiManager;
     AdsManager adsManager;
 
-    [SerializeField] private AdsData adsData;
     [SerializeField] private RenderTexture camRenderTexture;
     [SerializeField] private TMP_Text gameoverReasonText;
     [SerializeField] private Camera ssCam;
