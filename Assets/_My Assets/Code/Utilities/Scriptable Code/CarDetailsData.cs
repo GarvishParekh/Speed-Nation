@@ -14,8 +14,8 @@ public class CarDetail
     public int requriedScore = 2000;
 
     [Space]
-    public Sprite selectedSprite;
-    public Sprite unSelectedSprite;
+    public Texture selectedSprite;
+    public Texture unSelectedSprite;
 
     [Space]
     public LockStatus lockStatus;

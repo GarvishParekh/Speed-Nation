@@ -22,20 +22,28 @@ public class CarCardIdentity : MonoBehaviour
 
     [Header ("<size=15>USER INTERFACE")]
     [SerializeField] private Button selectedButton;
+    [SerializeField] private RawImage displayImage;
     [SerializeField] private GameObject lockScreen;
     [SerializeField] private TMP_Text requriedScoreText;
 
+    int carIndex;
+
+    int currentScore;
+    int requriedScoreCount;
+
+
     private void Start()
     {
+        displayImage = GetComponent<RawImage>();
         LoadCarDetails();
     }
 
     private void LoadCarDetails()
     {
-        int carIndex = (int)carsName;
+        carIndex = (int)carsName;
 
-        int currentScore = PlayerPrefs.GetInt(ConstantKeys.HIGHSCORE, 0);
-        int requriedScoreCount = carDetailsData.carDetail[carIndex].requriedScore;
+        currentScore = PlayerPrefs.GetInt(ConstantKeys.HIGHSCORE, 0);
+        requriedScoreCount = carDetailsData.carDetail[carIndex].requriedScore;
 
         if (requriedScoreCount > currentScore)
         {
@@ -43,18 +51,21 @@ public class CarCardIdentity : MonoBehaviour
             lockScreen.SetActive(true);
             requriedScoreText.text = $"Score <color=#E26E20>{requriedScoreCount} PTS</color> to unlock";
         }
-        else lockScreen.SetActive(false);
+        else
+        {
+            lockScreen.SetActive(false);
+        }
 
 
         if (carDetailsData.carDetail[carIndex].isSelected)
         {
             transform.localScale = Vector3.one * 1.1f;
-            selectedButton.image.sprite = carDetailsData.carDetail[carIndex].selectedSprite;
+            displayImage.texture = carDetailsData.carDetail[carIndex].selectedSprite;
         }
         else
         {
             transform.localScale = Vector3.one;
-            selectedButton.image.sprite = carDetailsData.carDetail[carIndex].unSelectedSprite;
+            displayImage.texture = carDetailsData.carDetail[carIndex].unSelectedSprite;
         }
     }
 
