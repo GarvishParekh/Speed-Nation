@@ -162,7 +162,7 @@ PlayerSettings:
     Standalone: com.theintellify.speednation
     iPhone: com.theintellify.speednation
   buildNumber:
-    Standalone: 4.0.3
+    Standalone: 5.0.1
     VisionOS: 0
     iPhone: 5
     tvOS: 0

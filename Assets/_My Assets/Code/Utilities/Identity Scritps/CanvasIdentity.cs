@@ -23,5 +23,6 @@ public enum CanvasNames
     LEVEL_SELECTION,
     UPDATE,
     LEADERBOARDS,
-    ENTER_USER_NAME
+    ENTER_USER_NAME,
+    NEWS_CANVAS
 }

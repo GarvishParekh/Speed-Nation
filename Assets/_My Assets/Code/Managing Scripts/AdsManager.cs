@@ -43,6 +43,8 @@ public class AdsManager : MonoBehaviour
 
     private void Start()
     {
+        if (adsData.noAdsCard == NoAdsCard.ACTIVE) return;
+
         // ads will carsh in android specially in video ads
         MobileAds.RaiseAdEventsOnUnityMainThread = true;
         FetchID();
@@ -75,6 +77,8 @@ public class AdsManager : MonoBehaviour
     // without placement
     private void ShoawAds(AdType adType)
     {
+        if (adsData.noAdsCard == NoAdsCard.ACTIVE) return;
+
         switch (adType)
         {
             case AdType.interstitialAd:
@@ -178,6 +182,8 @@ public class AdsManager : MonoBehaviour
 
     public void ShowInterstitialAd()
     {
+        if (adsData.noAdsCard == NoAdsCard.ACTIVE) return;
+
         ShoawAds(AdType.interstitialAd);
     }
     #endregion
