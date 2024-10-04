@@ -52,6 +52,8 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
   shutter: {fileID: 8706437428182873642}
   mainMenuCam: {fileID: 0}
   garageCam: {fileID: 0}
@@ -115,7 +117,7 @@ Canvas:
   m_AdditionalShaderChannelsFlag: 0
   m_UpdateRectTransformForStandalone: 0
   m_SortingLayerID: 0
-  m_SortingOrder: 1
+  m_SortingOrder: 2
   m_TargetDisplay: 0
 --- !u!114 &1065651925086373676
 MonoBehaviour:
@@ -227,7 +229,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 0.5}
   m_AnchorMax: {x: 1, y: 0.5}
-  m_AnchoredPosition: {x: 410, y: 0}
+  m_AnchoredPosition: {x: 620, y: 0}
   m_SizeDelta: {x: 5066.447, y: 1564.607}
   m_Pivot: {x: 1, y: 0.5}
 --- !u!222 &1800513732603879584
@@ -267,4 +269,4 @@ MonoBehaviour:
   m_FillClockwise: 1
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
-  m_PixelsPerUnitMultiplier: 0.44
+  m_PixelsPerUnitMultiplier: 0.2

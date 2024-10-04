@@ -8,6 +8,8 @@ public class MainMenuUiController : MonoBehaviour
     public static Action SettingsUpdated;
 
     FirebaseInitlization firebaseInitilization;
+    GameCheckManager gameCheckManager;
+
     UiManager uiManager;
     BgMusicManager bgMusicManager;
     [SerializeField] private UpdateLeaderBoards updateLeaderboards;
@@ -51,6 +53,7 @@ public class MainMenuUiController : MonoBehaviour
     private void Start()
     {
         firebaseInitilization = FirebaseInitlization.instance;
+        gameCheckManager = GameCheckManager.instance;   
 
         if (firebaseInitilization.GetConnectionStatus())
         {
@@ -70,6 +73,9 @@ public class MainMenuUiController : MonoBehaviour
         {
             userNameDisplayText.text = userNameString;
             uiManager.OpenCanvasWithShutter(CanvasNames.MAIN_MENU);
+
+            if (!gameCheckManager.GetNewsSeen()) _OpenNewsCanvas();
+            else uiManager.ClosePopUp(CanvasNames.NEWS_CANVAS);
         }
 
         LoadPostProcessing();
@@ -285,5 +291,16 @@ public class MainMenuUiController : MonoBehaviour
     {
         confirmUserNameButton.gameObject.SetActive(false);   
         uiManager.OpenCanvasWithShutter(CanvasNames.ENTER_USER_NAME);
+    }
+
+    public void _OpenNewsCanvas()
+    {
+        uiManager.OpenPopUp(CanvasNames.NEWS_CANVAS);
+    }
+
+    public void _CloseNewsCanvas()
+    {
+        uiManager.ClosePopUp(CanvasNames.NEWS_CANVAS);
+        gameCheckManager.SetNewsSeen(true); 
     }
 }

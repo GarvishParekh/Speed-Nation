@@ -8,6 +8,7 @@ public class UiManager : MonoBehaviour
     public static UiManager instance;
 
     [SerializeField] private List<CanvasIdentity> uiCanvas;
+    [SerializeField] private List<CanvasIdentity> popUpCanvas;
     [SerializeField] private GameObject shutter;
 
     [Header ("<size=15>CAMERAS")]
@@ -78,6 +79,28 @@ public class UiManager : MonoBehaviour
         }
         OpenShutter();
         yield return null;      
+    }
+
+    public void OpenPopUp(CanvasNames desireCanvas)
+    {
+        foreach (CanvasIdentity canvasInfo in popUpCanvas)
+        {
+            if (canvasInfo.GetCanvasName() == desireCanvas)
+            {
+                canvasInfo.GetComponent<ICanvasController>().EnableCanvas();
+            }
+        }
+    }
+
+    public void ClosePopUp(CanvasNames desireCanvas)
+    {
+        foreach (CanvasIdentity canvasInfo in popUpCanvas)
+        {
+            if (canvasInfo.GetCanvasName() == desireCanvas)
+            {
+                canvasInfo.GetComponent<ICanvasController>().DisableCanvas();
+            }
+        }
     }
 
     public void StartSceneChangeRoutine(string sceneName)
