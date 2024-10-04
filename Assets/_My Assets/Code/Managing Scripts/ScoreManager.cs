@@ -4,7 +4,11 @@ using UnityEngine;
 
 public class ScoreManager : MonoBehaviour
 {
+    // singleton
     FirebaseInitlization firebaseScript;
+
+    [Header("<size=15>SCRIPTABLE")]
+    [SerializeField] private GameplayData gameplayData;
     [Header("<size=15>SCRIPTS")]
     [SerializeField] private CarStatsManager carStatsManager;
 
@@ -18,29 +22,34 @@ public class ScoreManager : MonoBehaviour
     [SerializeField] private GameObject gameoverObject;
     [SerializeField] private GameObject highscoreObject;
 
-    [Header("<size=15>VALUES")]
-    [SerializeField] private float scoreCount;
-    [SerializeField] private float totalScoreCount;
-    [SerializeField] private float currentHighscoreCount;
-
     bool canCalculateScore = false;
 
     private void OnEnable()
     {
         GameoverController.Gameover += CalculateTotalScore;
         ActionManager.countDownCompleted += OnCompleteCountdown;
+        ActionManager.CarCollided += OnCarCollision;
     }
 
     private void OnDisable()
     {
         GameoverController.Gameover -= CalculateTotalScore;
         ActionManager.countDownCompleted -= OnCompleteCountdown;
+        ActionManager.CarCollided -= OnCarCollision;
     }
 
     private void Start()
     {
+        ResetScoreData();
         firebaseScript = FirebaseInitlization.instance;
-        currentHighscoreCount = PlayerPrefs.GetInt(ConstantKeys.HIGHSCORE, 0);
+        gameplayData.currentHighscoreCount = PlayerPrefs.GetInt(ConstantKeys.HIGHSCORE, 0);
+    }
+
+    private void ResetScoreData()
+    {
+        // reset score in scriptable
+        gameplayData.scoreCount = 0;
+        gameplayData.totalScoreCount = 0;
     }
 
     // Update is called once per frame
@@ -55,9 +64,21 @@ public class ScoreManager : MonoBehaviour
 
     private void AddScore()
     {
-        scoreCount += Time.deltaTime * 50;
-        scoreText.text = scoreCount.ToString("0");
-        resultScoreText.text = "Score: " + scoreCount.ToString("0"); 
+        gameplayData.scoreCount += Time.deltaTime * 50;
+        scoreText.text = gameplayData.scoreCount.ToString("0");
+        resultScoreText.text = "Score: " + gameplayData.scoreCount.ToString("0"); 
+    }
+
+    public void AddScore(int scoreToAdd)
+    {
+        gameplayData.scoreCount += scoreToAdd;
+        scoreText.text = gameplayData.scoreCount.ToString("0");
+        resultScoreText.text = "Score: " + gameplayData.scoreCount.ToString("0");
+    }
+
+    private void OnCarCollision(Transform t)
+    {
+        if (gameplayData.isBoosting) AddScore(500);
     }
 
     private void CalculateTotalScore()
@@ -65,15 +86,15 @@ public class ScoreManager : MonoBehaviour
         float timeSpent = carStatsManager.GetTotalTimePlayed();
 
         totalTimeSpentText.text = "Time spent: " + timeSpent.ToString("0") + "s";
-        totalScoreCount = scoreCount + timeSpent + carStatsManager.GetCarSmashedScore();
-        totalScoreText.text = "Total: " + totalScoreCount.ToString("0");
+        gameplayData.totalScoreCount = gameplayData.scoreCount + timeSpent + carStatsManager.GetCarSmashedScore();
+        totalScoreText.text = "Total: " + gameplayData.totalScoreCount.ToString("0");
 
-        if (totalScoreCount > currentHighscoreCount)
+        if (gameplayData.totalScoreCount > gameplayData.currentHighscoreCount)
         {
             highscoreObject.gameObject.SetActive(true);
             gameoverObject.gameObject.SetActive(false);
 
-            PlayerPrefs.SetInt(ConstantKeys.HIGHSCORE, (int)totalScoreCount);
+            PlayerPrefs.SetInt(ConstantKeys.HIGHSCORE, (int)gameplayData.totalScoreCount);
 
             try
             {

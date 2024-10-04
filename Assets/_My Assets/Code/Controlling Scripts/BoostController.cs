@@ -3,6 +3,10 @@ using UnityEngine.UI;
 
 public class BoostController : MonoBehaviour
 {
+    [Header ("<size=15>SCRIPTABLE")]
+    [SerializeField] private GameplayData gameplayData;
+
+    [Space]
     [SerializeField] private Transform playerCarTransform;
     [SerializeField] private Transform laneCheckerTransform;
     [SerializeField] private Transform laneTriggerTransform;
@@ -20,13 +24,8 @@ public class BoostController : MonoBehaviour
     [SerializeField] private GameObject boostReleaseBarUiObject;
     [SerializeField] private Image boostReleaseBarImage;
 
-    [Header("<size=15>BOOST VALUE")]
-    [SerializeField] private float boostTimer = 1;
-    [SerializeField] private int addingBoostValue = 1;
-
     int laneIndex;
     int boostIndex;
-    bool activateBoost = false;
     Vector3 NewPosition = Vector3.zero;
 
 
@@ -46,6 +45,7 @@ public class BoostController : MonoBehaviour
 
     private void Start()
     {
+        gameplayData.isBoosting = false;
         NewPosition.y = laneCheckerTransform.position.y;
         NewPosition.z = laneCheckerTransform.position.z;
 
@@ -56,13 +56,14 @@ public class BoostController : MonoBehaviour
     {
         FollowPlayer();
 
-        if (activateBoost)
+        if (gameplayData.isBoosting)
         {
-            boostTimer -= Time.deltaTime / 10f;
-            boostReleaseBarImage.fillAmount = boostTimer;
-            if (boostTimer < 0.0f)
+            gameplayData.boostTimer -= Time.deltaTime / 10f;
+            boostReleaseBarImage.fillAmount = gameplayData.boostTimer;
+            if (gameplayData.boostTimer < 0.0f)
             {
-                activateBoost = false;
+                gameplayData.isBoosting = false;
+
                 boostIndex = 0;
                 boostFillBarsUiObject.SetActive(true);
                 boostReleaseBarUiObject.SetActive(false);
@@ -98,7 +99,7 @@ public class BoostController : MonoBehaviour
     private void IfPlayerOnLane()
     {
         ChangeLane(false);
-        AddBoost(addingBoostValue);
+        AddBoost(gameplayData.addingBoostValue);
     }
 
     private void DisplayDesireUiObject(int selectedLaneIndex)
@@ -121,7 +122,7 @@ public class BoostController : MonoBehaviour
 
     private void AddBoost(int boostScoreToAdd)
     {
-        if (activateBoost) return;
+        if (gameplayData.isBoosting) return;
 
         boostIndex += boostScoreToAdd;
         UpdateBoostUi();
@@ -134,8 +135,8 @@ public class BoostController : MonoBehaviour
 
             boostReleaseBarImage.fillAmount = 1;
 
-            boostTimer = 1;
-            activateBoost = true;
+            gameplayData.boostTimer = 1;
+            gameplayData.isBoosting = true;
 
             ActionManager.PlayerBoosting?.Invoke(true);
         }

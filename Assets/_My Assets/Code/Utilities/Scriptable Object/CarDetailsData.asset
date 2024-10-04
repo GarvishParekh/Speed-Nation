@@ -36,7 +36,7 @@ MonoBehaviour:
     isSelected: 0
   - carName: Super
     carIndex: 3
-    requriedScore: 0
+    requriedScore: 20000
     selectedSprite: {fileID: 2800000, guid: 5f792fb852a71394ab902fdce90435f9, type: 3}
     unSelectedSprite: {fileID: 2800000, guid: b6bc4e29ab5f7a44eacf44d1f201f63a, type: 3}
     lockStatus: 1
