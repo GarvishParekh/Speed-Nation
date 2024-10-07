@@ -34,6 +34,7 @@ public class BoostController : MonoBehaviour
         ActionManager.PlayerOnLane += IfPlayerOnLane;
         ActionManager.PlayCarSpawned += OnPlayerCarSpanned;
         ActionManager.TurtiolInitilize += OnTutriolInitiate;
+        ActionManager.TrafficKilled += OnTrafficKilled;
     }
 
     private void OnDisable()
@@ -41,6 +42,7 @@ public class BoostController : MonoBehaviour
         ActionManager.PlayerOnLane -= IfPlayerOnLane;
         ActionManager.PlayCarSpawned -= OnPlayerCarSpanned;
         ActionManager.TurtiolInitilize -= OnTutriolInitiate;
+        ActionManager.TrafficKilled += OnTrafficKilled;
     }
 
     private void Start()
@@ -157,5 +159,14 @@ public class BoostController : MonoBehaviour
     private void OnTutriolInitiate()
     {
         AddBoost(8);
+    }
+
+    private void OnTrafficKilled()
+    {
+        gameplayData.boostTimer += 0.05f;
+        if (gameplayData.boostTimer > 1)
+        {
+            gameplayData.boostTimer = 1;
+        }
     }
 }

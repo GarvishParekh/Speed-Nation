@@ -78,7 +78,11 @@ public class ScoreManager : MonoBehaviour
 
     private void OnCarCollision(Transform t)
     {
-        if (gameplayData.isBoosting) AddScore(500);
+        if (gameplayData.isBoosting)
+        {
+            AddScore(500);
+            ActionManager.TrafficKilled?.Invoke();
+        }
     }
 
     private void CalculateTotalScore()

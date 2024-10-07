@@ -1,3 +1,4 @@
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class SfxManager : MonoBehaviour
@@ -8,9 +9,11 @@ public class SfxManager : MonoBehaviour
     [SerializeField] private AudioSource crashAudioSource;
     [SerializeField] private AudioSource nosAudioSource;
     [SerializeField] private AudioSource boostCollectionAudioSource;
+    [SerializeField] private AudioSource killStreakAudioSource;
     [SerializeField] private GameObject enableStatus;
 
     int crashTotalCount;
+
 
     private void Start()
     {
@@ -25,6 +28,7 @@ public class SfxManager : MonoBehaviour
         ActionManager.CarCollided += PlayCrashSfx;
         ActionManager.PlayerBoosting += PlayNosSound;
         ActionManager.PlayerOnLane += PlayBoostCollectionSound;
+        ActionManager.UpdateKillStreak += OnUpdateKillStreak;
     }
 
     private void OnDisable()
@@ -32,6 +36,7 @@ public class SfxManager : MonoBehaviour
         ActionManager.CarCollided -= PlayCrashSfx;
         ActionManager.PlayerBoosting -= PlayNosSound;
         ActionManager.PlayerOnLane -= PlayBoostCollectionSound;
+        ActionManager.UpdateKillStreak -= OnUpdateKillStreak;
     }
 
     private void Awake()
@@ -53,5 +58,22 @@ public class SfxManager : MonoBehaviour
     private void PlayBoostCollectionSound()
     {
         boostCollectionAudioSource.PlayOneShot(sfxData.boostCollectionSfx);
+    }
+
+    private void OnUpdateKillStreak(int count)
+    {
+        if (count == 2) KillStreakplayer(sfxData.doubleKillSfx);
+        else if (count == 3) KillStreakplayer(sfxData.tripleKillSfx);
+        else if (count == 4) KillStreakplayer(sfxData.quadKillSfx);
+        else if (count == 5) KillStreakplayer(sfxData.pentaKillSfx);
+        else if (count == 6) KillStreakplayer(sfxData.rampageSfx);
+        else if (count == 7) KillStreakplayer(sfxData.godlikeSfx);
+        else if (count == 8) KillStreakplayer(sfxData.unstopableSfx);
+    }
+
+    private void KillStreakplayer(AudioClip clipToplay)
+    {
+        killStreakAudioSource.Stop();
+        killStreakAudioSource.PlayOneShot(clipToplay);
     }
 }

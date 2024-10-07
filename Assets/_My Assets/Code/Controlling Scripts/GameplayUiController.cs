@@ -1,14 +1,28 @@
 using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 
 public class GameplayUiController : MonoBehaviour
 {
     UiManager uiManager;
+    [Header (("<size=15>COMPONENTS"))]
     [SerializeField] private Camera mainCamera;
     [SerializeField] private InputManager inputManager;
     [SerializeField] private GameObject controlCanvas;
 
+    [Header (("<size=15>KILL STREAK UI ELEMENTS"))]
+    [SerializeField] private GameObject singleKillBanner;
+    [SerializeField] private GameObject doubleKillBanner;
+    [SerializeField] private GameObject tripleKillBanner;
+    [SerializeField] private GameObject quadKillBanner;
+    [SerializeField] private GameObject pentaKillBanner;
+    [SerializeField] private GameObject rampageBanner;
+    [SerializeField] private GameObject godlikeBanner;
+    [SerializeField] private GameObject unstopableBanner;
+    [SerializeField] private TMP_Text killStreakTimerText;
+
+    [Header (("<size=15>COUNTDOWN ELEMENTS"))]
     [SerializeField] private GameObject threeObject;
     [SerializeField] private GameObject twoObject;
     [SerializeField] private GameObject oneObject;
@@ -25,12 +39,16 @@ public class GameplayUiController : MonoBehaviour
     {
         ActionManager.PlayerBoosting += OnPlayerBoost;
         ActionManager.CarCollided += OnCarCollision;
+        ActionManager.UpdateKillStreak += UpdatingKillStreak;
+        ActionManager.KillStreakCouterReset += OnCounterReset;
     }
 
     private void OnDisable()
     {
         ActionManager.PlayerBoosting -= OnPlayerBoost;
         ActionManager.CarCollided -= OnCarCollision;
+        ActionManager.UpdateKillStreak -= UpdatingKillStreak;
+        ActionManager.KillStreakCouterReset -= OnCounterReset;
     }
 
     private void Start()
@@ -146,5 +164,45 @@ public class GameplayUiController : MonoBehaviour
 
         plus500.Remove(uiElement);
         plus500.Add(uiElement);
+    }
+
+    private void UpdatingKillStreak(int count)
+    {
+        if (count == 1) UpdateKillStreakBanner(singleKillBanner);
+        else if (count == 2) UpdateKillStreakBanner(doubleKillBanner);
+        else if (count == 3) UpdateKillStreakBanner(tripleKillBanner);
+        else if (count == 4) UpdateKillStreakBanner(quadKillBanner);
+        else if (count == 5) UpdateKillStreakBanner(pentaKillBanner);
+        else if (count == 6) UpdateKillStreakBanner(rampageBanner);
+        else if (count == 7) UpdateKillStreakBanner(godlikeBanner);
+        else if (count == 8) UpdateKillStreakBanner(unstopableBanner);
+    }
+
+    private void UpdateKillStreakBanner(GameObject desireBanner)
+    {
+        // close all banner
+        singleKillBanner.SetActive(false);  
+        doubleKillBanner.SetActive(false);  
+        tripleKillBanner.SetActive(false);  
+        quadKillBanner.SetActive(false);
+        pentaKillBanner.SetActive(false);
+        rampageBanner.SetActive(false);
+        godlikeBanner.SetActive(false);
+        unstopableBanner.SetActive(false);  
+
+        if (desireBanner != null) desireBanner.SetActive(true);  
+    }
+
+    private void OnCounterReset()
+    {
+        UpdateKillStreakBanner(null);
+    }
+
+    public void UpdateKillStreakTimerText (float _timer)
+    {
+        if (_timer <= 0) killStreakTimerText.gameObject.SetActive(false);
+        else killStreakTimerText.gameObject.SetActive(true);
+
+        killStreakTimerText.text = $"{_timer.ToString("0.00")}s"; 
     }
 }

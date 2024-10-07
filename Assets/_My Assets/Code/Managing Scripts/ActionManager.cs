@@ -9,4 +9,7 @@ public class ActionManager : MonoBehaviour
     public static Action countDownCompleted;
     public static Action TurtiolInitilize;
     public static Action<Transform> CarCollided;
+    public static Action TrafficKilled;
+    public static Action<int> UpdateKillStreak;
+    public static Action KillStreakCouterReset;
 }
