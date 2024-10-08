@@ -20,6 +20,10 @@ public class CarCardIdentity : MonoBehaviour
     [SerializeField] private CarsName carsName;
     [SerializeField] private CarDetailsData carDetailsData;
 
+    [Header("<size=15>SHINE ANIMATION")]
+    [SerializeField] private GameObject shineObj;
+    [SerializeField] private Transform endPositionObj;
+
     [Header ("<size=15>USER INTERFACE")]
     [SerializeField] private Button selectedButton;
     [SerializeField] private RawImage displayImage;
@@ -31,9 +35,11 @@ public class CarCardIdentity : MonoBehaviour
     int currentScore;
     int requriedScoreCount;
 
+    Vector3 shineStartPosition;
 
     private void Start()
     {
+        shineStartPosition = shineObj.transform.localPosition;
         displayImage = GetComponent<RawImage>();
         LoadCarDetails();
     }
@@ -61,6 +67,8 @@ public class CarCardIdentity : MonoBehaviour
         {
             transform.localScale = Vector3.one * 1.1f;
             displayImage.texture = carDetailsData.carDetail[carIndex].selectedSprite;
+
+            ShineAnimation();
         }
         else
         {
@@ -72,6 +80,12 @@ public class CarCardIdentity : MonoBehaviour
     public void UpdateUi()
     {
         LoadCarDetails();
+    }
+
+    private void ShineAnimation()
+    {
+        shineObj.transform.localPosition = shineStartPosition;
+        LeanTween.moveLocal(shineObj, endPositionObj.localPosition, 0.35f);
     }
 }
 

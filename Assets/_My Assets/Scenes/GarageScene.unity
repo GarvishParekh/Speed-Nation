@@ -43779,7 +43779,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 141.83948, y: -466}
+  m_AnchoredPosition: {x: 141.83951, y: -466}
   m_SizeDelta: {x: 183.679, y: 588.5667}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!224 &5758707155310755510
@@ -43925,11 +43925,6 @@ PrefabInstance:
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 992846318}
-    - target: {fileID: 5037284589007415356, guid: 265354a537d253041ac4c25c07bf6f33,
-        type: 3}
-      propertyPath: m_Texture
-      value: 
-      objectReference: {fileID: 2800000, guid: e23b4ffd960974948b3a93c83e7e5038, type: 3}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
