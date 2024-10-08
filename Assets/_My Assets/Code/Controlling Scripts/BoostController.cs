@@ -42,11 +42,12 @@ public class BoostController : MonoBehaviour
         ActionManager.PlayerOnLane -= IfPlayerOnLane;
         ActionManager.PlayCarSpawned -= OnPlayerCarSpanned;
         ActionManager.TurtiolInitilize -= OnTutriolInitiate;
-        ActionManager.TrafficKilled += OnTrafficKilled;
+        ActionManager.TrafficKilled -= OnTrafficKilled;
     }
 
     private void Start()
     {
+        gameplayData.boostTimer = 0;
         gameplayData.isBoosting = false;
         NewPosition.y = laneCheckerTransform.position.y;
         NewPosition.z = laneCheckerTransform.position.z;
@@ -163,7 +164,7 @@ public class BoostController : MonoBehaviour
 
     private void OnTrafficKilled()
     {
-        gameplayData.boostTimer += 0.05f;
+        gameplayData.boostTimer += 0.1f;
         if (gameplayData.boostTimer > 1)
         {
             gameplayData.boostTimer = 1;
