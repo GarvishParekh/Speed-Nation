@@ -6,10 +6,17 @@ using TMPro;
 public class GameplayUiController : MonoBehaviour
 {
     UiManager uiManager;
+    [Header (("<size=15>SCRIPTABLE"))]
+    [SerializeField] private GameplayData gameplayData;
+
     [Header (("<size=15>COMPONENTS"))]
     [SerializeField] private Camera mainCamera;
     [SerializeField] private InputManager inputManager;
     [SerializeField] private GameObject controlCanvas;
+
+    [Header (("<size=15>FILTER UI ELEMENTS"))]
+    [SerializeField] private CanvasGroup boostFilter;
+    [SerializeField] private CanvasGroup finalKillStreakFilter;
 
     [Header (("<size=15>KILL STREAK UI ELEMENTS"))]
     [SerializeField] private GameObject singleKillBanner;
@@ -138,6 +145,11 @@ public class GameplayUiController : MonoBehaviour
         isBoosting = check; 
         if (check)
         {
+            LeanTween.alphaCanvas(boostFilter, 1, 0.1f).setOnComplete(() =>
+            {
+                LeanTween.alphaCanvas(boostFilter, 0, 0.25f).setEaseInOutSine();
+            });
+
             LeanTween.alphaCanvas(onBoostComponents, 0, 0.25f).setEaseInOutSine();
             LeanTween.scale(onBoostComponents.gameObject, Vector3.one * 2, 0.5f).setEaseInOutSine();
             speedingLines.Play();
@@ -168,14 +180,23 @@ public class GameplayUiController : MonoBehaviour
 
     private void UpdatingKillStreak(int count)
     {
-        if (count == 1) UpdateKillStreakBanner(singleKillBanner);
-        else if (count == 2) UpdateKillStreakBanner(doubleKillBanner);
-        else if (count == 3) UpdateKillStreakBanner(tripleKillBanner);
-        else if (count == 4) UpdateKillStreakBanner(quadKillBanner);
-        else if (count == 5) UpdateKillStreakBanner(pentaKillBanner);
-        else if (count == 6) UpdateKillStreakBanner(rampageBanner);
-        else if (count == 7) UpdateKillStreakBanner(godlikeBanner);
-        else if (count == 8) UpdateKillStreakBanner(unstopableBanner);
+        if (count == gameplayData.singeKillValue) UpdateKillStreakBanner(singleKillBanner);
+        else if (count == gameplayData.doubleKillValue) UpdateKillStreakBanner(doubleKillBanner);
+        else if (count == gameplayData.tripleKillValue) UpdateKillStreakBanner(tripleKillBanner);
+        else if (count == gameplayData.quadKillValue) UpdateKillStreakBanner(quadKillBanner);
+        else if (count == gameplayData.pentaCrushValue) UpdateKillStreakBanner(pentaKillBanner);
+        else if (count == gameplayData.rampageValue) UpdateKillStreakBanner(rampageBanner);
+        else if (count == gameplayData.godlikeValue) UpdateKillStreakBanner(godlikeBanner);
+        else if (count == gameplayData.unstopableValue)
+        {
+            UpdateKillStreakBanner(unstopableBanner);
+            finalKillStreakFilter.alpha = 0;
+
+            LeanTween.alphaCanvas(finalKillStreakFilter, 1, 0.1f).setOnComplete(() =>
+            {
+                LeanTween.alphaCanvas(finalKillStreakFilter, 0, 0.25f).setEaseInOutSine();
+            });
+        }
     }
 
     private void UpdateKillStreakBanner(GameObject desireBanner)

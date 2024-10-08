@@ -6,6 +6,9 @@ public class SfxManager : MonoBehaviour
     [Header("<size=15>SCRIPTABLE")]
     [SerializeField] private GameSettingsData settingsData;
     [SerializeField] private SfxData sfxData;
+    [SerializeField] private GameplayData gameplayData;
+
+    [Header("<size=15>COMPONENTS")]
     [SerializeField] private AudioSource crashAudioSource;
     [SerializeField] private AudioSource nosAudioSource;
     [SerializeField] private AudioSource boostCollectionAudioSource;
@@ -62,13 +65,13 @@ public class SfxManager : MonoBehaviour
 
     private void OnUpdateKillStreak(int count)
     {
-        if (count == 2) KillStreakplayer(sfxData.doubleKillSfx);
-        else if (count == 3) KillStreakplayer(sfxData.tripleKillSfx);
-        else if (count == 4) KillStreakplayer(sfxData.quadKillSfx);
-        else if (count == 5) KillStreakplayer(sfxData.pentaKillSfx);
-        else if (count == 6) KillStreakplayer(sfxData.rampageSfx);
-        else if (count == 7) KillStreakplayer(sfxData.godlikeSfx);
-        else if (count == 8) KillStreakplayer(sfxData.unstopableSfx);
+        if (count == gameplayData.doubleKillValue) KillStreakplayer(sfxData.doubleKillSfx);
+        else if (count == gameplayData.tripleKillValue) KillStreakplayer(sfxData.tripleKillSfx);
+        else if (count == gameplayData.quadKillValue) KillStreakplayer(sfxData.quadKillSfx);
+        else if (count == gameplayData.pentaCrushValue) KillStreakplayer(sfxData.pentaKillSfx);
+        else if (count == gameplayData.rampageValue) KillStreakplayer(sfxData.rampageSfx);
+        else if (count == gameplayData.godlikeValue) KillStreakplayer(sfxData.godlikeSfx);
+        else if (count == gameplayData.unstopableValue) KillStreakplayer(sfxData.unstopableSfx);
     }
 
     private void KillStreakplayer(AudioClip clipToplay)

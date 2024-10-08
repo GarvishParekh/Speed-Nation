@@ -60,7 +60,7 @@ public class BoostController : MonoBehaviour
 
         if (gameplayData.isBoosting)
         {
-            gameplayData.boostTimer -= Time.deltaTime / 10f;
+            gameplayData.boostTimer -= Time.deltaTime / 8f;
             boostReleaseBarImage.fillAmount = gameplayData.boostTimer;
             if (gameplayData.boostTimer < 0.0f)
             {

@@ -12,4 +12,14 @@ public class GameplayData : ScriptableObject
     public float scoreCount;
     public float totalScoreCount;
     public float currentHighscoreCount;
+
+    [Header ("<size=15>BOOST SCORE VALUE")]
+    public int singeKillValue;
+    public int doubleKillValue;
+    public int tripleKillValue;
+    public int quadKillValue;
+    public int pentaCrushValue;
+    public int rampageValue;
+    public int godlikeValue;
+    public int unstopableValue;
 }

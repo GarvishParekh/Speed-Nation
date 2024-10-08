@@ -15,3 +15,14 @@ MonoBehaviour:
   isBoosting: 0
   boostTimer: 1
   addingBoostValue: 2
+  scoreCount: 0
+  totalScoreCount: 0
+  currentHighscoreCount: 0
+  singeKillValue: 1
+  doubleKillValue: 2
+  tripleKillValue: 3
+  quadKillValue: 4
+  pentaCrushValue: 5
+  rampageValue: 10
+  godlikeValue: 15
+  unstopableValue: 25

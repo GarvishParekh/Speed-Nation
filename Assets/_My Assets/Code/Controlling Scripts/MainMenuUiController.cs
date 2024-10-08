@@ -7,11 +7,11 @@ public class MainMenuUiController : MonoBehaviour
 {
     public static Action SettingsUpdated;
 
-    FirebaseInitlization firebaseInitilization;
-    GameCheckManager gameCheckManager;
-
     UiManager uiManager;
     BgMusicManager bgMusicManager;
+    GameCheckManager gameCheckManager;
+    FirebaseInitlization firebaseInitilization;
+
     [SerializeField] private UpdateLeaderBoards updateLeaderboards;
 
     [SerializeField] private Color onColor;
@@ -47,7 +47,6 @@ public class MainMenuUiController : MonoBehaviour
     private void OnDisable()
     {
         FirebaseInitlization.ServerConnection -= UpdateServerConnectionStatus;
-        
     }
 
     private void Start()
