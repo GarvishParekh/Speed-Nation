@@ -16,28 +16,28 @@ MonoBehaviour:
   - carName: Sedan
     carIndex: 0
     requriedScore: 0
-    selectedSprite: {fileID: 2800000, guid: 0aefa58b4202742468075302d4fd4adb, type: 3}
-    unSelectedSprite: {fileID: 2800000, guid: de16cd84a844f7a4eba836fc3e965265, type: 3}
+    selectedSprite: {fileID: 2800000, guid: 7db98936a9891604f8fc83b7a320571a, type: 3}
+    unSelectedSprite: {fileID: 2800000, guid: fc6a84b8a43a09d468163447e3dc2e1f, type: 3}
     lockStatus: 1
-    isSelected: 1
+    isSelected: 0
   - carName: Hatchback
     carIndex: 1
     requriedScore: 5000
-    selectedSprite: {fileID: 2800000, guid: f3b86063f6ac0644195e31609e37bd38, type: 3}
-    unSelectedSprite: {fileID: 2800000, guid: 8d07acc1b96ce9a4f81a7170b871ae06, type: 3}
+    selectedSprite: {fileID: 2800000, guid: e23b4ffd960974948b3a93c83e7e5038, type: 3}
+    unSelectedSprite: {fileID: 2800000, guid: 96cc08ff0ebb09b4b92dca7fe6473611, type: 3}
     lockStatus: 1
     isSelected: 0
   - carName: Muscle
     carIndex: 2
     requriedScore: 10000
-    selectedSprite: {fileID: 2800000, guid: 763a4bad4709eee459c1adddc84a8ee7, type: 3}
-    unSelectedSprite: {fileID: 2800000, guid: de4ef38b113b43046bf7bcf9b1cd5b25, type: 3}
+    selectedSprite: {fileID: 2800000, guid: 228c5ddb2c5c69649b7910b309aa9bda, type: 3}
+    unSelectedSprite: {fileID: 2800000, guid: a7493ec175c96d04c8bce7cdf0fd94ef, type: 3}
     lockStatus: 1
-    isSelected: 0
+    isSelected: 1
   - carName: Super
     carIndex: 3
     requriedScore: 0
-    selectedSprite: {fileID: 2800000, guid: 5f792fb852a71394ab902fdce90435f9, type: 3}
-    unSelectedSprite: {fileID: 2800000, guid: b6bc4e29ab5f7a44eacf44d1f201f63a, type: 3}
+    selectedSprite: {fileID: 2800000, guid: 00cab4548ebabe8409c622714580456a, type: 3}
+    unSelectedSprite: {fileID: 2800000, guid: eafec9fdd4362834b94fe968c1aec1d9, type: 3}
     lockStatus: 1
     isSelected: 0
