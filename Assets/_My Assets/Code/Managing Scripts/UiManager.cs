@@ -2,14 +2,25 @@ using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine.SceneManagement;
+using TMPro;
+using UnityEngine.UI;
 
 public class UiManager : MonoBehaviour
 {
     public static UiManager instance;
 
+    [Header("<size=15>SCRIPTS")]
+    [SerializeField] private StoreManager storeManager;
+
+    [Header("<size=15>SCRIPTABLE OBJECT")]
+    [SerializeField] private CarDetailsData carDetailsData;
+
+    [Header ("<size=15>UI COMPONENTS")]
     [SerializeField] private List<CanvasIdentity> uiCanvas;
     [SerializeField] private List<CanvasIdentity> popUpCanvas;
     [SerializeField] private GameObject shutter;
+    [SerializeField] private TMP_Text buyInfoText;
+    [SerializeField] private Button buyButton;
 
     [Header ("<size=15>CAMERAS")]
     [SerializeField] private GameObject mainMenuCam;
@@ -133,4 +144,26 @@ public class UiManager : MonoBehaviour
     {
         LeanTween.moveLocal(shutter, new Vector3(-3000f, 0, 0), 0.5f).setIgnoreTimeScale(true);
     }
+
+    public void UpdateBuyCarPanel(int carIndex)
+    {
+        string carName = carDetailsData.carDetail[carIndex].carName;
+        int carPrice = carDetailsData.carDetail[carIndex].requriedTickets;
+        buyInfoText.text = $"Are you sure you want to buy <color=#E16B1B><b>{carName}<b></color> for <color=#E16B1B><b>{carPrice}<b></color> tickets";
+
+        buyButton.onClick.RemoveAllListeners();
+        buyButton.onClick.AddListener(() => BuyButton(carIndex));
+    }
+
+    private void BuyButton(int index)
+    {
+        ClosePopUp(CanvasNames.BUY_CAR_CANVAS);
+        string carName = carDetailsData.carDetail[index].carName;
+
+        PlayerPrefs.SetInt(carName, 1);
+        PlayerPrefs.SetInt(ConstantKeys.SELECTED_CAR, index);
+
+        storeManager._SelectCarButton(index);
+    }
+
 }

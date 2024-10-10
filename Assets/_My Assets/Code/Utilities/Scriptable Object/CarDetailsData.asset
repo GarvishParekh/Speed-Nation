@@ -13,31 +13,102 @@ MonoBehaviour:
   m_Name: CarDetailsData
   m_EditorClassIdentifier: 
   carDetail:
-  - carName: Sedan
+  - carName: Midnight sprint
     carIndex: 0
     requriedScore: 0
-    selectedSprite: {fileID: 2800000, guid: 7db98936a9891604f8fc83b7a320571a, type: 3}
-    unSelectedSprite: {fileID: 2800000, guid: fc6a84b8a43a09d468163447e3dc2e1f, type: 3}
-    lockStatus: 1
-    isSelected: 0
-  - carName: Hatchback
-    carIndex: 1
-    requriedScore: 5000
-    selectedSprite: {fileID: 2800000, guid: e23b4ffd960974948b3a93c83e7e5038, type: 3}
-    unSelectedSprite: {fileID: 2800000, guid: 96cc08ff0ebb09b4b92dca7fe6473611, type: 3}
-    lockStatus: 1
-    isSelected: 0
-  - carName: Muscle
-    carIndex: 2
-    requriedScore: 10000
-    selectedSprite: {fileID: 2800000, guid: 228c5ddb2c5c69649b7910b309aa9bda, type: 3}
-    unSelectedSprite: {fileID: 2800000, guid: a7493ec175c96d04c8bce7cdf0fd94ef, type: 3}
-    lockStatus: 1
+    requriedTickets: 0
+    selectedSprite: {fileID: 2800000, guid: 00b91649b20c31a4ca7326b6f3443fbf, type: 3}
+    unSelectedSprite: {fileID: 2800000, guid: 7394b72890fc5484c899397da6caf17b, type: 3}
+    purchaseWay: 0
+    lockStatus: 0
     isSelected: 1
-  - carName: Super
+  - carName: Crimson drift
+    carIndex: 1
+    requriedScore: 0
+    requriedTickets: 250
+    selectedSprite: {fileID: 2800000, guid: d97292e5788dcb04ead613ee37c9799f, type: 3}
+    unSelectedSprite: {fileID: 2800000, guid: 335a170a7ed95fa4a91d6cfbc264d08a, type: 3}
+    purchaseWay: 1
+    lockStatus: 0
+    isSelected: 0
+  - carName: Urban ride
+    carIndex: 2
+    requriedScore: 0
+    requriedTickets: 250
+    selectedSprite: {fileID: 2800000, guid: fbd92c3af5830064084ff1de8d5b0dc2, type: 3}
+    unSelectedSprite: {fileID: 2800000, guid: 970eaec7deffa9a4682ebf5bcadb86a5, type: 3}
+    purchaseWay: 1
+    lockStatus: 0
+    isSelected: 0
+  - carName: Thunder drift
     carIndex: 3
     requriedScore: 0
-    selectedSprite: {fileID: 2800000, guid: 00cab4548ebabe8409c622714580456a, type: 3}
-    unSelectedSprite: {fileID: 2800000, guid: eafec9fdd4362834b94fe968c1aec1d9, type: 3}
-    lockStatus: 1
+    requriedTickets: 500
+    selectedSprite: {fileID: 2800000, guid: d169bb1a25e81ba4b96f4843ff76e798, type: 3}
+    unSelectedSprite: {fileID: 2800000, guid: 5189185b7a85f6a4d899a31f19940bd3, type: 3}
+    purchaseWay: 1
+    lockStatus: 0
+    isSelected: 0
+  - carName: Bubblegum pup
+    carIndex: 4
+    requriedScore: 0
+    requriedTickets: 650
+    selectedSprite: {fileID: 2800000, guid: ebe916a333f6e78468d951df23373a20, type: 3}
+    unSelectedSprite: {fileID: 2800000, guid: f063511c6a920ac408ce2541f160b3ce, type: 3}
+    purchaseWay: 1
+    lockStatus: 0
+    isSelected: 0
+  - carName: Verdant velocity
+    carIndex: 5
+    requriedScore: 0
+    requriedTickets: 650
+    selectedSprite: {fileID: 2800000, guid: c9c2796b38908c24d8a48dd673339324, type: 3}
+    unSelectedSprite: {fileID: 2800000, guid: 7387145aca0e455418c01782e7fe928a, type: 3}
+    purchaseWay: 1
+    lockStatus: 0
+    isSelected: 0
+  - carName: Summer dreamer
+    carIndex: 5
+    requriedScore: 0
+    requriedTickets: 1200
+    selectedSprite: {fileID: 2800000, guid: 83fd0dac2bb99664a82176c6c755af0c, type: 3}
+    unSelectedSprite: {fileID: 2800000, guid: 68958bba9e3fd4144b93064258986c93, type: 3}
+    purchaseWay: 1
+    lockStatus: 0
+    isSelected: 0
+  - carName: Spectrum flash
+    carIndex: 6
+    requriedScore: 0
+    requriedTickets: 1500
+    selectedSprite: {fileID: 2800000, guid: 3715d8c0d849f654da04ff491793324a, type: 3}
+    unSelectedSprite: {fileID: 2800000, guid: e107b23c0182cbc42aa1b50288ff8c12, type: 3}
+    purchaseWay: 1
+    lockStatus: 0
+    isSelected: 0
+  - carName: Golden streak
+    carIndex: 7
+    requriedScore: 0
+    requriedTickets: 3000
+    selectedSprite: {fileID: 2800000, guid: a6236594c18a77e4b82f5834dd967743, type: 3}
+    unSelectedSprite: {fileID: 2800000, guid: fec29b860e0403e4ea0afce61e5ffb68, type: 3}
+    purchaseWay: 1
+    lockStatus: 0
+    isSelected: 0
+  - carName: Trailblazer shadow
+    carIndex: 8
+    requriedScore: 0
+    requriedTickets: 4000
+    selectedSprite: {fileID: 2800000, guid: 199ef3a2be9ed6b409b4e7a544d54238, type: 3}
+    unSelectedSprite: {fileID: 2800000, guid: 1a97d17854d06b9449b51167209b8526, type: 3}
+    purchaseWay: 1
+    lockStatus: 0
+    isSelected: 0
+  - carName: Scarlet veloce
+    carIndex: 9
+    requriedScore: 0
+    requriedTickets: 5000
+    selectedSprite: {fileID: 2800000, guid: bca27028632401140a46a9fb83f75b72, type: 3}
+    unSelectedSprite: {fileID: 2800000, guid: f10009119b3eef848a05d6c4e4bc0929, type: 3}
+    purchaseWay: 1
+    lockStatus: 0
     isSelected: 0

@@ -6,9 +6,9 @@ public static class ConstantKeys
     public static string SCENE_GAMEPLAY = "GameplaySceneEndless";
     public static string STORY_SCENE = "StoryScene";
 
-    // gameplay tag
+    // gameplay playerPrefTag
 
-    // playerpref tag
+    // playerpref playerPrefTag
     public static string SELECTED_CAR = "SelectedCar";
     public static string HIGHSCORE = "highscore";
     public static string USERNAME = "username";

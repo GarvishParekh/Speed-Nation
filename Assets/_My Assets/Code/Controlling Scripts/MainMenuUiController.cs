@@ -302,4 +302,9 @@ public class MainMenuUiController : MonoBehaviour
         uiManager.ClosePopUp(CanvasNames.NEWS_CANVAS);
         gameCheckManager.SetNewsSeen(true); 
     }
+
+    public void _CloseBuyCanvas()
+    {
+        uiManager.ClosePopUp(CanvasNames.BUY_CAR_CANVAS);
+    }
 }

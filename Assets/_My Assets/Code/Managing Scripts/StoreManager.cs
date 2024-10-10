@@ -1,15 +1,10 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public enum GarageCars
-{
-    SEDEAN,
-    MUSCLE,
-    HATCHBACK
-}
 
 public class StoreManager : MonoBehaviour
 {
+    UiManager uiManager;
     [SerializeField] private CarsData[] carsData;
     [SerializeField] private CarDetailsData carDetailData;
     [SerializeField] private List<CarCardIdentity> carCards = new List<CarCardIdentity>();
@@ -20,6 +15,11 @@ public class StoreManager : MonoBehaviour
     private void Awake()
     {
         DisplayAndUpdateSelectedCar();
+    }
+
+    private void Start()
+    {
+        uiManager = UiManager.instance;
     }
 
     private void DisplayCar(int _selectedCar)
@@ -33,12 +33,23 @@ public class StoreManager : MonoBehaviour
 
     public void _SelectCarButton(int index)
     {
-        PlayerPrefs.SetInt(ConstantKeys.SELECTED_CAR, index);
-        DisplayAndUpdateSelectedCar();
+        string carName = carDetailData.carDetail[index].carName;
+        int buyStatus = PlayerPrefs.GetInt(carName, 0);
 
-        foreach (CarCardIdentity carIdentity in carCards)
+        if (buyStatus == 0)
         {
-            carIdentity.UpdateUi();
+            uiManager.OpenPopUp(CanvasNames.BUY_CAR_CANVAS);
+            uiManager.UpdateBuyCarPanel(index);
+        }
+        else
+        {
+            PlayerPrefs.SetInt(ConstantKeys.SELECTED_CAR, index);
+            DisplayAndUpdateSelectedCar();
+
+            foreach (CarCardIdentity carIdentity in carCards)
+            {
+                carIdentity.UpdateUi();
+            }
         }
     }
 

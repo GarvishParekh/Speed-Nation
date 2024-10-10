@@ -2,19 +2,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-public enum CarsName
-{
-    SEDAN,
-    HATCHBACK,
-    MUSCLE,
-    SUPER
-}
 
-public enum LockStatus
-{
-    LOCKED,
-    UNLOCKED
-}
 public class CarCardIdentity : MonoBehaviour
 {
     [SerializeField] private CarsName carsName;
@@ -27,15 +15,22 @@ public class CarCardIdentity : MonoBehaviour
     [Header ("<size=15>USER INTERFACE")]
     [SerializeField] private Button selectedButton;
     [SerializeField] private RawImage displayImage;
-    [SerializeField] private GameObject lockScreen;
-    [SerializeField] private TMP_Text requriedScoreText;
+    [SerializeField] private TMP_Text requriedTicketsText;
+    [SerializeField] private GameObject ticketImage;
 
     int carIndex;
-
-    int currentScore;
-    int requriedScoreCount;
-
+    int requriedTicketsCount;
     Vector3 shineStartPosition;
+    string playerPrefTag;
+
+    private void Awake()
+    {
+        playerPrefTag = carDetailsData.carDetail[(int)carsName].carName;
+        if (carDetailsData.carDetail[(int)carsName].purchaseWay == PurchaseWay.FREE)
+        {
+            PlayerPrefs.SetInt(playerPrefTag, 1);
+        }
+    }
 
     private void Start()
     {
@@ -48,23 +43,25 @@ public class CarCardIdentity : MonoBehaviour
     {
         carIndex = (int)carsName;
 
-        currentScore = PlayerPrefs.GetInt(ConstantKeys.HIGHSCORE, 0);
-        requriedScoreCount = carDetailsData.carDetail[carIndex].requriedScore;
-
-        if (requriedScoreCount > currentScore)
+        int carUnlockStatus = PlayerPrefs.GetInt(playerPrefTag, 0);
+        requriedTicketsCount = carDetailsData.carDetail[carIndex].requriedTickets;
+        
+        switch (carUnlockStatus)
         {
-            selectedButton.interactable = false;
-            lockScreen.SetActive(true);
-            requriedScoreText.text = $"Score <color=#E26E20>{requriedScoreCount} PTS</color> to unlock";
+            case 0:
+                requriedTicketsText.text = requriedTicketsCount.ToString();
+                ticketImage.SetActive (true);   
+            break;
+            case 1:
+                requriedTicketsText.text = "OWNED";
+                ticketImage.SetActive (false);   
+            break;
         }
-        else
-        {
-            lockScreen.SetActive(false);
-        }
-
 
         if (carDetailsData.carDetail[carIndex].isSelected)
         {
+            requriedTicketsText.text = "SELECTED";
+            ticketImage.SetActive(false);
             transform.localScale = Vector3.one * 1.1f;
             displayImage.texture = carDetailsData.carDetail[carIndex].selectedSprite;
 
