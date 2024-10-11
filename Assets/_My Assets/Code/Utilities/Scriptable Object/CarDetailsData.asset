@@ -21,7 +21,7 @@ MonoBehaviour:
     unSelectedSprite: {fileID: 2800000, guid: 7394b72890fc5484c899397da6caf17b, type: 3}
     purchaseWay: 0
     lockStatus: 0
-    isSelected: 1
+    isSelected: 0
   - carName: Crimson drift
     carIndex: 1
     requriedScore: 0
@@ -66,18 +66,18 @@ MonoBehaviour:
     unSelectedSprite: {fileID: 2800000, guid: 7387145aca0e455418c01782e7fe928a, type: 3}
     purchaseWay: 1
     lockStatus: 0
-    isSelected: 0
+    isSelected: 1
   - carName: Summer dreamer
-    carIndex: 5
+    carIndex: 6
     requriedScore: 0
     requriedTickets: 1200
     selectedSprite: {fileID: 2800000, guid: 83fd0dac2bb99664a82176c6c755af0c, type: 3}
     unSelectedSprite: {fileID: 2800000, guid: 68958bba9e3fd4144b93064258986c93, type: 3}
     purchaseWay: 1
     lockStatus: 0
-    isSelected: 0
+    isSelected: 1
   - carName: Spectrum flash
-    carIndex: 6
+    carIndex: 7
     requriedScore: 0
     requriedTickets: 1500
     selectedSprite: {fileID: 2800000, guid: 3715d8c0d849f654da04ff491793324a, type: 3}
@@ -86,7 +86,7 @@ MonoBehaviour:
     lockStatus: 0
     isSelected: 0
   - carName: Golden streak
-    carIndex: 7
+    carIndex: 8
     requriedScore: 0
     requriedTickets: 3000
     selectedSprite: {fileID: 2800000, guid: a6236594c18a77e4b82f5834dd967743, type: 3}
@@ -95,7 +95,7 @@ MonoBehaviour:
     lockStatus: 0
     isSelected: 0
   - carName: Trailblazer shadow
-    carIndex: 8
+    carIndex: 9
     requriedScore: 0
     requriedTickets: 4000
     selectedSprite: {fileID: 2800000, guid: 199ef3a2be9ed6b409b4e7a544d54238, type: 3}
@@ -104,7 +104,7 @@ MonoBehaviour:
     lockStatus: 0
     isSelected: 0
   - carName: Scarlet veloce
-    carIndex: 9
+    carIndex: 10
     requriedScore: 0
     requriedTickets: 5000
     selectedSprite: {fileID: 2800000, guid: bca27028632401140a46a9fb83f75b72, type: 3}
