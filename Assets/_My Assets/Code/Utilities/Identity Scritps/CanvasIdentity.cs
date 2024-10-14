@@ -25,5 +25,6 @@ public enum CanvasNames
     LEADERBOARDS,
     ENTER_USER_NAME,
     NEWS_CANVAS,
-    BUY_CAR_CANVAS
+    BUY_CAR_CANVAS,
+    OUT_OF_TICKETS_CANVAS
 }

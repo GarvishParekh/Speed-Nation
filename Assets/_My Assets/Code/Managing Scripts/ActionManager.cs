@@ -12,4 +12,7 @@ public class ActionManager : MonoBehaviour
     public static Action TrafficKilled;
     public static Action<int> UpdateKillStreak;
     public static Action KillStreakCouterReset;
+
+    // economy related actions
+    public static Action NoEnoghtBalance;
 }

@@ -5,6 +5,7 @@ using UnityEngine;
 public class StoreManager : MonoBehaviour
 {
     UiManager uiManager;
+    EconomyManager economyManager;
     [SerializeField] private CarsData[] carsData;
     [SerializeField] private CarDetailsData carDetailData;
     [SerializeField] private List<CarCardIdentity> carCards = new List<CarCardIdentity>();
@@ -20,6 +21,7 @@ public class StoreManager : MonoBehaviour
     private void Start()
     {
         uiManager = UiManager.instance;
+        economyManager = EconomyManager.instance;
     }
 
     private void DisplayCar(int _selectedCar)
@@ -38,6 +40,11 @@ public class StoreManager : MonoBehaviour
 
         if (buyStatus == 0)
         {
+            int carPrice = carDetailData.carDetail[index].requriedTickets;
+            if (!economyManager.CheckBalance(carPrice))
+                return;
+            
+
             uiManager.OpenPopUp(CanvasNames.BUY_CAR_CANVAS);
             uiManager.UpdateBuyCarPanel(index);
         }

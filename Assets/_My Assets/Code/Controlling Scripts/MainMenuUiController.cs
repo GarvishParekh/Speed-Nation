@@ -307,4 +307,9 @@ public class MainMenuUiController : MonoBehaviour
     {
         uiManager.ClosePopUp(CanvasNames.BUY_CAR_CANVAS);
     }
+
+    public void _CloseOutOfTicketCanvas()
+    {
+        uiManager.ClosePopUp(CanvasNames.OUT_OF_TICKETS_CANVAS);
+    }
 }

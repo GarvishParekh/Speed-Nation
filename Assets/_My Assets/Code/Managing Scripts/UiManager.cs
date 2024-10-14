@@ -8,6 +8,7 @@ using UnityEngine.UI;
 public class UiManager : MonoBehaviour
 {
     public static UiManager instance;
+    EconomyManager economyManager;
 
     [Header("<size=15>SCRIPTS")]
     [SerializeField] private StoreManager storeManager;
@@ -19,7 +20,8 @@ public class UiManager : MonoBehaviour
     [SerializeField] private List<CanvasIdentity> uiCanvas;
     [SerializeField] private List<CanvasIdentity> popUpCanvas;
     [SerializeField] private GameObject shutter;
-    [SerializeField] private TMP_Text buyInfoText;
+    [SerializeField] private TMP_Text buyInfoCarNameText;
+    [SerializeField] private TMP_Text buyInfoCarPriceText;
     [SerializeField] private Button buyButton;
 
     [Header ("<size=15>CAMERAS")]
@@ -31,6 +33,11 @@ public class UiManager : MonoBehaviour
     private void Awake()
     {
         instance = this;
+    }
+
+    private void Start()
+    {
+        economyManager = EconomyManager.instance;
     }
 
     public void OpenCanvasWithShutter(CanvasNames desireCanvas)
@@ -149,7 +156,8 @@ public class UiManager : MonoBehaviour
     {
         string carName = carDetailsData.carDetail[carIndex].carName;
         int carPrice = carDetailsData.carDetail[carIndex].requriedTickets;
-        buyInfoText.text = $"Are you sure you want to buy <color=#E16B1B><b>{carName}<b></color> for <color=#E16B1B><b>{carPrice}<b></color> tickets";
+        buyInfoCarNameText.text = $"{carName}";
+        buyInfoCarPriceText.text = $"{carPrice}";
 
         buyButton.onClick.RemoveAllListeners();
         buyButton.onClick.AddListener(() => BuyButton(carIndex));
@@ -159,6 +167,9 @@ public class UiManager : MonoBehaviour
     {
         ClosePopUp(CanvasNames.BUY_CAR_CANVAS);
         string carName = carDetailsData.carDetail[index].carName;
+        int carPrice = carDetailsData.carDetail[index].requriedTickets;
+
+        economyManager.DebitBalance(carPrice);
 
         PlayerPrefs.SetInt(carName, 1);
         PlayerPrefs.SetInt(ConstantKeys.SELECTED_CAR, index);

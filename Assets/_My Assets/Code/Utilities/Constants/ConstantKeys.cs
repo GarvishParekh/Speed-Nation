@@ -7,6 +7,7 @@ public static class ConstantKeys
     public static string STORY_SCENE = "StoryScene";
 
     // gameplay playerPrefTag
+    public static string TOTAL_TICKETS = "TotalTickets";
 
     // playerpref playerPrefTag
     public static string SELECTED_CAR = "SelectedCar";
