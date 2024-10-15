@@ -12,5 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e95d186abcfe59740a78b3cad9b0cce0, type: 3}
   m_Name: Economy Data
   m_EditorClassIdentifier: 
-  totalTickets: 75
-  startingValue: 15000
+  totalOil: 15000
+  startingOilValue: 50000
+  totalTickets: 500
+  startingTicketValue: 5000

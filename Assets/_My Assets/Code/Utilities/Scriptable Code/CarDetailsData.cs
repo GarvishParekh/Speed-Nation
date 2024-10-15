@@ -25,7 +25,8 @@ public enum PurchaseWay
 {
     FREE,
     TICKETS,
-    IN_APP
+    IN_APP,
+    OIL
 }
 
 [CreateAssetMenu(fileName = "CarDetailsData", menuName = "Scriptable / CarDetailsData")]

@@ -1,5 +1,5 @@
-using System.Collections.Generic;
 using UnityEngine;
+using System.Collections.Generic;
 
 
 public class StoreManager : MonoBehaviour
@@ -41,8 +41,17 @@ public class StoreManager : MonoBehaviour
         if (buyStatus == 0)
         {
             int carPrice = carDetailData.carDetail[index].requriedTickets;
-            if (!economyManager.CheckBalance(carPrice))
-                return;
+            PurchaseWay purchaseWay = carDetailData.carDetail[index].purchaseWay;
+
+            switch (purchaseWay)
+            {
+                case PurchaseWay.TICKETS:
+                    if (!economyManager.CheckTicketBalance(carPrice)) return;
+                    break;
+                case PurchaseWay.OIL:
+                    if (!economyManager.CheckOilBalance(carPrice)) return;
+                    break;
+            }
             
 
             uiManager.OpenPopUp(CanvasNames.BUY_CAR_CANVAS);

@@ -66,14 +66,14 @@ public class ScoreManager : MonoBehaviour
     {
         gameplayData.scoreCount += Time.deltaTime * 50;
         scoreText.text = gameplayData.scoreCount.ToString("0");
-        resultScoreText.text = "Score: " + gameplayData.scoreCount.ToString("0"); 
+        resultScoreText.text = gameplayData.scoreCount.ToString("0"); 
     }
 
     public void AddScore(int scoreToAdd)
     {
         gameplayData.scoreCount += scoreToAdd;
         scoreText.text = gameplayData.scoreCount.ToString("0");
-        resultScoreText.text = "Score: " + gameplayData.scoreCount.ToString("0");
+        resultScoreText.text = gameplayData.scoreCount.ToString("0");
     }
 
     private void OnCarCollision(Transform t)
@@ -89,9 +89,9 @@ public class ScoreManager : MonoBehaviour
     {
         float timeSpent = carStatsManager.GetTotalTimePlayed();
 
-        totalTimeSpentText.text = "Time spent: " + timeSpent.ToString("0") + "s";
+        totalTimeSpentText.text = timeSpent.ToString("0") + "s";
         gameplayData.totalScoreCount = gameplayData.scoreCount + timeSpent + carStatsManager.GetCarSmashedScore();
-        totalScoreText.text = "Total: " + gameplayData.totalScoreCount.ToString("0");
+        totalScoreText.text = "PTS " + gameplayData.totalScoreCount.ToString("0");
 
         if (gameplayData.totalScoreCount > gameplayData.currentHighscoreCount)
         {

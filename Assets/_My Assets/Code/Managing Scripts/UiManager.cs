@@ -22,6 +22,9 @@ public class UiManager : MonoBehaviour
     [SerializeField] private GameObject shutter;
     [SerializeField] private TMP_Text buyInfoCarNameText;
     [SerializeField] private TMP_Text buyInfoCarPriceText;
+    [SerializeField] private Image currencyImage;
+    [SerializeField] private Sprite ticketSprite;
+    [SerializeField] private Sprite oilSprite;
     [SerializeField] private Button buyButton;
 
     [Header ("<size=15>CAMERAS")]
@@ -156,6 +159,18 @@ public class UiManager : MonoBehaviour
     {
         string carName = carDetailsData.carDetail[carIndex].carName;
         int carPrice = carDetailsData.carDetail[carIndex].requriedTickets;
+        PurchaseWay purchaseWay = carDetailsData.carDetail[carIndex].purchaseWay; 
+
+        switch (purchaseWay)
+        {
+            case PurchaseWay.TICKETS:
+                currencyImage.sprite = ticketSprite;
+                break;
+            case PurchaseWay.OIL:
+                currencyImage.sprite = oilSprite;
+                break;
+        }
+
         buyInfoCarNameText.text = $"{carName}";
         buyInfoCarPriceText.text = $"{carPrice}";
 
@@ -169,7 +184,17 @@ public class UiManager : MonoBehaviour
         string carName = carDetailsData.carDetail[index].carName;
         int carPrice = carDetailsData.carDetail[index].requriedTickets;
 
-        economyManager.DebitBalance(carPrice);
+        PurchaseWay purchaseWay = carDetailsData.carDetail[index].purchaseWay;
+
+        switch (purchaseWay)
+        {
+            case PurchaseWay.TICKETS:
+                economyManager.DebitTickets(carPrice);
+                break;
+            case PurchaseWay.OIL:
+                economyManager.DebitOil(carPrice);
+                break;
+        }
 
         PlayerPrefs.SetInt(carName, 1);
         PlayerPrefs.SetInt(ConstantKeys.SELECTED_CAR, index);

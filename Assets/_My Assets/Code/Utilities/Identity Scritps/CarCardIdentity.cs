@@ -17,6 +17,7 @@ public class CarCardIdentity : MonoBehaviour
     [SerializeField] private RawImage displayImage;
     [SerializeField] private TMP_Text requriedTicketsText;
     [SerializeField] private GameObject ticketImage;
+    [SerializeField] private GameObject oilImage;
 
     int carIndex;
     int requriedTicketsCount;
@@ -25,10 +26,21 @@ public class CarCardIdentity : MonoBehaviour
 
     private void Awake()
     {
+        ticketImage.gameObject.SetActive(false);
+        oilImage.gameObject.SetActive(false);
+
         playerPrefTag = carDetailsData.carDetail[(int)carsName].carName;
         if (carDetailsData.carDetail[(int)carsName].purchaseWay == PurchaseWay.FREE)
         {
             PlayerPrefs.SetInt(playerPrefTag, 1);
+        }
+        else if (carDetailsData.carDetail[(int)carsName].purchaseWay == PurchaseWay.OIL)
+        {
+            oilImage.gameObject.SetActive(true);
+        }
+        else if (carDetailsData.carDetail[(int)carsName].purchaseWay == PurchaseWay.TICKETS)
+        {
+            ticketImage.gameObject.SetActive(true);
         }
     }
 
@@ -44,17 +56,27 @@ public class CarCardIdentity : MonoBehaviour
         carIndex = (int)carsName;
 
         int carUnlockStatus = PlayerPrefs.GetInt(playerPrefTag, 0);
+        PurchaseWay purchaseWay = carDetailsData.carDetail[carIndex].purchaseWay;
         requriedTicketsCount = carDetailsData.carDetail[carIndex].requriedTickets;
         
         switch (carUnlockStatus)
         {
             case 0:
                 requriedTicketsText.text = requriedTicketsCount.ToString();
-                ticketImage.SetActive (true);   
+                switch (purchaseWay)
+                {
+                    case PurchaseWay.TICKETS:
+                        ticketImage.SetActive (true);   
+                        break;
+                    case PurchaseWay.OIL:
+                        oilImage.SetActive (true);   
+                        break;
+                }
             break;
             case 1:
                 requriedTicketsText.text = "OWNED";
                 ticketImage.SetActive (false);   
+                oilImage.SetActive (false);   
             break;
         }
 
@@ -62,6 +84,7 @@ public class CarCardIdentity : MonoBehaviour
         {
             requriedTicketsText.text = "SELECTED";
             ticketImage.SetActive(false);
+            oilImage.SetActive(false);
             transform.localScale = Vector3.one * 1.1f;
             displayImage.texture = carDetailsData.carDetail[carIndex].selectedSprite;
 

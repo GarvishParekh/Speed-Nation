@@ -58,7 +58,7 @@ public class CarStatsManager : MonoBehaviour
         LoseHealth();
         //LoseTime(5.0f);
         totalCarSmashedCount += 1;
-        totalCarSmashedText.text = "Car smashed: " + totalCarSmashedCount.ToString("0");
+        totalCarSmashedText.text = totalCarSmashedCount.ToString("0")+ " UNITS";
     }
 
     int healtCount = 2;
