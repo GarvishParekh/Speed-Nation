@@ -3,12 +3,12 @@ using UnityEngine;
 
 public class TrafficCarController : MonoBehaviour
 {
-    public static Action CarCollided;
+    
     Rigidbody rb;
     bool wasCollided = false;
 
     [SerializeField] private GameObject afterCollision;
-    [SerializeField] private CarSpawnManager carSpawnManager;
+    [SerializeField] private TrafficSpawnManager carSpawnManager;
 
     private void Awake()
     {
@@ -20,7 +20,7 @@ public class TrafficCarController : MonoBehaviour
         if (other.CompareTag("Player"))
         {
             Debug.Log("Collided with player");
-            CarCollided?.Invoke();
+            ActionManager.CarCollided?.Invoke(transform);
 
             carSpawnManager.SpawnDestroyedCar(transform);
             gameObject.SetActive(false);

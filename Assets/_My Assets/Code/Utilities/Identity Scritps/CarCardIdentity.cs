@@ -2,61 +2,110 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-public enum CarsName
-{
-    SEDAN,
-    HATCHBACK,
-    MUSCLE
-}
 
-public enum LockStatus
-{
-    LOCKED,
-    UNLOCKED
-}
 public class CarCardIdentity : MonoBehaviour
 {
     [SerializeField] private CarsName carsName;
     [SerializeField] private CarDetailsData carDetailsData;
 
+    [Header("<size=15>SHINE ANIMATION")]
+    [SerializeField] private GameObject shineObj;
+    [SerializeField] private Transform endPositionObj;
+
     [Header ("<size=15>USER INTERFACE")]
-    [SerializeField] private TMP_Text carNameText;
-    [SerializeField] private TMP_Text carDescriptionText;
-    [SerializeField] private Image carIcon;
     [SerializeField] private Button selectedButton;
-    [SerializeField] private TMP_Text selectedText;
+    [SerializeField] private RawImage displayImage;
+    [SerializeField] private TMP_Text requriedTicketsText;
+    [SerializeField] private GameObject ticketImage;
+    [SerializeField] private GameObject oilImage;
+
+    int carIndex;
+    int requriedTicketsCount;
+    Vector3 shineStartPosition;
+    string playerPrefTag;
+
+    private void Awake()
+    {
+        ticketImage.gameObject.SetActive(false);
+        oilImage.gameObject.SetActive(false);
+
+        playerPrefTag = carDetailsData.carDetail[(int)carsName].carName;
+        if (carDetailsData.carDetail[(int)carsName].purchaseWay == PurchaseWay.FREE)
+        {
+            PlayerPrefs.SetInt(playerPrefTag, 1);
+        }
+        else if (carDetailsData.carDetail[(int)carsName].purchaseWay == PurchaseWay.OIL)
+        {
+            oilImage.gameObject.SetActive(true);
+        }
+        else if (carDetailsData.carDetail[(int)carsName].purchaseWay == PurchaseWay.TICKETS)
+        {
+            ticketImage.gameObject.SetActive(true);
+        }
+    }
 
     private void Start()
     {
+        shineStartPosition = shineObj.transform.localPosition;
+        displayImage = GetComponent<RawImage>();
         LoadCarDetails();
     }
 
     private void LoadCarDetails()
     {
-        int carIndex = (int)carsName;
-        carNameText.text = carDetailsData.carDetail[carIndex].carName;
-        carDescriptionText.text = carDetailsData.carDetail[carIndex].carDescription;
-        carIcon.sprite = carDetailsData.carDetail[carIndex].carIconSprite;
+        carIndex = (int)carsName;
+
+        int carUnlockStatus = PlayerPrefs.GetInt(playerPrefTag, 0);
+        PurchaseWay purchaseWay = carDetailsData.carDetail[carIndex].purchaseWay;
+        requriedTicketsCount = carDetailsData.carDetail[carIndex].requriedTickets;
+        
+        switch (carUnlockStatus)
+        {
+            case 0:
+                requriedTicketsText.text = requriedTicketsCount.ToString();
+                switch (purchaseWay)
+                {
+                    case PurchaseWay.TICKETS:
+                        ticketImage.SetActive (true);   
+                        break;
+                    case PurchaseWay.OIL:
+                        oilImage.SetActive (true);   
+                        break;
+                }
+            break;
+            case 1:
+                requriedTicketsText.text = "OWNED";
+                ticketImage.SetActive (false);   
+                oilImage.SetActive (false);   
+            break;
+        }
 
         if (carDetailsData.carDetail[carIndex].isSelected)
         {
+            requriedTicketsText.text = "SELECTED";
+            ticketImage.SetActive(false);
+            oilImage.SetActive(false);
             transform.localScale = Vector3.one * 1.1f;
-            selectedButton.image.color = carDetailsData.selectedColor;
-            selectedText.color = carDetailsData.unSelectedColor;
-            selectedText.text = "Selected";
+            displayImage.texture = carDetailsData.carDetail[carIndex].selectedSprite;
+
+            ShineAnimation();
         }
         else
         {
             transform.localScale = Vector3.one;
-            selectedButton.image.color = carDetailsData.unSelectedColor;
-            selectedText.color = carDetailsData.selectedColor;
-            selectedText.text = "Select";
+            displayImage.texture = carDetailsData.carDetail[carIndex].unSelectedSprite;
         }
     }
 
     public void UpdateUi()
     {
         LoadCarDetails();
+    }
+
+    private void ShineAnimation()
+    {
+        shineObj.transform.localPosition = shineStartPosition;
+        LeanTween.moveLocal(shineObj, endPositionObj.localPosition, 0.35f);
     }
 }
 

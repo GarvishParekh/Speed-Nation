@@ -7,6 +7,8 @@ TagManager:
   - Wall
   - Traffic
   - Fuel
+  - Toll
+  - Cinamitic Cam
   layers:
   - Default
   - TransparentFX
@@ -15,8 +17,8 @@ TagManager:
   - Water
   - UI
   - Wall
-  - 
-  - 
+  - Speed Lines
+  - Cars
   - 
   - 
   - 
