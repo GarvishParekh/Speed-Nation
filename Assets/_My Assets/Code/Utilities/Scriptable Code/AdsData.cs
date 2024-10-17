@@ -13,19 +13,22 @@ public enum RewardAvailability
     UNAVAILABLE
 }
 
+public enum NoAdsCard
+{
+    ACTIVE,
+    IN_ACTIVE
+}
+
 [CreateAssetMenu(fileName = "Ads Data", menuName = "AdsData")]
 public class AdsData : ScriptableObject
 {
     public DeviceType deviceType;
-    public RewardAvailability rewardAvailability;
 
+    [Space]
+    public NoAdsCard noAdsCard;
     [Space]
     public AdsID androidAdsID;
     public AdsID iOSAdsID;
-
-    [Space]
-    public float totalTimeSpent;
-    public float adsTimer;
 }
 
 [Serializable]

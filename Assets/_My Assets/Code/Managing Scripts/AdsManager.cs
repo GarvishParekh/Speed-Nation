@@ -2,22 +2,15 @@ using System;
 using UnityEngine;
 using GoogleMobileAds.Api;
 
-public enum AdType
+public enum RewardType
 {
-    interstitialAd,
-    rewardedAd
-}
-
-public enum RewardAdPlacement
-{
-    UserReward,
-    DoubleUpReward
+    OILS,
+    TICKETS
 }
 
 
 public class AdsManager : MonoBehaviour
 {
-    public static Action GetReward;
     public static AdsManager instance;
 
     [Header (" [SCRIPTABLE OBJECT] ")]
@@ -31,12 +24,6 @@ public class AdsManager : MonoBehaviour
 
     void Awake()
     {
-        MobileAds.RaiseAdEventsOnUnityMainThread = true;
-        CreateSingleton();
-    }
-
-    private void CreateSingleton()
-    {
         if (instance != null)
         {
             Destroy(gameObject);
@@ -44,17 +31,19 @@ public class AdsManager : MonoBehaviour
         else
         {
             instance = this;
-            DontDestroyOnLoad(gameObject);  
+            DontDestroyOnLoad(gameObject);
         }
     }
 
     private void Start()
     {
+        // ads will carsh in android specially in video ads
+        MobileAds.RaiseAdEventsOnUnityMainThread = true;
         FetchID();
         MobileAds.Initialize(initStatus => 
         {
-            LoadInterstitialAd();
-            LoadRewardedAd();
+            RequestInterstitialAd();
+            RequestRewardedAd();
         });
     }
 
@@ -76,76 +65,9 @@ public class AdsManager : MonoBehaviour
         }
     }
 
-    #region Show Ads
-    // without placement
-    private void ShoawAds(AdType adType)
-    {
-        switch (adType)
-        {
-            case AdType.interstitialAd:
-                #region Show ad
-                if (interstitialAd != null && interstitialAd.CanShowAd())
-                {
-                    Debug.Log("Showing interstitial ad.");
-                    interstitialAd.Show();
-                }
-                else
-                {
-                    Debug.LogError("Interstitial ad is not ready yet.");
-                }
-                #endregion
-                break;
-            case AdType.rewardedAd:
-                #region Show ad
-                if (rewardedAd != null && rewardedAd.CanShowAd())
-                {
-                    rewardedAd.Show((AdRequest) =>
-                    {
-                        Debug.Log("Showing rewarded ads");
-                    });
-                }
-                #endregion
-                break;
-        }
-    }
+    // ---- INTERSTITIAL ADS ----
 
-    // with placement
-    private void ShoawAds(AdType adType, RewardAdPlacement rewardAdPlacement)
-    {
-        switch (adType)
-        {
-            case AdType.interstitialAd:
-                #region Show ad
-                if (interstitialAd != null && interstitialAd.CanShowAd())
-                {
-                    Debug.Log("Showing interstitial ad.");
-                    interstitialAd.Show();
-                }
-                else
-                {
-                    Debug.LogError("Interstitial ad is not ready yet.");
-                }
-                #endregion
-                break;
-            case AdType.rewardedAd:
-                #region Show ad
-                if (rewardedAd != null && rewardedAd.CanShowAd())
-                {
-                    rewardedAd.Show((AdRequest) =>
-                    {
-                        GetReward?.Invoke();
-                        Debug.Log("Showing rewarded ads");
-                    });
-                }
-                #endregion
-                break;
-        }
-    }
-
-    #endregion
-
-    #region Load Interstitial Ads
-    public void LoadInterstitialAd()
+    public void RequestInterstitialAd()
     {
         // Clean up the old ad before loading a new one.
         if (interstitialAd != null)
@@ -175,7 +97,18 @@ public class AdsManager : MonoBehaviour
             RegisterEventHandlers(interstitialAd);
         });
     }
-
+    public void ShowInterstitialAd()
+    {
+        if (interstitialAd != null && interstitialAd.CanShowAd())
+        {
+            Debug.Log("Showing interstitial ad.");
+            interstitialAd.Show();
+        }
+        else
+        {
+            Debug.LogError("Interstitial ad is not ready yet.");
+        }
+    }
     private void RegisterEventHandlers(InterstitialAd interstitialAd)
     {
         // Raised when the ad is estimated to have earned money.
@@ -204,24 +137,19 @@ public class AdsManager : MonoBehaviour
         interstitialAd.OnAdFullScreenContentClosed += () =>
         {
             Debug.Log("Interstitial ad full screen content closed.");
-            LoadInterstitialAd();
+            RequestInterstitialAd();
         };
         // Raised when the ad failed to open full screen content.
         interstitialAd.OnAdFullScreenContentFailed += (AdError error) =>
         {
             Debug.LogError("Interstitial ad failed to open full screen content " + "with error : " + error);
-            LoadInterstitialAd();
+            RequestInterstitialAd();
         };
     }
 
-    public void ShowInterstitialAd()
-    {
-        ShoawAds(AdType.interstitialAd);
-    }
-    #endregion
 
-    #region Load Rewarded Ads
-    public void LoadRewardedAd()
+    // ---- REWARDED ADS ----
+    public void RequestRewardedAd()
     {
         // Clean up the old ad before loading a new one.
         if (rewardedAd != null)
@@ -254,7 +182,36 @@ public class AdsManager : MonoBehaviour
                 RegisterEventHandlers(rewardedAd);
             });
     }
-
+    public void ShowRewardedAds(RewardType rewardType)
+    {
+        if (rewardedAd != null && rewardedAd.CanShowAd())
+        {
+            rewardedAd.Show((AdRequest) =>
+            {
+                switch (rewardType)
+                {
+                    case RewardType.OILS:
+                        // reward oils
+                        ActionManager.rewardOils?.Invoke(2000);
+                        UiManager.instance.ThankYouForPurchase(true);
+                        break;
+                    case RewardType.TICKETS:
+                        // reward tickets
+                        ActionManager.rewardTickets?.Invoke(25);
+                        UiManager.instance.ThankYouForPurchase(true);
+                        break;
+                    default:
+                        Debug.Log("wrong input");
+                        break;
+                }
+                Debug.Log("Showing rewarded ads");
+            });
+        }
+        else
+        {
+            UiManager.instance.ShowAdsNotAvailalbe(true);
+        }
+    }
     private void RegisterEventHandlers(RewardedAd ad)
     {
         // Raised when the ad is estimated to have earned money.
@@ -281,32 +238,13 @@ public class AdsManager : MonoBehaviour
         ad.OnAdFullScreenContentClosed += () =>
         {
             Debug.Log("Rewarded ad full screen content closed.");
-            LoadRewardedAd();
+            RequestRewardedAd();
         };
         // Raised when the ad failed to open full screen content.
         ad.OnAdFullScreenContentFailed += (AdError error) =>
         {
             Debug.LogError("Rewarded ad failed to open full screen content " + "with error : " + error);
-            LoadRewardedAd();
+            RequestRewardedAd();
         };
     }
-
-    public void ShowRewardedAdUerReward()
-        => ShoawAds(AdType.rewardedAd, RewardAdPlacement.UserReward);
-
-    public void ShowRewardedAdDoubleUp()
-        => ShoawAds(AdType.rewardedAd, RewardAdPlacement.DoubleUpReward);
-
-    public void CanShowRewardedAd()
-    {
-        if (rewardedAd == null || rewardedAd.CanShowAd() == false)
-        {
-            adsData.rewardAvailability = RewardAvailability.UNAVAILABLE;
-        }
-        else
-        {
-            adsData.rewardAvailability = RewardAvailability.AVAILABLE;
-        }
-    }
-    #endregion
 }

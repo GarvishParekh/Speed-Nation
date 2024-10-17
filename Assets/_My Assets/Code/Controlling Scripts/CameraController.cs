@@ -1,6 +1,5 @@
 using System.Collections;
 using UnityEngine;
-using UnityEngine.Android;
 
 public class CameraController : MonoBehaviour
 {
@@ -11,7 +10,14 @@ public class CameraController : MonoBehaviour
     [SerializeField] private GameplayUiController gameplayUi;
     [SerializeField] private Transform cameraTransform;
 
+    [Header ("<size=15>VALUES")]
+    [SerializeField] private float boostingFieldOfView;
+    [SerializeField] private float NormalCamSize;
+    [SerializeField] private float camFieldOfView = 55f;
+
+
     [Header ("<size=15>COMPONENTS")]
+    [SerializeField] private Camera mainCamera;
     [SerializeField] private Transform playerCar;
     [SerializeField] private Transform cameraHolder;
     [SerializeField] private Transform cameraInitialTransform;
@@ -25,12 +31,14 @@ public class CameraController : MonoBehaviour
 
     private void OnEnable()
     {
-        TrafficCarController.CarCollided += OnCarCollision;
+        ActionManager.CarCollided += OnCarCollision;
+        ActionManager.PlayerBoosting += OnPlayerBoost;
     }
 
     private void OnDisable()
     {
-        TrafficCarController.CarCollided -= OnCarCollision;
+        ActionManager.CarCollided -= OnCarCollision;
+        ActionManager.PlayerBoosting -= OnPlayerBoost;
     }
 
     private void Awake()
@@ -86,11 +94,31 @@ public class CameraController : MonoBehaviour
         }
     }
 
-    private void OnCarCollision()
+    private void OnCarCollision(Transform t)
         => camShakeTimer = camData.cameraShakeTime;
 
     public void SetPlayer(Transform _player)
     {
         playerCar = _player;
+    }
+
+    public void OnPlayerBoost(bool check)
+    {
+        if (check)
+        {
+            LeanTween.value(gameObject, camFieldOfView, boostingFieldOfView, 5).setOnUpdate((float newValue) =>
+            {
+                camFieldOfView = newValue; // Update the camFieldOfView as the tween progresses
+                mainCamera.fieldOfView = camFieldOfView;
+            });
+        }
+        else
+        {
+            LeanTween.value(gameObject, camFieldOfView, NormalCamSize, 5).setOnUpdate((float newValue) =>
+            {
+                camFieldOfView = newValue; // Update the camFieldOfView as the tween progresses
+                mainCamera.fieldOfView = camFieldOfView;
+            });
+        }
     }
 }

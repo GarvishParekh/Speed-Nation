@@ -5,8 +5,6 @@ public class TrafficSpawnManager : MonoBehaviour
 {
     [Header ("<size=15>COMPONENTS")]
     [SerializeField] private Transform playerCar;
-    [SerializeField] private Transform leftEdgeTransform;
-    [SerializeField] private Transform rightEdgeTransform;
     [SerializeField] private List<Transform> TrafficCars = new List<Transform>();
     [SerializeField] private List<DestroyedVehicleController> afterCollision = new List<DestroyedVehicleController>();
     [SerializeField] private List<ParticleSystem> carExplosionParticles = new List<ParticleSystem>();

@@ -9,6 +9,10 @@ public class MainMenuUiController : MonoBehaviour
 
     UiManager uiManager;
     BgMusicManager bgMusicManager;
+    GameCheckManager gameCheckManager;
+    FirebaseInitlization firebaseInitilization;
+
+    [SerializeField] private UpdateLeaderBoards updateLeaderboards;
 
     [SerializeField] private Color onColor;
     [SerializeField] private Color offColor;
@@ -20,22 +24,55 @@ public class MainMenuUiController : MonoBehaviour
 
     [Header("<size=15>POST PROCESSING UI")]
     [SerializeField] private Toggle postProcessingToggle;
-    [SerializeField] private TMP_Text postProcessingText;
+    [SerializeField] private TMP_Text serverConnectionText;
 
     [Header("<size=15>MUSIC UI")]
     [SerializeField] private Toggle musicToggle;
-    [SerializeField] private TMP_Text musicText;
+    [SerializeField] private TMP_InputField userNameInputFiled;
+    [SerializeField] private Button confirmUserNameButton;
+    [SerializeField] private TMP_Text userNameDisplayText;
+    
 
     [Header("<size=15>SOUND EFFECTS UI")]
     [SerializeField] private Toggle soundEffectToggle;
-    [SerializeField] private TMP_Text soundEffectText;
+
+    private void OnEnable()
+    {
+        FirebaseInitlization.ServerConnection += UpdateServerConnectionStatus;
+    }
+
+    private void OnDisable()
+    {
+        FirebaseInitlization.ServerConnection -= UpdateServerConnectionStatus;
+    }
 
     private void Start()
     {
+        firebaseInitilization = FirebaseInitlization.instance;
+        gameCheckManager = GameCheckManager.instance;   
+
+        if (firebaseInitilization.GetConnectionStatus())
+        {
+            serverConnectionText.text = "CONNECTED";
+        }
+        else
+        {
+            serverConnectionText.text = "CONNECTING...";
+        }
         uiManager = UiManager.instance;
         bgMusicManager = BgMusicManager.instance;
 
-        uiManager.OpenCanvasWithShutter(CanvasNames.MAIN_MENU);
+        string userNameString = PlayerPrefs.GetString(ConstantKeys.USERNAME, "");
+
+        if (userNameString == string.Empty) uiManager.OpenCanvasWithShutter(CanvasNames.ENTER_USER_NAME);
+        else
+        {
+            userNameDisplayText.text = userNameString;
+            uiManager.OpenCanvasWithShutter(CanvasNames.MAIN_MENU);
+
+            if (!gameCheckManager.GetNewsSeen()) _OpenNewsCanvas();
+            else uiManager.ClosePopUp(CanvasNames.NEWS_CANVAS);
+        }
 
         LoadPostProcessing();
         LoadMusic();
@@ -80,17 +117,17 @@ public class MainMenuUiController : MonoBehaviour
 
     public void _PostProcessingToggle()
     {
-        GenericToggle(postProcessingToggle, postProcessingText, "Post Processing: High", "Post Processing: Low", ConstantKeys.POSTPROCESSING);
+        GenericToggle(postProcessingToggle, ConstantKeys.POSTPROCESSING);
     }
 
     public void _MusicToggle()
     {
-        GenericToggle(musicToggle, musicText, "Music: On", "Music: Off", ConstantKeys.MUSIC);
+        GenericToggle(musicToggle, ConstantKeys.MUSIC);
     }
 
     public void _SoundToggle()
     {
-        GenericToggle(soundEffectToggle, soundEffectText, "Sound Effects: On", "Sound Effects: Off", ConstantKeys.SOUNDS);
+        GenericToggle(soundEffectToggle, ConstantKeys.SOUNDS);
     }
 
     public void _ShopButton()
@@ -98,18 +135,14 @@ public class MainMenuUiController : MonoBehaviour
         uiManager.OpenCanvasWithShutter(CanvasNames.SHOP);
     }
 
-    public void GenericToggle(Toggle toggle, TMP_Text displapText, string onString, string offString, string tag)
+    public void GenericToggle(Toggle toggle, string tag)
     {
         if (toggle.isOn)
         {
-            displapText.text = onString;
-            displapText.color = onColor;
             PlayerPrefs.SetInt(tag, 1);
         }
         else
         {
-            displapText.text = offString;
-            displapText.color = offColor;
             PlayerPrefs.SetInt(tag, 0);
         }
 
@@ -199,5 +232,77 @@ public class MainMenuUiController : MonoBehaviour
     {
         int highscoreCount = PlayerPrefs.GetInt(ConstantKeys.HIGHSCORE, 0);
         highscoreText.text = "HIGHSCORE: " + highscoreCount.ToString("0");
+    }
+
+    public void _SetUserName()
+    {
+        PlayerPrefs.SetString(ConstantKeys.USERNAME, userNameInputFiled.text);
+
+        userNameDisplayText.text = userNameInputFiled.text;
+        uiManager.OpenCanvasWithShutter(CanvasNames.MAIN_MENU);
+    }
+
+    public void CheckForInputField()
+    {
+        if (userNameInputFiled.text.Length > 0) confirmUserNameButton.gameObject.SetActive(true);
+        else confirmUserNameButton.gameObject.SetActive(false);
+    }
+
+    public void _OpenLeaderboards()
+    {
+        uiManager.OpenCanvasWithShutter(CanvasNames.LEADERBOARDS);
+        updateLeaderboards.UpdateUI();
+    }
+
+    private void Update()
+    {
+        if (Input.GetKeyDown (KeyCode.R))
+        {
+            PlayerPrefs.DeleteAll();
+        }
+    }
+
+    public void UpdateServerConnectionStatus(bool sucess)
+    {
+        if (firebaseInitilization.GetConnectionStatus())
+        {
+            serverConnectionText.text = "CONNECTED";
+            return;
+        }
+        if (sucess)
+        {
+            serverConnectionText.text = "CONNECTED";
+        }
+        else
+        {
+            serverConnectionText.text = "CONNECTION FAILED";
+        }
+    }
+
+    public void _EditUserNameButton()
+    {
+        confirmUserNameButton.gameObject.SetActive(false);   
+        uiManager.OpenCanvasWithShutter(CanvasNames.ENTER_USER_NAME);
+    }
+
+    public void _OpenNewsCanvas()
+    {
+        uiManager.OpenPopUp(CanvasNames.NEWS_CANVAS);
+    }
+
+    public void _CloseNewsCanvas()
+    {
+        uiManager.ClosePopUp(CanvasNames.NEWS_CANVAS);
+        gameCheckManager.SetNewsSeen(true); 
+    }
+
+    public void _CloseBuyCanvas()
+    {
+        uiManager.ClosePopUp(CanvasNames.BUY_CAR_CANVAS);
+    }
+
+    public void _CloseOutOfTicketCanvas()
+    {
+        uiManager.ClosePopUp(CanvasNames.OUT_OF_TICKETS_CANVAS);
     }
 }

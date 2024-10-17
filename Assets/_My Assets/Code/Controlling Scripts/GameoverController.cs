@@ -10,7 +10,10 @@ public class GameoverController : MonoBehaviour
     UiManager uiManager;
     AdsManager adsManager;
 
+    [Header("<size=15>SCRIPTABLE")]
     [SerializeField] private AdsData adsData;
+
+    [Space]
     [SerializeField] private RenderTexture camRenderTexture;
     [SerializeField] private TMP_Text gameoverReasonText;
     [SerializeField] private Camera ssCam;
@@ -50,6 +53,8 @@ public class GameoverController : MonoBehaviour
     {
         Gameover?.Invoke();
         StartCoroutine(nameof(TakeScreenshotCoroutine));
+
+        Invoke(nameof(ShowAds), 0.5f);
     }
 
     private IEnumerator TakeScreenshotCoroutine()
@@ -82,9 +87,16 @@ public class GameoverController : MonoBehaviour
         uiManager.OpenCanvasWithoutShutter(CanvasNames.GAMEOVER);
         ssCam.gameObject.SetActive(false);
 
-        int adsPossiblity = UnityEngine.Random.Range(0, 2); 
-        if (adsPossiblity == 0)  adsManager.ShowInterstitialAd();
+        
         
         isGameover = true;
+    }
+
+    private void ShowAds()
+    {
+        if (adsData.noAdsCard == NoAdsCard.IN_ACTIVE)
+        {
+            adsManager.ShowInterstitialAd();
+        }
     }
 }

@@ -16,3 +16,12 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 04223624863a0b141a650e53f344b5a5, type: 3}
   - {fileID: 8300000, guid: 7b1eab84eb43c0c4fb110dbdcc477447, type: 3}
   - {fileID: 8300000, guid: eae0e22f1a1c93443b9763e7ef04007b, type: 3}
+  nosSfx: {fileID: 8300000, guid: 459c3c7b58ddd384f80e0bcce6076fc4, type: 3}
+  boostCollectionSfx: {fileID: 8300000, guid: 8f74c90406c76054faff8d26ef62ed62, type: 3}
+  doubleKillSfx: {fileID: 8300000, guid: 6b84e9c46b9ac9b48b0d30b3e0db4e82, type: 3}
+  tripleKillSfx: {fileID: 8300000, guid: 6da0636601f512b4daa5da4c1bd1bf33, type: 3}
+  quadKillSfx: {fileID: 8300000, guid: 100d3965541eb404bae22498aad783ce, type: 3}
+  pentaKillSfx: {fileID: 8300000, guid: 16b103e90de27f04582dd3986f4671e8, type: 3}
+  rampageSfx: {fileID: 8300000, guid: 41790b511aaf0bb4e9544219081a73eb, type: 3}
+  godlikeSfx: {fileID: 8300000, guid: 223e4622f828f774caaa3c09c33d6b59, type: 3}
+  unstopableSfx: {fileID: 8300000, guid: 664bfad965a8a134fbea79b2f1da1c07, type: 3}

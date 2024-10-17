@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class TrafficCarController : MonoBehaviour
 {
-    public static Action CarCollided;
+    
     Rigidbody rb;
     bool wasCollided = false;
 
@@ -20,7 +20,7 @@ public class TrafficCarController : MonoBehaviour
         if (other.CompareTag("Player"))
         {
             Debug.Log("Collided with player");
-            CarCollided?.Invoke();
+            ActionManager.CarCollided?.Invoke(transform);
 
             carSpawnManager.SpawnDestroyedCar(transform);
             gameObject.SetActive(false);

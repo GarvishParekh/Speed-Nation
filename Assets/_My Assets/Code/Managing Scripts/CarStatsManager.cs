@@ -17,7 +17,6 @@ public class CarStatsManager : MonoBehaviour
     [SerializeField] private Transform timerHolder;
 
     [Header("Values")]
-    [SerializeField] private float clockTimer = 50;
     [SerializeField] private float totalTimePlayed = 0;
     [SerializeField] private float healthShakeCounter = 0;
     [SerializeField] private float totalCarSmashedCount = 0;
@@ -26,14 +25,14 @@ public class CarStatsManager : MonoBehaviour
 
     private void OnEnable()
     {
-        TrafficCarController.CarCollided += OnCarCollided;
-        CarController.TollHit += OnTollHit;
+        ActionManager.CarCollided += OnCarCollided;
+        ActionManager.PlayerBoosting += OnPlayerBoost;
     }
 
     private void OnDisable()
     {
-        TrafficCarController.CarCollided -= OnCarCollided;
-        CarController.TollHit -= OnTollHit;
+        ActionManager.CarCollided -= OnCarCollided;
+        ActionManager.PlayerBoosting -= OnPlayerBoost;
     }
 
     private void Update()
@@ -54,17 +53,19 @@ public class CarStatsManager : MonoBehaviour
         timerHolder.localPosition = Vector3.zero;
     }
 
-    private void OnCarCollided()
+    private void OnCarCollided(Transform t)
     {
         LoseHealth();
         //LoseTime(5.0f);
         totalCarSmashedCount += 1;
-        totalCarSmashedText.text = "Car smashed: " + totalCarSmashedCount.ToString("0");
+        totalCarSmashedText.text = totalCarSmashedCount.ToString("0")+ " UNITS";
     }
 
     int healtCount = 2;
     private void LoseHealth()
     {
+        if (isBoosting) return;
+
         healthBar[healtCount].SetActive(false);
         healtCount--;
         if (healtCount < 0)
@@ -80,37 +81,20 @@ public class CarStatsManager : MonoBehaviour
     
     private void ClockFunction()
     {
-        return;
-
         if (isNotified) return;
 
-        if (clockTimer > 0)
-        {
-            clockTimer -= Time.deltaTime;
-            totalTimePlayed += Time.deltaTime;
-            timerText.text = clockTimer.ToString("0") + "s";
-        }
-        else
-        {
-            isNotified = true;
-            NoTimeLeft?.Invoke();
-            clockTimer = 0;
-        }
+        totalTimePlayed += Time.deltaTime;
     }
 
-    private void LoseTime (float _timeToLose)
-    {
-        clockTimer -= _timeToLose;
-        if (clockTimer < 0) clockTimer = 0;
-    }
 
     public float GetTotalTimePlayed()
     {
         return totalTimePlayed;
     }
 
-    private void OnTollHit()
+    bool isBoosting = false;
+    private void OnPlayerBoost (bool check)
     {
-        clockTimer += 100;
+        isBoosting = check; 
     }
 }
