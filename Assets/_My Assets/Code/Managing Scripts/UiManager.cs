@@ -202,4 +202,16 @@ public class UiManager : MonoBehaviour
         storeManager._SelectCarButton(index);
     }
 
+    public void ShowAdsNotAvailalbe(bool check)
+    {
+        if (check) OpenPopUp(CanvasNames.TRY_AGAIN_LATER);
+        else ClosePopUp(CanvasNames.TRY_AGAIN_LATER);
+    }
+
+    public void ThankYouForPurchase(bool check)
+    {
+        if (check) OpenPopUp(CanvasNames.PURCHASE_SUCESSFULL);
+        else ClosePopUp(CanvasNames.PURCHASE_SUCESSFULL);
+    }
+
 }

@@ -15,4 +15,6 @@ public class ActionManager : MonoBehaviour
 
     // economy related actions
     public static Action NoEnoghtBalance;
+    public static Action<int> rewardOils;
+    public static Action<int> rewardTickets;
 }

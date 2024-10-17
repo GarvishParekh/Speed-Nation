@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Ads Data
   m_EditorClassIdentifier: 
   deviceType: 0
-  rewardAvailability: 0
+  noAdsCard: 1
   androidAdsID:
     interstitialID: ca-app-pub-4892570451993674/5335635195
     rewardedID: ca-app-pub-4892570451993674/5088223185

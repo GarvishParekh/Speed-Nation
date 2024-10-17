@@ -13096,7 +13096,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1143794186746420, guid: e38efe9b46346f5429f133705f028175, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4088291859982246, guid: e38efe9b46346f5429f133705f028175, type: 3}
       propertyPath: m_LocalScale.x
@@ -20530,6 +20530,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: SM_Veh_Sports_Preset_01 (1)
       objectReference: {fileID: 0}
+    - target: {fileID: 1754011513389478, guid: e88beb4dec0c33c4393c75234b35137f, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4437768208512172, guid: e88beb4dec0c33c4393c75234b35137f, type: 3}
       propertyPath: m_LocalRotation.w
       value: 0.9750312
@@ -25244,7 +25248,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &787332187
 Transform:
   m_ObjectHideFlags: 0
@@ -25321,6 +25325,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 790751789}
+  - component: {fileID: 790751790}
   m_Layer: 0
   m_Name: Garage Car Holder (1)
   m_TagString: Untagged
@@ -25373,6 +25378,18 @@ Transform:
   - {fileID: 1419871781}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 143.69, z: 0}
+--- !u!114 &790751790
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 790751788}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7b54b537353efab4b93b691e568d1bcc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &791278283
 GameObject:
   m_ObjectHideFlags: 0
@@ -26252,7 +26269,7 @@ Camera:
   m_Enabled: 1
   serializedVersion: 2
   m_ClearFlags: 2
-  m_BackGroundColor: {r: 0, g: 0, b: 0, a: 1}
+  m_BackGroundColor: {r: 0.1592362, g: 1, b: 0, a: 0}
   m_projectionMatrixMode: 1
   m_GateFitMode: 2
   m_FOVAxisMode: 0
@@ -26275,7 +26292,7 @@ Camera:
     height: 1
   near clip plane: 0.01
   far clip plane: 1000
-  field of view: 54.4
+  field of view: 44.3
   orthographic: 0
   orthographic size: 5
   m_Depth: -1
@@ -26302,7 +26319,7 @@ Transform:
   m_GameObject: {fileID: 818103899}
   serializedVersion: 2
   m_LocalRotation: {x: 0.08105489, y: -0, z: -0, w: 0.99670964}
-  m_LocalPosition: {x: -122.8, y: 3.79, z: 28.91}
+  m_LocalPosition: {x: -122.8, y: 2.429, z: 35}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -40469,7 +40486,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &1281193745
 MonoBehaviour:
   m_ObjectHideFlags: 0

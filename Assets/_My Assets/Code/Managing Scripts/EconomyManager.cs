@@ -6,6 +6,7 @@ using System.Collections.Generic;
 public class EconomyManager : MonoBehaviour
 {
     public static EconomyManager instance;  
+    AdsManager adsManager;  
 
     UiManager uiManager;
     [Header("<size=15>SCRIPTABLE")]
@@ -14,6 +15,18 @@ public class EconomyManager : MonoBehaviour
     [Header("<size=15>UI")]
     [SerializeField] private List<TMP_Text> ticketCountText;
     [SerializeField] private List<TMP_Text> oilCountText;
+
+    private void OnEnable()
+    {
+        ActionManager.rewardOils += CreditOil;
+        ActionManager.rewardTickets += CreditTickets;
+    }
+
+    private void OnDisable()
+    {
+        ActionManager.rewardOils -= CreditOil;
+        ActionManager.rewardTickets -= CreditTickets;
+    }
 
     private void Awake()
     {
@@ -26,6 +39,7 @@ public class EconomyManager : MonoBehaviour
     private void Start()
     {
         uiManager = UiManager.instance;
+        adsManager = AdsManager.instance;   
     }
 
     private int FetchTicketBalance()
@@ -108,5 +122,24 @@ public class EconomyManager : MonoBehaviour
             return false;
         }
         else return true;
+    }
+
+    public void BasicCardPurrchase()
+    {
+        if (CheckTicketBalance(50))
+        {
+            DebitTickets(50);
+            CreditOil(10000);
+        }
+    }
+
+    public void FreeOilCardPurchase()
+    {
+        adsManager.ShowRewardedAds(RewardType.OILS);
+    }
+
+    public void FreeTicketCardPurchase()
+    {
+        adsManager.ShowRewardedAds(RewardType.TICKETS);
     }
 }
