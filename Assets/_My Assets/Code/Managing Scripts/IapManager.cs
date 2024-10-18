@@ -4,15 +4,18 @@ using UnityEngine.Purchasing;
 
 public class IapManager : MonoBehaviour, IStoreListener
 {
-    [SerializeField] EconomyManager economyManager;
+    UiManager uiManager;
     IStoreController storeController;
+
+    [SerializeField] EconomyManager economyManager;
     [SerializeField] private ConsumableItem oilItem;
     [SerializeField] private ConsumableItem ticketItem;
     [SerializeField] private SubscriptionItem adsSubscriptionItem;
 
     private void Start()
     {
-        SetUpBuilder();    
+        SetUpBuilder();
+        uiManager = UiManager.instance;
     }
 
     private void SetUpBuilder ()
@@ -34,11 +37,13 @@ public class IapManager : MonoBehaviour, IStoreListener
 
     public void TicketBestValueCard1500()
     {
+        uiManager.ConnetingPleaseWait(true);
         storeController.InitiatePurchase(ticketItem.Id);
     }
 
     public void OilBestValueCard1500()
     {
+        uiManager.ConnetingPleaseWait(true);
         storeController.InitiatePurchase(oilItem.Id);
     }
 
@@ -50,10 +55,17 @@ public class IapManager : MonoBehaviour, IStoreListener
         if (productID == oilItem.Id)
         {
             economyManager.CreditOil(100000);
+
+            uiManager.ConnetingPleaseWait(false);
+            uiManager.ThankYouForPurchase(true);
         }
         else if (productID == ticketItem.Id)
         {
             economyManager.CreditTickets(1500);
+
+            uiManager.ConnetingPleaseWait(false);
+            uiManager.ThankYouForPurchase(true);
+
         }
 
         return PurchaseProcessingResult.Complete;
@@ -83,7 +95,7 @@ public class IapManager : MonoBehaviour, IStoreListener
 
     public void OnPurchaseFailed(Product product, PurchaseFailureReason failureReason)
     {
-        throw new System.NotImplementedException();
+        uiManager.UnableToPurchase(true);
     }
 
     
