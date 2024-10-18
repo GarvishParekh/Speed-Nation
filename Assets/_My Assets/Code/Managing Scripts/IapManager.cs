@@ -28,6 +28,7 @@ public class IapManager : MonoBehaviour, IStoreListener
 
     public void OnInitialized(IStoreController controller, IExtensionProvider extensions)
     {
+        Debug.Log("IAP initialized");
         storeController = controller;   
     }
 
