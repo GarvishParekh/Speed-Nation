@@ -95,6 +95,7 @@ public class IapManager : MonoBehaviour, IStoreListener
 
     public void OnPurchaseFailed(Product product, PurchaseFailureReason failureReason)
     {
+        uiManager.ConnetingPleaseWait(false);
         uiManager.UnableToPurchase(true);
     }
 
