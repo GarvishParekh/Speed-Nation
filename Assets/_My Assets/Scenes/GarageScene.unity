@@ -20446,6 +20446,7 @@ MonoBehaviour:
   animationSpeed: 0.6
   startingOffset: 0
   repeatingRate: 3
+  ignoreTimeScale: 0
 --- !u!222 &1123430538
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -20705,6 +20706,7 @@ MonoBehaviour:
   animationSpeed: 0.45
   startingOffset: 0
   repeatingRate: 4
+  ignoreTimeScale: 0
 --- !u!1 &1144203054
 GameObject:
   m_ObjectHideFlags: 0
@@ -23885,19 +23887,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1327270317}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 542080552}
-        m_TargetAssemblyTypeName: UiManager, Assembly-CSharp
-        m_MethodName: ConnetingPleaseWait
-        m_Mode: 6
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
 --- !u!114 &1327270317
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -29771,6 +29761,7 @@ MonoBehaviour:
   animationSpeed: 0.8
   startingOffset: 0
   repeatingRate: 3.5
+  ignoreTimeScale: 0
 --- !u!222 &1614831106
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -29965,6 +29956,7 @@ MonoBehaviour:
   animationSpeed: 0.6
   startingOffset: 0
   repeatingRate: 3
+  ignoreTimeScale: 0
 --- !u!1 &1638524846
 GameObject:
   m_ObjectHideFlags: 0
@@ -31974,8 +31966,8 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1112805814}
-  - {fileID: 1507398005}
   - {fileID: 1027675419}
+  - {fileID: 1507398005}
   - {fileID: 526948009}
   - {fileID: 555778745}
   - {fileID: 359366548}
