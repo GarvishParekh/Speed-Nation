@@ -29,19 +29,17 @@ public class IapManager : MonoBehaviour, IStoreListener
     public void OnInitialized(IStoreController controller, IExtensionProvider extensions)
     {
         Debug.Log("IAP initialized");
-        storeController = controller;   
+        storeController = controller; 
     }
 
     public void TicketBestValueCard1500()
     {
         storeController.InitiatePurchase(ticketItem.Id);
-        economyManager.CreditTickets(1500);
     }
 
     public void OilBestValueCard1500()
     {
         storeController.InitiatePurchase(oilItem.Id);
-        economyManager.CreditOil(100000);
     }
 
     public PurchaseProcessingResult ProcessPurchase(PurchaseEventArgs purchaseEvent)
@@ -51,11 +49,11 @@ public class IapManager : MonoBehaviour, IStoreListener
 
         if (productID == oilItem.Id)
         {
-            
+            economyManager.CreditOil(100000);
         }
         else if (productID == ticketItem.Id)
         {
-            
+            economyManager.CreditTickets(1500);
         }
 
         return PurchaseProcessingResult.Complete;

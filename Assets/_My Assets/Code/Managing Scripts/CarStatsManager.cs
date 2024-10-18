@@ -8,8 +8,6 @@ public class CarStatsManager : MonoBehaviour
     public static Action NoTimeLeft;
 
     [Header ("<size=15>User interface")]
-    [SerializeField] private TMP_Text totalCarSmashedText;
-    [SerializeField] private TMP_Text totalTimeSpentText;
     [SerializeField] private TMP_Text timerText;
     [SerializeField] private List<GameObject> healthBar = new List<GameObject>();
 
@@ -58,7 +56,6 @@ public class CarStatsManager : MonoBehaviour
         LoseHealth();
         //LoseTime(5.0f);
         totalCarSmashedCount += 1;
-        totalCarSmashedText.text = totalCarSmashedCount.ToString("0")+ " UNITS";
     }
 
     int healtCount = 2;
