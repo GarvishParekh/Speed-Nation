@@ -87,8 +87,6 @@ public class GameoverController : MonoBehaviour
         uiManager.OpenCanvasWithoutShutter(CanvasNames.GAMEOVER);
         ssCam.gameObject.SetActive(false);
 
-        
-        
         isGameover = true;
     }
 

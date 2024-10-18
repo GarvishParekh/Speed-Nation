@@ -9,6 +9,7 @@ public class ScoreManager : MonoBehaviour
 
     [Header("<size=15>SCRIPTABLE")]
     [SerializeField] private GameplayData gameplayData;
+    [SerializeField] private CarDetailsData carDetailData;
     [Header("<size=15>SCRIPTS")]
     [SerializeField] private CarStatsManager carStatsManager;
 
@@ -16,6 +17,7 @@ public class ScoreManager : MonoBehaviour
     [SerializeField] private TMP_Text scoreText;
     [SerializeField] private TMP_Text totalScoreText;
     [SerializeField] private TMP_Text userNameText;
+    [SerializeField] private TMP_Text carNameText;
 
     [Space]
     [SerializeField] private GameObject gameoverObject;
@@ -37,9 +39,18 @@ public class ScoreManager : MonoBehaviour
         ActionManager.CarCollided -= OnCarCollision;
     }
 
+    private string FetchCarName()
+    {
+        int selectedCarIndex = PlayerPrefs.GetInt(ConstantKeys.SELECTED_CAR, 0);
+        string carNameString = carDetailData.carDetail[selectedCarIndex].carName;
+        return carNameString;
+    }
+
     private void Start()
     {
+        carNameText.text = $"<SIZE=20>TRAVLING IN</SIZE> {FetchCarName()}";
         userNameText.text = PlayerPrefs.GetString(ConstantKeys.USERNAME);
+
         ResetScoreData();
         firebaseScript = FirebaseInitlization.instance;
         gameplayData.currentHighscoreCount = PlayerPrefs.GetInt(ConstantKeys.HIGHSCORE, 0);
@@ -88,7 +99,7 @@ public class ScoreManager : MonoBehaviour
         float timeSpent = carStatsManager.GetTotalTimePlayed();
 
         gameplayData.totalScoreCount = gameplayData.scoreCount + timeSpent + carStatsManager.GetCarSmashedScore();
-        totalScoreText.text = "SOCRE " + gameplayData.totalScoreCount.ToString("0");
+        totalScoreText.text = "<SIZE=30>SCORE</SIZE> " + gameplayData.totalScoreCount.ToString("0");
 
         if (gameplayData.totalScoreCount > gameplayData.currentHighscoreCount)
         {
