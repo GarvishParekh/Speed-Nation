@@ -6,6 +6,7 @@ using TMPro;
 public class GameplayUiController : MonoBehaviour
 {
     UiManager uiManager;
+    AdsManager adsManager;
     [Header (("<size=15>SCRIPTABLE"))]
     [SerializeField] private GameplayData gameplayData;
 
@@ -63,6 +64,8 @@ public class GameplayUiController : MonoBehaviour
         inputManager.enabled = false;
 
         uiManager = UiManager.instance;
+        adsManager = AdsManager.instance;
+
         //uiManager.OpenShutter();
         uiManager.OpenCanvasWithShutter(CanvasNames.GAMEPLAY);
 
@@ -106,8 +109,7 @@ public class GameplayUiController : MonoBehaviour
 
         yield return new WaitForSeconds(2);
 
-        LeanTween.scale(threeObject, Vector3.one, 1.0f).setEaseInOutSine();
-        LeanTween.rotateZ(threeObject, 2160, 1.0f).setEaseInOutSine().setOnComplete(()=>
+        LeanTween.scale(threeObject, Vector3.one, 1.0f).setEaseInOutSine().setOnComplete(()=>
         {
             LeanTween.scale(threeObject, Vector3.zero, 0.15f).setEaseInOutSine().setDelay(0.3f);
         });
@@ -225,5 +227,12 @@ public class GameplayUiController : MonoBehaviour
         else killStreakTimerText.gameObject.SetActive(true);
 
         killStreakTimerText.text = $"{_timer.ToString("0.00")}s"; 
+    }
+
+    public void ShowAdsButton()
+    {
+        if (adsManager == null) return;
+
+        adsManager.ShowRewardedAds(RewardType.ON_GAMEOVER);
     }
 }

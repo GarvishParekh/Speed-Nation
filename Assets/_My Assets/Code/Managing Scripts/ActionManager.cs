@@ -17,4 +17,7 @@ public class ActionManager : MonoBehaviour
     public static Action NoEnoghtBalance;
     public static Action<int> rewardOils;
     public static Action<int> rewardTickets;
+
+    // gameover reward ads watched
+    public static Action GameoverRewardAdsWatched;
 }

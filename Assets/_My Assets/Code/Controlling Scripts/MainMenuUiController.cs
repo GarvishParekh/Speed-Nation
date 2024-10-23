@@ -29,6 +29,7 @@ public class MainMenuUiController : MonoBehaviour
     [Header("<size=15>MUSIC UI")]
     [SerializeField] private Toggle musicToggle;
     [SerializeField] private TMP_InputField userNameInputFiled;
+    [SerializeField] private Button backUsernameButton;
     [SerializeField] private Button confirmUserNameButton;
     [SerializeField] private TMP_Text userNameDisplayText;
     
@@ -281,6 +282,7 @@ public class MainMenuUiController : MonoBehaviour
 
     public void _EditUserNameButton()
     {
+        backUsernameButton.gameObject.SetActive(true);   
         confirmUserNameButton.gameObject.SetActive(false);   
         uiManager.OpenCanvasWithShutter(CanvasNames.ENTER_USER_NAME);
     }

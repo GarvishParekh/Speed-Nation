@@ -10,6 +10,9 @@ public class GameplayData : ScriptableObject
 
     [Header ("<size=15>SCORE SETTINGS")]
     public float scoreCount;
+    public float scoreMultiplyer;
+    public float normalScoreMultiplyer;
+    public float boostedScoreMultiplyer;
     public float totalScoreCount;
     public float currentHighscoreCount;
 

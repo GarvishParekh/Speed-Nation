@@ -10,6 +10,8 @@ public class ScoreManager : MonoBehaviour
     [Header("<size=15>SCRIPTABLE")]
     [SerializeField] private GameplayData gameplayData;
     [SerializeField] private CarDetailsData carDetailData;
+    [SerializeField] private EconomyData economyData;
+
     [Header("<size=15>SCRIPTS")]
     [SerializeField] private CarStatsManager carStatsManager;
 
@@ -18,6 +20,8 @@ public class ScoreManager : MonoBehaviour
     [SerializeField] private TMP_Text totalScoreText;
     [SerializeField] private TMP_Text userNameText;
     [SerializeField] private TMP_Text carNameText;
+    [SerializeField] private TMP_Text gainedTicketText;
+    [SerializeField] private TMP_Text gaindOilText;
 
     [Space]
     [SerializeField] private GameObject gameoverObject;
@@ -28,15 +32,29 @@ public class ScoreManager : MonoBehaviour
     private void OnEnable()
     {
         GameoverController.Gameover += CalculateTotalScore;
+        GameoverController.Gameover += CalculateGainedEconomy;
+        ActionManager.GameoverRewardAdsWatched += RewardAdsOil;
+
         ActionManager.countDownCompleted += OnCompleteCountdown;
         ActionManager.CarCollided += OnCarCollision;
+        ActionManager.PlayerBoosting += OnBoosting;
     }
 
     private void OnDisable()
     {
         GameoverController.Gameover -= CalculateTotalScore;
+        GameoverController.Gameover -= CalculateGainedEconomy;
+        ActionManager.GameoverRewardAdsWatched -= RewardAdsOil;
+
         ActionManager.countDownCompleted -= OnCompleteCountdown;
         ActionManager.CarCollided -= OnCarCollision;
+        ActionManager.PlayerBoosting -= OnBoosting;
+    }
+
+    private void OnBoosting(bool check)
+    {
+        if (check) gameplayData.scoreMultiplyer = gameplayData.boostedScoreMultiplyer;
+        else gameplayData.scoreMultiplyer = gameplayData.normalScoreMultiplyer;
     }
 
     private string FetchCarName()
@@ -61,6 +79,11 @@ public class ScoreManager : MonoBehaviour
         // reset score in scriptable
         gameplayData.scoreCount = 0;
         gameplayData.totalScoreCount = 0;
+        gameplayData.scoreMultiplyer = gameplayData.normalScoreMultiplyer;
+
+        // reset economy gained per round
+        economyData.gainedOilsPerRound = 0;
+        economyData.gainedTicketsPerRound = 0;
     }
 
     // Update is called once per frame
@@ -75,7 +98,7 @@ public class ScoreManager : MonoBehaviour
 
     private void AddScore()
     {
-        gameplayData.scoreCount += Time.deltaTime * 50;
+        gameplayData.scoreCount += Time.deltaTime * gameplayData.scoreMultiplyer;
         scoreText.text = gameplayData.scoreCount.ToString("0");
     }
 
@@ -136,5 +159,37 @@ public class ScoreManager : MonoBehaviour
             highscoreObject.gameObject.SetActive(false);
             gameoverObject.gameObject.SetActive(true);
         }
+    }
+
+    private void CalculateGainedEconomy()
+    {
+        int totalTickets = PlayerPrefs.GetInt(ConstantKeys.TOTAL_TICKETS);
+        int totalOil = PlayerPrefs.GetInt(ConstantKeys.TOTAL_OIL); 
+
+        economyData.gainedOilsPerRound = (int)gameplayData.totalScoreCount / 6;
+        economyData.gainedTicketsPerRound = (int)gameplayData.totalScoreCount / 10000;
+
+        totalOil += economyData.gainedOilsPerRound;
+        totalTickets += economyData.gainedTicketsPerRound;
+
+        PlayerPrefs.SetInt(ConstantKeys.TOTAL_OIL, totalOil);
+        PlayerPrefs.SetInt(ConstantKeys.TOTAL_TICKETS, totalTickets);
+
+        UpdateGameoverEconomyUI();
+    }
+   
+    private void RewardAdsOil()
+    {
+        int totalOil = PlayerPrefs.GetInt(ConstantKeys.TOTAL_OIL);
+        totalOil += 750;
+        PlayerPrefs.SetInt(ConstantKeys.TOTAL_OIL, totalOil);
+
+        UpdateGameoverEconomyUI();
+    }
+
+    private void UpdateGameoverEconomyUI()
+    {
+        gaindOilText.text = economyData.gainedOilsPerRound.ToString();
+        gainedTicketText.text = economyData.gainedTicketsPerRound.ToString();
     }
 }

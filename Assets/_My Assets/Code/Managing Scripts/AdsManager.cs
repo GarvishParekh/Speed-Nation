@@ -5,7 +5,8 @@ using GoogleMobileAds.Api;
 public enum RewardType
 {
     OILS,
-    TICKETS
+    TICKETS,
+    ON_GAMEOVER
 }
 
 
@@ -15,6 +16,7 @@ public class AdsManager : MonoBehaviour
 
     [Header (" [SCRIPTABLE OBJECT] ")]
     [SerializeField] private AdsData adsData;
+    [SerializeField] private EconomyData economyData;
 
     private string interstitialAdID;
     private string rewardedAdID;
@@ -199,6 +201,10 @@ public class AdsManager : MonoBehaviour
                         // reward tickets
                         ActionManager.rewardTickets?.Invoke(25);
                         UiManager.instance.ThankYouForPurchase(true);
+                        break;
+                    case RewardType.ON_GAMEOVER:
+                        economyData.gainedOilsPerRound += 750;
+                        ActionManager.GameoverRewardAdsWatched?.Invoke();
                         break;
                     default:
                         Debug.Log("wrong input");
