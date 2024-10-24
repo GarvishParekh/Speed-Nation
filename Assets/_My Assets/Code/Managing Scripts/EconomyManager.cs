@@ -124,7 +124,7 @@ public class EconomyManager : MonoBehaviour
         else return true;
     }
 
-    public void BasicCardPurrchase()
+    public void _BasicCardPurchase()
     {
         if (CheckTicketBalance(50))
         {
@@ -133,12 +133,30 @@ public class EconomyManager : MonoBehaviour
         }
     }
 
-    public void FreeOilCardPurchase()
+    public void _ValueCardPurchase()
+    {
+        if (CheckTicketBalance(50))
+        {
+            DebitTickets(50);
+            CreditOil(10000);
+        }
+    }
+
+    public void _EpicCardPurchase()
+    {
+        if (CheckTicketBalance(50))
+        {
+            DebitTickets(50);
+            CreditOil(10000);
+        }
+    }
+
+    public void _OilRewardCard()
     {
         adsManager.ShowRewardedAds(RewardType.OILS);
     }
 
-    public void FreeTicketCardPurchase()
+    public void _TicketRewardCard()
     {
         adsManager.ShowRewardedAds(RewardType.TICKETS);
     }
