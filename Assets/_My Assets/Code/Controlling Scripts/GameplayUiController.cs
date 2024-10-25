@@ -231,8 +231,13 @@ public class GameplayUiController : MonoBehaviour
 
     public void ShowAdsButton()
     {
-        if (adsManager == null) return;
+        if (adsManager == null)
+        {
+            Debug.Log("Ads not available");
+            return;
+        }
 
+        Debug.Log("Showing ads");
         adsManager.ShowRewardedAds(RewardType.ON_GAMEOVER);
     }
 }
