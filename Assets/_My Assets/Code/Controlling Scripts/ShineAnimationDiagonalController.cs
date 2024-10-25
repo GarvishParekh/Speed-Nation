@@ -24,7 +24,7 @@ public class ShineAnimationDiagonalController : MonoBehaviour
         }
         else
         {
-            InvokeRepeating(nameof(ShineAnimation), 0, repeatingRate);
+            InvokeRepeating(nameof(ShineAnimation), startingOffset, repeatingRate);
         }
     }
 

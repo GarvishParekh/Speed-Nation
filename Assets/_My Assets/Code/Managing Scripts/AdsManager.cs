@@ -194,7 +194,7 @@ public class AdsManager : MonoBehaviour
                 {
                     case RewardType.OILS:
                         // reward oils
-                        ActionManager.rewardOils?.Invoke(2000);
+                        ActionManager.rewardOils?.Invoke(1000);
                         UiManager.instance.ThankYouForPurchase(true);
                         break;
                     case RewardType.TICKETS:
