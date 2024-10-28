@@ -17,8 +17,10 @@ public class GameoverController : MonoBehaviour
     [SerializeField] private RenderTexture camRenderTexture;
     [SerializeField] private TMP_Text gameoverReasonText;
     [SerializeField] private Camera ssCam;
+    [SerializeField] private GameObject adsNotAvailableObject;
 
     WaitForSeconds pointTwo = new WaitForSeconds(0.2f);
+    WaitForSeconds pointFive = new WaitForSeconds(0.5f);
 
     bool isGameover = false;
 
@@ -51,10 +53,11 @@ public class GameoverController : MonoBehaviour
 
     private void OnTimeComplete()
     {
+        if (adsManager.AdsAvailable()) adsNotAvailableObject.SetActive(false);
+        else adsNotAvailableObject.SetActive(true);
+
         Gameover?.Invoke();
         StartCoroutine(nameof(TakeScreenshotCoroutine));
-
-        Invoke(nameof(ShowAds), 0.5f);
     }
 
     private IEnumerator TakeScreenshotCoroutine()
@@ -88,13 +91,14 @@ public class GameoverController : MonoBehaviour
         ssCam.gameObject.SetActive(false);
 
         isGameover = true;
+
+        yield return new WaitForSecondsRealtime(0.5f);
+        ShowAds();
     }
 
     private void ShowAds()
     {
         if (adsData.noAdsCard == NoAdsCard.IN_ACTIVE)
-        {
             adsManager.ShowInterstitialAd();
-        }
     }
 }

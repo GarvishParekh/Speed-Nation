@@ -1,6 +1,7 @@
 using System;
 using UnityEngine;
 using GoogleMobileAds.Api;
+using Unity.VisualScripting;
 
 public enum RewardType
 {
@@ -47,6 +48,12 @@ public class AdsManager : MonoBehaviour
             RequestInterstitialAd();
             RequestRewardedAd();
         });
+    }
+
+    public bool AdsAvailable()
+    {
+        if (interstitialAd != null && interstitialAd.CanShowAd()) return true;
+        else return false;
     }
 
     private void FetchID()

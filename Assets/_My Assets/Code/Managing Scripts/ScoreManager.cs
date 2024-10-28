@@ -167,7 +167,7 @@ public class ScoreManager : MonoBehaviour
         int totalOil = PlayerPrefs.GetInt(ConstantKeys.TOTAL_OIL); 
 
         economyData.gainedOilsPerRound = (int)gameplayData.totalScoreCount / 6;
-        economyData.gainedTicketsPerRound = (int)gameplayData.totalScoreCount / 10000;
+        economyData.gainedTicketsPerRound = ((int)gameplayData.totalScoreCount / 10000) + GetRandomGrance();
 
         totalOil += economyData.gainedOilsPerRound;
         totalTickets += economyData.gainedTicketsPerRound;
@@ -191,5 +191,13 @@ public class ScoreManager : MonoBehaviour
     {
         gaindOilText.text = economyData.gainedOilsPerRound.ToString();
         gainedTicketText.text = economyData.gainedTicketsPerRound.ToString();
+    }
+
+    private int GetRandomGrance()
+    {
+        int randomGrace = 0;
+
+        if ((int)gameplayData.totalScoreCount > 5000) randomGrace = Random.Range(0, 4);
+        return randomGrace;
     }
 }
