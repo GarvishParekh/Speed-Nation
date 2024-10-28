@@ -163,8 +163,8 @@ public class ScoreManager : MonoBehaviour
 
     private void CalculateGainedEconomy()
     {
-        int totalTickets = PlayerPrefs.GetInt(ConstantKeys.TOTAL_TICKETS);
-        int totalOil = PlayerPrefs.GetInt(ConstantKeys.TOTAL_OIL); 
+        int totalTickets = PlayerPrefs.GetInt(ConstantKeys.TOTAL_TICKETS, economyData.startingTicketValue);
+        int totalOil = PlayerPrefs.GetInt(ConstantKeys.TOTAL_OIL, economyData.startingOilValue); 
 
         economyData.gainedOilsPerRound = (int)gameplayData.totalScoreCount / 6;
         economyData.gainedTicketsPerRound = ((int)gameplayData.totalScoreCount / 10000) + GetRandomGrance();

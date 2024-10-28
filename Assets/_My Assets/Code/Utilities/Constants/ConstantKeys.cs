@@ -9,6 +9,7 @@ public static class ConstantKeys
     // economy tags
     public static string TOTAL_TICKETS = "TotalTickets";
     public static string TOTAL_OIL = "TotalOil";
+    public static string KEYS_GENERATED = "KeysGenerated";
 
     // playerpref playerPrefTag
     public static string SELECTED_CAR = "SelectedCar";
