@@ -32,6 +32,7 @@ public class MainMenuUiController : MonoBehaviour
     [SerializeField] private Button backUsernameButton;
     [SerializeField] private Button confirmUserNameButton;
     [SerializeField] private TMP_Text userNameDisplayText;
+    [SerializeField] private TMP_Text versionDisplayText;
     
 
     [Header("<size=15>SOUND EFFECTS UI")]
@@ -80,8 +81,13 @@ public class MainMenuUiController : MonoBehaviour
         LoadSoundEffects();
         SetHighscore();
         ArrowAnimation();
+        DisplayVersion();
     }
 
+    private void DisplayVersion()
+    {
+        versionDisplayText.text = $"v{Application.version}";
+    }
     public void _LetsGoButton()
     {
         bgMusicManager.StartMusic();
@@ -241,6 +247,9 @@ public class MainMenuUiController : MonoBehaviour
 
         userNameDisplayText.text = userNameInputFiled.text;
         uiManager.OpenCanvasWithShutter(CanvasNames.MAIN_MENU);
+
+        if (!gameCheckManager.GetNewsSeen()) _OpenNewsCanvas();
+        else uiManager.ClosePopUp(CanvasNames.NEWS_CANVAS);
     }
 
     public void CheckForInputField()
