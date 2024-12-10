@@ -20214,7 +20214,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: -1606.8391, y: 0}
+  m_AnchoredPosition: {x: -1462.2814, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 0.5}
 --- !u!114 &1056488975
@@ -55681,6 +55681,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Ads Manager
+      objectReference: {fileID: 0}
+    - target: {fileID: 3299610892654168675, guid: 79454c83d89f2004bb1cb200425d61ec,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4818706033950507147, guid: 79454c83d89f2004bb1cb200425d61ec,
         type: 3}
