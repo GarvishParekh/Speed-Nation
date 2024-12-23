@@ -1,6 +1,8 @@
+using Google;
 using System; 
 using Firebase;
 using UnityEngine;
+using Firebase.Auth;
 using Firebase.Analytics;
 using Firebase.Extensions;
 using Firebase.Crashlytics;
@@ -9,9 +11,13 @@ using System.Collections.Generic;
 
 public class FirebaseInitlization : MonoBehaviour
 {
+    [Header ("SCRIPTABLE")] 
+    [SerializeField] private FirebaseData firebaseData;
     public static Action<bool> ServerConnection;
 
     public static FirebaseInitlization instance;
+    public FirebaseAuth auth;
+
     [SerializeField] private List<string> leaderboardsNameData;
     [SerializeField] private List<int> leaderboardsScoreData;
     [SerializeField] private int myRank = 0;
@@ -43,6 +49,7 @@ public class FirebaseInitlization : MonoBehaviour
 
     private void Start()
     {
+
         encryptDeviceID = HashingHelper.GetSha256Hash(SystemInfo.deviceUniqueIdentifier);
         FirestoreInitializer(sucess =>
         {
@@ -50,7 +57,13 @@ public class FirebaseInitlization : MonoBehaviour
             {
                 ServerConnection?.Invoke(true);
                 canUseFirestore = true;
-                FirebaseAnalyticsInitilization();
+                FirebaseAnalyticsInitilization(sucess =>
+                {
+                    if (sucess)
+                    {
+                        InitializeAuthFirebase();
+                    }
+                });
             }
             else
             {
@@ -60,7 +73,7 @@ public class FirebaseInitlization : MonoBehaviour
         });
     }
 
-    private void FirebaseAnalyticsInitilization()
+    private void FirebaseAnalyticsInitilization(Action<bool> onComplete)
     {
         FirebaseApp.CheckAndFixDependenciesAsync().ContinueWithOnMainThread(task =>
         {
@@ -80,12 +93,14 @@ public class FirebaseInitlization : MonoBehaviour
                 Crashlytics.ReportUncaughtExceptionsAsFatal = true;
 
                 // Set a flag here for indicating that your project is ready to use Firebase.
+                onComplete?.Invoke(true);  // Notify success
             }
             else
             {
                 UnityEngine.Debug.LogError(System.String.Format(
                     "Could not resolve all Firebase dependencies: {0}", dependencyStatus));
                 // Firebase Unity SDK is not safe to use here.
+                onComplete?.Invoke(false);  // Notify success
             }
         });
     }
@@ -209,6 +224,63 @@ public class FirebaseInitlization : MonoBehaviour
             onComplete?.Invoke(true);
         });
     }
+
+    //------------------------GOOGLE SIGN IN------------------------
+    private void InitializeAuthFirebase()
+    {
+        FirebaseApp.CheckAndFixDependenciesAsync().ContinueWith(task =>
+        {
+            if (task.Result == DependencyStatus.Available)
+            {
+                auth = FirebaseAuth.DefaultInstance;
+                Debug.Log("Firebase initialized.");
+                SignInWithGoogle();
+            }
+            else
+            {
+                Debug.LogError($"Could not resolve Firebase dependencies: {task.Result}");
+            }
+        });
+    }
+
+    public void SignInWithGoogle()
+    {
+        GoogleSignInConfiguration configuration = new GoogleSignInConfiguration
+        {
+            WebClientId = firebaseData.webSeceretID,
+            RequestIdToken = true
+        };
+
+        GoogleSignIn.Configuration = configuration;
+
+        GoogleSignIn.DefaultInstance.SignIn().ContinueWith(task =>
+        {
+            if (task.IsFaulted)
+            {
+                Debug.LogError("Google Sign-In failed: " + task.Exception);
+            }
+            else if (task.IsCompleted)
+            {
+                var googleUser = task.Result;
+                var credential = GoogleAuthProvider.GetCredential(googleUser.IdToken, null);
+
+                auth.SignInWithCredentialAsync(credential).ContinueWith(authTask =>
+                {
+                    if (authTask.IsFaulted)
+                    {
+                        Debug.LogError("Firebase Sign-In failed: " + authTask.Exception);
+                    }
+                    else if (authTask.IsCompleted)
+                    {
+                        Debug.Log("Google Sign-In successful. User: " + auth.CurrentUser.DisplayName);
+                    }
+                });
+            }
+        });
+    }
+
+
+    //--------------------- PRIVATE FUNCTIONS ---------------------
 
     public List<string> GetLeaderboardsList()
     {
