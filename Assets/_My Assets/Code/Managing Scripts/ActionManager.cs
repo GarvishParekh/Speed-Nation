@@ -13,6 +13,9 @@ public class ActionManager : MonoBehaviour
     public static Action<int> UpdateKillStreak;
     public static Action KillStreakCouterReset;
 
+    // login test 
+    public static Action InitiateAppleLogin;
+
     // economy related actions
     public static Action NoEnoghtBalance;
     public static Action<int> rewardOils;

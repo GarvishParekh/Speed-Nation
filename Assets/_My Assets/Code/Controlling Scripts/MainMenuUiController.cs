@@ -316,4 +316,9 @@ public class MainMenuUiController : MonoBehaviour
     {
         uiManager.ClosePopUp(CanvasNames.OUT_OF_TICKETS_CANVAS);
     }
+
+    public void _AppleLogin()
+    {
+        ActionManager.InitiateAppleLogin?.Invoke();
+    }
 }
