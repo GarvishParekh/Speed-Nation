@@ -14,7 +14,7 @@ public class ActionManager : MonoBehaviour
     public static Action KillStreakCouterReset;
 
     // login test 
-    public static Action InitiateAppleLogin;
+    public static Action InitiateSignIn;
 
     // economy related actions
     public static Action NoEnoghtBalance;
@@ -23,4 +23,7 @@ public class ActionManager : MonoBehaviour
 
     // gameover reward ads watched
     public static Action GameoverRewardAdsWatched;
+
+    // networking
+    public static Action<SignInType, bool> SignedInStatus;
 }

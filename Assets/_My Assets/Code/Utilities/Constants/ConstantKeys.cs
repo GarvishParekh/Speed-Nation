@@ -21,4 +21,7 @@ public static class ConstantKeys
     public static string POSTPROCESSING = "PostProcessing";
     public static string MUSIC = "Music";
     public static string SOUNDS = "Sounds";
+
+    // networking
+    public static string LOGIN_STATUS = "LoggedInStatus";
 }

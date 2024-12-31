@@ -26,6 +26,15 @@ public class MainMenuUiController : MonoBehaviour
     [SerializeField] private Toggle postProcessingToggle;
     [SerializeField] private TMP_Text serverConnectionText;
 
+    [Header("<size=15>SIGIN UI ASSETS")]
+    [SerializeField] private GameObject googleSiginButton;
+    [SerializeField] private GameObject googleLoggedin;
+    [SerializeField] private GameObject googleLoginFailed;
+
+    [SerializeField] private GameObject appleSigninButton;
+    [SerializeField] private GameObject appleLoggedIn;
+    [SerializeField] private GameObject appleLoginFailed;
+
     [Header("<size=15>MUSIC UI")]
     [SerializeField] private Toggle musicToggle;
     [SerializeField] private TMP_InputField userNameInputFiled;
@@ -41,15 +50,18 @@ public class MainMenuUiController : MonoBehaviour
     private void OnEnable()
     {
         FirebaseInitlization.ServerConnection += UpdateServerConnectionStatus;
+        ActionManager.SignedInStatus += OnSignInStatusChange;
     }
 
     private void OnDisable()
     {
         FirebaseInitlization.ServerConnection -= UpdateServerConnectionStatus;
+        ActionManager.SignedInStatus -= OnSignInStatusChange;
     }
 
     private void Start()
     {
+        CheckSignIn();
         firebaseInitilization = FirebaseInitlization.instance;
         gameCheckManager = GameCheckManager.instance;   
 
@@ -82,6 +94,29 @@ public class MainMenuUiController : MonoBehaviour
         SetHighscore();
         ArrowAnimation();
         DisplayVersion();
+    }
+
+    private void OnSignInStatusChange (SignInType signInType, bool check)
+    {
+        switch (signInType)
+        {
+            case SignInType.GOOGLE:
+                if (check)
+                {
+                    PlayerPrefs.SetInt(ConstantKeys.LOGIN_STATUS, 1);
+                    ButtonToShow(googleLoggedin);
+                }
+                else ButtonToShow(googleLoginFailed);
+                break;
+            case SignInType.APPLE:
+                if (check)
+                {
+                    PlayerPrefs.SetInt(ConstantKeys.LOGIN_STATUS, 1);
+                    ButtonToShow(appleLoggedIn);
+                }
+                else ButtonToShow(appleLoginFailed);
+                break;
+        }
     }
 
     private void DisplayVersion()
@@ -225,14 +260,14 @@ public class MainMenuUiController : MonoBehaviour
 
     public void _UpdateButton()
     {
-    #if UNITY_ANDROID
-                Application.OpenURL(googleplayURL);
+#if UNITY_ANDROID
+        Application.OpenURL(googleplayURL);
 
-    #elif UNITY_IOS
-            Application.OpenURL(appSoreURL);
-    #else
-                Application.OpenURL(googleplayURL);
-    #endif
+#elif UNITY_IOS
+        Application.OpenURL(appSoreURL);
+#else
+        Application.OpenURL(googleplayURL);
+#endif
     }
 
     public void SetHighscore()
@@ -317,8 +352,49 @@ public class MainMenuUiController : MonoBehaviour
         uiManager.ClosePopUp(CanvasNames.OUT_OF_TICKETS_CANVAS);
     }
 
-    public void _AppleLogin()
+    public void _InitiateSignInProcess()
     {
-        ActionManager.InitiateAppleLogin?.Invoke();
+        ActionManager.InitiateSignIn?.Invoke();
+    }
+
+    private void CheckSignIn()
+    {
+        int LoginStatus = PlayerPrefs.GetInt(ConstantKeys.LOGIN_STATUS, 0);
+
+        switch (LoginStatus)
+        {
+            // not logged in 
+            case 0:
+#if UNITY_ANDROID
+                ButtonToShow(googleSiginButton);
+#elif UNITY_IPHONE
+                ButtonToShow(appleSigninButton);
+#endif
+                break;
+
+            // already logged in 
+            case 1:
+#if UNITY_ANDROID
+                ButtonToShow(googleLoggedin);
+#elif UNITY_IPHONE
+                ButtonToShow(appleLoggedIn);
+#endif
+                break;
+        }
+    }
+
+    private void ButtonToShow(GameObject buttonToShow)
+    {
+        // disable all buttons
+        googleSiginButton.gameObject.SetActive(false);
+        googleLoggedin.gameObject.SetActive(false);
+        googleLoginFailed.gameObject.SetActive(false);
+
+        appleSigninButton.gameObject.SetActive(false);
+        appleLoggedIn.gameObject.SetActive(false);
+        appleLoginFailed.gameObject.SetActive(false);
+
+        // enable desire button
+        buttonToShow.gameObject.SetActive(true);
     }
 }

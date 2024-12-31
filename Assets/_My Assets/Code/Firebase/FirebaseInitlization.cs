@@ -29,8 +29,10 @@ public class FirebaseInitlization : MonoBehaviour
     [SerializeField] private FirebaseData firebaseData;
     public static Action<bool> ServerConnection;
 
+    #if UNITY_IPHONE
     // for apple login
     private IAppleAuthManager appleAuthManager;
+#endif
 
     private FirebaseUser user;
 
@@ -47,21 +49,15 @@ public class FirebaseInitlization : MonoBehaviour
 
     private void OnEnable()
     {
-        ActionManager.InitiateAppleLogin += AppleLoginInitiated;
+        ActionManager.InitiateSignIn += OnInitiateSignInProcess;
     }
 
     private void OnDisable()
     {
-        ActionManager.InitiateAppleLogin -= AppleLoginInitiated;
+        ActionManager.InitiateSignIn -= OnInitiateSignInProcess;
     }
 
-    private void AppleLoginInitiated ()
-    {
-        PerformLoginWithAppleIdAndFirebase(user =>
-        {
-            Debug.Log($"Apple ID username: {user.DisplayName}");
-        });
-    }
+    private void OnInitiateSignInProcess() => InitializeAuthFirebase();
 
     private void Awake()
     {
@@ -85,13 +81,7 @@ public class FirebaseInitlization : MonoBehaviour
 
     private void Start()
     {
-        /* APPLE AUTH MNAGER
-        if (AppleAuthManager.IsCurrentPlatformSupported)
-        {
-            appleAuthManager = new AppleAuthManager(new PayloadDeserializer());
-        }
-        */
-
+#if UNITY_IPHONE
         // If the current platform is supported
         if (AppleAuthManager.IsCurrentPlatformSupported)
         {
@@ -100,7 +90,7 @@ public class FirebaseInitlization : MonoBehaviour
             // Creates an Apple Authentication manager with the deserializer
             this.appleAuthManager = new AppleAuthManager(deserializer);
         }
-
+#endif
         encryptDeviceID = HashingHelper.GetSha256Hash(SystemInfo.deviceUniqueIdentifier);
         FirestoreInitializer(sucess =>
         {
@@ -112,7 +102,7 @@ public class FirebaseInitlization : MonoBehaviour
                 {
                     if (sucess)
                     {
-                        InitializeAuthFirebase();
+                        //InitializeAuthFirebase();
                     }
                 });
             }
@@ -126,12 +116,14 @@ public class FirebaseInitlization : MonoBehaviour
 
     private void Update()
     {
+#if UNITY_IPHONE
         // Updates the AppleAuthManager instance to execute
         // pending callbacks inside Unity's execution loop
         if (appleAuthManager != null)
         {
             appleAuthManager.Update();
         }
+#endif
     }
 
     private void FirebaseAnalyticsInitilization(Action<bool> onComplete)
@@ -315,6 +307,7 @@ public class FirebaseInitlization : MonoBehaviour
 #if UNITY_ANDROID
     public void SignInWithGoogle()
     {
+        Debug.Log("Google sign-in started");
         GoogleSignInConfiguration configuration = new GoogleSignInConfiguration
         {
             WebClientId = firebaseData.webSeceretID,
@@ -339,20 +332,27 @@ public class FirebaseInitlization : MonoBehaviour
                     if (authTask.IsFaulted)
                     {
                         Debug.LogError("Firebase Sign-In failed: " + authTask.Exception);
+                        ActionManager.SignedInStatus?.Invoke(SignInType.GOOGLE, false);
                     }
                     else if (authTask.IsCompleted)
                     {
                         Debug.Log("Google Sign-In successful. User: " + auth.CurrentUser.DisplayName);
+                        ActionManager.SignedInStatus?.Invoke(SignInType.GOOGLE, true);
                     }
                 });
             }
+            else
+            {
+                Debug.Log("Google Sign-In failed");
+            }
         });
+        Debug.Log("Google Sign-In Completed");
     }
 
 #endif
 
-    //------------------------ iOS SIGN IN ------------------------
-
+//------------------------ iOS SIGN IN ------------------------
+#if UNITY_IPHONE
     private static string GenerateRandomString(int length)
     {
         if (length <= 0)
@@ -470,9 +470,7 @@ public class FirebaseInitlization : MonoBehaviour
             firebaseUserCallback(firebaseUser);
         }
     }
-
-
-
+#endif
 
     //--------------------- PRIVATE FUNCTIONS ---------------------
 
@@ -496,4 +494,12 @@ public class FirebaseInitlization : MonoBehaviour
         return canUseFirestore;
     }
 
+}
+
+
+public enum SignInType
+{
+    GOOGLE,
+    APPLE,
+    NONE
 }
