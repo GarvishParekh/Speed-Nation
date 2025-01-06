@@ -1,12 +1,6 @@
 using System;
 using UnityEngine;
 
-public enum DeviceType
-{
-    ANDROID,
-    iOS
-}
-
 public enum RewardAvailability
 {
     AVAILABLE,
@@ -22,7 +16,6 @@ public enum NoAdsCard
 [CreateAssetMenu(fileName = "Ads Data", menuName = "AdsData")]
 public class AdsData : ScriptableObject
 {
-    public DeviceType deviceType;
 
     [Space]
     public NoAdsCard noAdsCard;

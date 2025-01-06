@@ -1,5 +1,6 @@
-using System;
 using TMPro;
+using Google;
+using System;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -19,6 +20,9 @@ public class MainMenuUiController : MonoBehaviour
 
     [SerializeField] private TMP_Text highscoreText;
 
+    [Header("<size=15>SCRIPTABLE")]
+    [SerializeField] private FirebaseData firebaseData;
+
     [Header("<size=15>UI EFFECTS")]
     [SerializeField] private GameObject arrowObject;
 
@@ -27,13 +31,19 @@ public class MainMenuUiController : MonoBehaviour
     [SerializeField] private TMP_Text serverConnectionText;
 
     [Header("<size=15>SIGIN UI ASSETS")]
+    [Header("<size=10><I><color=#7DD2F6>GOOGLE")]
     [SerializeField] private GameObject googleSiginButton;
     [SerializeField] private GameObject googleLoggedin;
     [SerializeField] private GameObject googleLoginFailed;
 
+    [Header("<size=10><I><color=#7DD2F6>APPLE")]
     [SerializeField] private GameObject appleSigninButton;
     [SerializeField] private GameObject appleLoggedIn;
     [SerializeField] private GameObject appleLoginFailed;
+
+    [Header("<size=10><I><color=#7DD2F6>SETTINGS")]
+    [SerializeField] private GameObject googleLoggingoff;
+    [SerializeField] private GameObject appleLoggingOff;
 
     [Header("<size=15>MUSIC UI")]
     [SerializeField] private Toggle musicToggle;
@@ -59,11 +69,18 @@ public class MainMenuUiController : MonoBehaviour
         ActionManager.SignedInStatus -= OnSignInStatusChange;
     }
 
+    private void Awake() => CheckForDevice();
+
     private void Start()
     {
-        CheckSignIn();
         firebaseInitilization = FirebaseInitlization.instance;
-        gameCheckManager = GameCheckManager.instance;   
+        gameCheckManager = GameCheckManager.instance;
+        uiManager = UiManager.instance;
+        bgMusicManager = BgMusicManager.instance;
+
+        PreparingSettingsButton(firebaseData.signInType);
+        CheckSignIn();
+
 
         if (firebaseInitilization.GetConnectionStatus())
         {
@@ -73,11 +90,9 @@ public class MainMenuUiController : MonoBehaviour
         {
             serverConnectionText.text = "CONNECTING...";
         }
-        uiManager = UiManager.instance;
-        bgMusicManager = BgMusicManager.instance;
 
+        // check on player's username
         string userNameString = PlayerPrefs.GetString(ConstantKeys.USERNAME, "");
-
         if (userNameString == string.Empty) uiManager.OpenCanvasWithShutter(CanvasNames.ENTER_USER_NAME);
         else
         {
@@ -96,6 +111,7 @@ public class MainMenuUiController : MonoBehaviour
         DisplayVersion();
     }
 
+    // sign-in button control
     private void OnSignInStatusChange (SignInType signInType, bool check)
     {
         switch (signInType)
@@ -104,7 +120,10 @@ public class MainMenuUiController : MonoBehaviour
                 if (check)
                 {
                     PlayerPrefs.SetInt(ConstantKeys.LOGIN_STATUS, 1);
+                    PlayerPrefs.SetInt(ConstantKeys.HAVE_LOGGEDIN, 1);
+
                     ButtonToShow(googleLoggedin);
+                    googleLoggingoff.SetActive(true);
                 }
                 else ButtonToShow(googleLoginFailed);
                 break;
@@ -112,9 +131,34 @@ public class MainMenuUiController : MonoBehaviour
                 if (check)
                 {
                     PlayerPrefs.SetInt(ConstantKeys.LOGIN_STATUS, 1);
+                    PlayerPrefs.SetInt(ConstantKeys.HAVE_LOGGEDIN, 1);
+
                     ButtonToShow(appleLoggedIn);
+                    appleLoggedIn.SetActive(true);
                 }
                 else ButtonToShow(appleLoginFailed);
+                break;
+        }
+        PreparingSettingsButton(signInType);
+    }
+
+    // settings login off button control
+    private void PreparingSettingsButton(SignInType signInType)
+    {
+        int loginStatus = PlayerPrefs.GetInt(ConstantKeys.LOGIN_STATUS);
+        switch (loginStatus)
+        {
+            case 1:
+                switch (signInType)
+                {
+                    case SignInType.GOOGLE:
+                        googleLoggingoff.SetActive(true);
+                        break;
+
+                    case SignInType.APPLE:
+                        appleLoggedIn.SetActive(true);
+                        break;
+                }
                 break;
         }
     }
@@ -396,5 +440,24 @@ public class MainMenuUiController : MonoBehaviour
 
         // enable desire button
         buttonToShow.gameObject.SetActive(true);
+    }
+
+    public void _GoogleLogoutbutton()
+    {
+        GoogleSignIn.DefaultInstance.SignOut();
+        PlayerPrefs.SetInt(ConstantKeys.LOGIN_STATUS, 0);
+        CheckSignIn();
+
+        appleLoggingOff.SetActive(false);
+        googleLoggingoff.SetActive(false);
+    }
+
+    private void CheckForDevice()
+    {
+#if UNITY_ANDROID
+        firebaseData.signInType = SignInType.GOOGLE;
+#elif UNITY_IPHONE
+        firebaseData.signInType = SignInType.APPLE;
+#endif
     }
 }

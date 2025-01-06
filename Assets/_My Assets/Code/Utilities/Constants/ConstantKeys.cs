@@ -24,4 +24,5 @@ public static class ConstantKeys
 
     // networking
     public static string LOGIN_STATUS = "LoggedInStatus";
+    public static string HAVE_LOGGEDIN = "IsPlayerLoggedIn";
 }

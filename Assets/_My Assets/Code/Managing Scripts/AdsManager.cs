@@ -1,14 +1,7 @@
 using System;
 using UnityEngine;
 using GoogleMobileAds.Api;
-using Unity.VisualScripting;
 
-public enum RewardType
-{
-    OILS,
-    TICKETS,
-    ON_GAMEOVER
-}
 
 
 public class AdsManager : MonoBehaviour
@@ -58,20 +51,16 @@ public class AdsManager : MonoBehaviour
 
     private void FetchID()
     {
-        switch (adsData.deviceType)
-        {
-            case DeviceType.ANDROID:
-                Debug.Log("Android ID fetched");
-                interstitialAdID = adsData.androidAdsID.interstitialID;
-                rewardedAdID = adsData.androidAdsID.rewardedID;
-            break;
-            
-            case DeviceType.iOS:
-                Debug.Log("iOS ID fetched");
-                interstitialAdID = adsData.iOSAdsID.interstitialID;
-                rewardedAdID = adsData.iOSAdsID.rewardedID;
-            break;
-        }
+#if UNITY_ANDROID
+        Debug.Log("Android ID fetched");
+        interstitialAdID = adsData.androidAdsID.interstitialID;
+        rewardedAdID = adsData.androidAdsID.rewardedID;
+
+#elif UNITY_IPHONE
+        Debug.Log("iOS ID fetched");
+        interstitialAdID = adsData.iOSAdsID.interstitialID;
+        rewardedAdID = adsData.iOSAdsID.rewardedID;
+#endif
     }
 
     // ---- INTERSTITIAL ADS ----

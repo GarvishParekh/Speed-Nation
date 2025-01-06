@@ -82,6 +82,7 @@ public class FirebaseInitlization : MonoBehaviour
     private void Start()
     {
 #if UNITY_IPHONE
+        
         // If the current platform is supported
         if (AppleAuthManager.IsCurrentPlatformSupported)
         {
@@ -474,6 +475,8 @@ public class FirebaseInitlization : MonoBehaviour
 
     //--------------------- PRIVATE FUNCTIONS ---------------------
 
+   
+
     public List<string> GetLeaderboardsList()
     {
         return leaderboardsNameData;
@@ -497,9 +500,3 @@ public class FirebaseInitlization : MonoBehaviour
 }
 
 
-public enum SignInType
-{
-    GOOGLE,
-    APPLE,
-    NONE
-}
