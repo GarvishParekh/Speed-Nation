@@ -214,4 +214,16 @@ public class UiManager : MonoBehaviour
         else ClosePopUp(CanvasNames.PURCHASE_SUCESSFULL);
     }
 
+    public void ConnetingPleaseWait(bool check)
+    {
+        if (check) OpenPopUp(CanvasNames.CONNETING_STORE);
+        else ClosePopUp(CanvasNames.CONNETING_STORE);
+    }
+
+    public void UnableToPurchase(bool check)
+    {
+        if (check) OpenPopUp(CanvasNames.UNABLE_PURCHASE);
+        else ClosePopUp(CanvasNames.UNABLE_PURCHASE);
+    }
+
 }

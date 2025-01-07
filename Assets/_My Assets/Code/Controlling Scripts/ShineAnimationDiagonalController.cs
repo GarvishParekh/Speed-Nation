@@ -10,13 +10,22 @@ public class ShineAnimationDiagonalController : MonoBehaviour
     [SerializeField] private float startingOffset = 0;
     [SerializeField] private float repeatingRate;
 
+    [SerializeField] private bool ignoreTimeScale = false;
+
     Vector3 shineStartPosition;
 
     // Start is called before the first frame update
     void Start()
     {
         shineStartPosition = shineObj.transform.localPosition;
-        InvokeRepeating(nameof(ShineAnimation), 0, repeatingRate);
+        if (ignoreTimeScale)
+        {
+            LeanTween.moveLocal(shineObj, endPositionObj.localPosition, animationSpeed).setIgnoreTimeScale(true).setLoopCount(-1);
+        }
+        else
+        {
+            InvokeRepeating(nameof(ShineAnimation), startingOffset, repeatingRate);
+        }
     }
 
 

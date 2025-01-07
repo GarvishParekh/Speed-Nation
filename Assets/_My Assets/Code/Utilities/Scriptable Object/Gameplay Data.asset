@@ -16,6 +16,9 @@ MonoBehaviour:
   boostTimer: 1
   addingBoostValue: 2
   scoreCount: 0
+  scoreMultiplyer: 0
+  normalScoreMultiplyer: 6
+  boostedScoreMultiplyer: 30
   totalScoreCount: 0
   currentHighscoreCount: 0
   singeKillValue: 1

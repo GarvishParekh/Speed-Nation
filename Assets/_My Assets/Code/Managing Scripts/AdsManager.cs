@@ -2,11 +2,6 @@ using System;
 using UnityEngine;
 using GoogleMobileAds.Api;
 
-public enum RewardType
-{
-    OILS,
-    TICKETS
-}
 
 
 public class AdsManager : MonoBehaviour
@@ -15,6 +10,7 @@ public class AdsManager : MonoBehaviour
 
     [Header (" [SCRIPTABLE OBJECT] ")]
     [SerializeField] private AdsData adsData;
+    [SerializeField] private EconomyData economyData;
 
     private string interstitialAdID;
     private string rewardedAdID;
@@ -47,22 +43,24 @@ public class AdsManager : MonoBehaviour
         });
     }
 
+    public bool AdsAvailable()
+    {
+        if (interstitialAd != null && interstitialAd.CanShowAd()) return true;
+        else return false;
+    }
+
     private void FetchID()
     {
-        switch (adsData.deviceType)
-        {
-            case DeviceType.ANDROID:
-                Debug.Log("Android ID fetched");
-                interstitialAdID = adsData.androidAdsID.interstitialID;
-                rewardedAdID = adsData.androidAdsID.rewardedID;
-            break;
-            
-            case DeviceType.iOS:
-                Debug.Log("iOS ID fetched");
-                interstitialAdID = adsData.iOSAdsID.interstitialID;
-                rewardedAdID = adsData.iOSAdsID.rewardedID;
-            break;
-        }
+#if UNITY_ANDROID
+        Debug.Log("Android ID fetched");
+        interstitialAdID = adsData.androidAdsID.interstitialID;
+        rewardedAdID = adsData.androidAdsID.rewardedID;
+
+#elif UNITY_IPHONE
+        Debug.Log("iOS ID fetched");
+        interstitialAdID = adsData.iOSAdsID.interstitialID;
+        rewardedAdID = adsData.iOSAdsID.rewardedID;
+#endif
     }
 
     // ---- INTERSTITIAL ADS ----
@@ -192,13 +190,17 @@ public class AdsManager : MonoBehaviour
                 {
                     case RewardType.OILS:
                         // reward oils
-                        ActionManager.rewardOils?.Invoke(2000);
+                        ActionManager.rewardOils?.Invoke(1000);
                         UiManager.instance.ThankYouForPurchase(true);
                         break;
                     case RewardType.TICKETS:
                         // reward tickets
                         ActionManager.rewardTickets?.Invoke(25);
                         UiManager.instance.ThankYouForPurchase(true);
+                        break;
+                    case RewardType.ON_GAMEOVER:
+                        economyData.gainedOilsPerRound += 750;
+                        ActionManager.GameoverRewardAdsWatched?.Invoke();
                         break;
                     default:
                         Debug.Log("wrong input");

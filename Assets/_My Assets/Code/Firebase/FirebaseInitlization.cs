@@ -1,17 +1,44 @@
 using System; 
 using Firebase;
 using UnityEngine;
+using Firebase.Auth;
 using Firebase.Analytics;
 using Firebase.Extensions;
 using Firebase.Crashlytics;
 using Firebase.Firestore;
 using System.Collections.Generic;
+using System.Security.Cryptography;
+using System.Text;
+using System.Threading.Tasks;
+
+#if UNITY_IPHONE
+using AppleAuth;
+using AppleAuth.Enums;
+using AppleAuth.Extensions;
+using AppleAuth.Interfaces;
+using AppleAuth.Native;
+#endif
+
+#if UNITY_ANDROID
+using Google;
+#endif
 
 public class FirebaseInitlization : MonoBehaviour
 {
+    [Header ("SCRIPTABLE")] 
+    [SerializeField] private FirebaseData firebaseData;
     public static Action<bool> ServerConnection;
 
+    #if UNITY_IPHONE
+    // for apple login
+    private IAppleAuthManager appleAuthManager;
+#endif
+
+    private FirebaseUser user;
+
     public static FirebaseInitlization instance;
+    public FirebaseAuth auth;
+
     [SerializeField] private List<string> leaderboardsNameData;
     [SerializeField] private List<int> leaderboardsScoreData;
     [SerializeField] private int myRank = 0;
@@ -20,6 +47,17 @@ public class FirebaseInitlization : MonoBehaviour
 
     string encryptDeviceID;
 
+    private void OnEnable()
+    {
+        ActionManager.InitiateSignIn += OnInitiateSignInProcess;
+    }
+
+    private void OnDisable()
+    {
+        ActionManager.InitiateSignIn -= OnInitiateSignInProcess;
+    }
+
+    private void OnInitiateSignInProcess() => InitializeAuthFirebase();
 
     private void Awake()
     {
@@ -43,6 +81,17 @@ public class FirebaseInitlization : MonoBehaviour
 
     private void Start()
     {
+#if UNITY_IPHONE
+        
+        // If the current platform is supported
+        if (AppleAuthManager.IsCurrentPlatformSupported)
+        {
+            // Creates a default JSON deserializer, to transform JSON Native responses to C# instances
+            var deserializer = new PayloadDeserializer();
+            // Creates an Apple Authentication manager with the deserializer
+            this.appleAuthManager = new AppleAuthManager(deserializer);
+        }
+#endif
         encryptDeviceID = HashingHelper.GetSha256Hash(SystemInfo.deviceUniqueIdentifier);
         FirestoreInitializer(sucess =>
         {
@@ -50,7 +99,13 @@ public class FirebaseInitlization : MonoBehaviour
             {
                 ServerConnection?.Invoke(true);
                 canUseFirestore = true;
-                FirebaseAnalyticsInitilization();
+                FirebaseAnalyticsInitilization(sucess =>
+                {
+                    if (sucess)
+                    {
+                        //InitializeAuthFirebase();
+                    }
+                });
             }
             else
             {
@@ -60,7 +115,19 @@ public class FirebaseInitlization : MonoBehaviour
         });
     }
 
-    private void FirebaseAnalyticsInitilization()
+    private void Update()
+    {
+#if UNITY_IPHONE
+        // Updates the AppleAuthManager instance to execute
+        // pending callbacks inside Unity's execution loop
+        if (appleAuthManager != null)
+        {
+            appleAuthManager.Update();
+        }
+#endif
+    }
+
+    private void FirebaseAnalyticsInitilization(Action<bool> onComplete)
     {
         FirebaseApp.CheckAndFixDependenciesAsync().ContinueWithOnMainThread(task =>
         {
@@ -80,12 +147,14 @@ public class FirebaseInitlization : MonoBehaviour
                 Crashlytics.ReportUncaughtExceptionsAsFatal = true;
 
                 // Set a flag here for indicating that your project is ready to use Firebase.
+                onComplete?.Invoke(true);  // Notify success
             }
             else
             {
                 UnityEngine.Debug.LogError(System.String.Format(
                     "Could not resolve all Firebase dependencies: {0}", dependencyStatus));
                 // Firebase Unity SDK is not safe to use here.
+                onComplete?.Invoke(false);  // Notify success
             }
         });
     }
@@ -210,6 +279,204 @@ public class FirebaseInitlization : MonoBehaviour
         });
     }
 
+    
+    private void InitializeAuthFirebase()
+    {
+        FirebaseApp.CheckAndFixDependenciesAsync().ContinueWith(task =>
+        {
+            if (task.Result == DependencyStatus.Available)
+            {
+                auth = FirebaseAuth.DefaultInstance;
+                Debug.Log("Firebase initialized.");
+#if UNITY_ANDROID
+                SignInWithGoogle();
+#elif UNITY_IPHONE
+                PerformLoginWithAppleIdAndFirebase(user =>
+                {
+                    Debug.Log($"Apple ID username: {user.DisplayName}");
+                });
+#endif
+            }
+            else
+            {
+                Debug.LogError($"Could not resolve Firebase dependencies: {task.Result}");
+            }
+        });
+    }
+
+    //------------------------GOOGLE SIGN IN------------------------
+#if UNITY_ANDROID
+    public void SignInWithGoogle()
+    {
+        Debug.Log("Google sign-in started");
+        GoogleSignInConfiguration configuration = new GoogleSignInConfiguration
+        {
+            WebClientId = firebaseData.webSeceretID,
+            RequestIdToken = true
+        };
+
+        GoogleSignIn.Configuration = configuration;
+
+        GoogleSignIn.DefaultInstance.SignIn().ContinueWith(task =>
+        {
+            if (task.IsFaulted)
+            {
+                Debug.LogError("Google Sign-In failed: " + task.Exception);
+            }
+            else if (task.IsCompleted)
+            {
+                var googleUser = task.Result;
+                var credential = GoogleAuthProvider.GetCredential(googleUser.IdToken, null);
+
+                auth.SignInWithCredentialAsync(credential).ContinueWith(authTask =>
+                {
+                    if (authTask.IsFaulted)
+                    {
+                        Debug.LogError("Firebase Sign-In failed: " + authTask.Exception);
+                        ActionManager.SignedInStatus?.Invoke(SignInType.GOOGLE, false);
+                    }
+                    else if (authTask.IsCompleted)
+                    {
+                        Debug.Log("Google Sign-In successful. User: " + auth.CurrentUser.DisplayName);
+                        ActionManager.SignedInStatus?.Invoke(SignInType.GOOGLE, true);
+                    }
+                });
+            }
+            else
+            {
+                Debug.Log("Google Sign-In failed");
+            }
+        });
+        Debug.Log("Google Sign-In Completed");
+    }
+
+#endif
+
+//------------------------ iOS SIGN IN ------------------------
+#if UNITY_IPHONE
+    private static string GenerateRandomString(int length)
+    {
+        if (length <= 0)
+        {
+            throw new Exception("Expected nonce to have positive length");
+        }
+
+        const string charset = "0123456789ABCDEFGHIJKLMNOPQRSTUVXYZabcdefghijklmnopqrstuvwxyz-._";
+        var cryptographicallySecureRandomNumberGenerator = new RNGCryptoServiceProvider();
+        var result = string.Empty;
+        var remainingLength = length;
+
+        var randomNumberHolder = new byte[1];
+        while (remainingLength > 0)
+        {
+            var randomNumbers = new List<int>(16);
+            for (var randomNumberCount = 0; randomNumberCount < 16; randomNumberCount++)
+            {
+                cryptographicallySecureRandomNumberGenerator.GetBytes(randomNumberHolder);
+                randomNumbers.Add(randomNumberHolder[0]);
+            }
+
+            for (var randomNumberIndex = 0; randomNumberIndex < randomNumbers.Count; randomNumberIndex++)
+            {
+                if (remainingLength == 0)
+                {
+                    break;
+                }
+
+                var randomNumber = randomNumbers[randomNumberIndex];
+                if (randomNumber < charset.Length)
+                {
+                    result += charset[randomNumber];
+                    remainingLength--;
+                }
+            }
+        }
+
+        return result;
+    }
+
+    private static string GenerateSHA256NonceFromRawNonce(string rawNonce)
+    {
+        var sha = new SHA256Managed();
+        var utf8RawNonce = Encoding.UTF8.GetBytes(rawNonce);
+        var hash = sha.ComputeHash(utf8RawNonce);
+
+        var result = string.Empty;
+        for (var i = 0; i < hash.Length; i++)
+        {
+            result += hash[i].ToString("x2");
+        }
+
+        return result;
+    }
+
+    public void PerformLoginWithAppleIdAndFirebase(Action<FirebaseUser> firebaseAuthCallback)
+    {
+        var rawNonce = GenerateRandomString(32);
+        var nonce = GenerateSHA256NonceFromRawNonce(rawNonce);
+
+        var loginArgs = new AppleAuthLoginArgs(
+            LoginOptions.IncludeEmail | LoginOptions.IncludeFullName,
+            nonce);
+
+        this.appleAuthManager.LoginWithAppleId(
+            loginArgs,
+            credential =>
+            {
+                var appleIdCredential = credential as IAppleIDCredential;
+                if (appleIdCredential != null)
+                {
+                    this.PerformFirebaseAuthentication(appleIdCredential, rawNonce, firebaseAuthCallback);
+                }
+            },
+            error =>
+            {
+                // Something went wrong
+            });
+    }
+
+    private void PerformFirebaseAuthentication(
+    IAppleIDCredential appleIdCredential,
+    string rawNonce,
+    Action<FirebaseUser> firebaseAuthCallback)
+    {
+        var identityToken = Encoding.UTF8.GetString(appleIdCredential.IdentityToken);
+        var authorizationCode = Encoding.UTF8.GetString(appleIdCredential.AuthorizationCode);
+        var firebaseCredential = OAuthProvider.GetCredential(
+            "apple.com",
+            identityToken,
+            rawNonce,
+            authorizationCode);
+
+        this.auth.SignInWithCredentialAsync(firebaseCredential)
+            .ContinueWithOnMainThread(task => HandleSignInWithUser(task, firebaseAuthCallback));
+    }
+
+    private static void HandleSignInWithUser(Task<FirebaseUser> task, Action<FirebaseUser> firebaseUserCallback)
+    {
+        if (task.IsCanceled)
+        {
+            Debug.Log("Firebase auth was canceled");
+            firebaseUserCallback(null);
+        }
+        else if (task.IsFaulted)
+        {
+            Debug.Log("Firebase auth failed");
+            firebaseUserCallback(null);
+        }
+        else
+        {
+            var firebaseUser = task.Result;
+            Debug.Log("Firebase auth completed | User ID:" + firebaseUser.UserId);
+            firebaseUserCallback(firebaseUser);
+        }
+    }
+#endif
+
+    //--------------------- PRIVATE FUNCTIONS ---------------------
+
+   
+
     public List<string> GetLeaderboardsList()
     {
         return leaderboardsNameData;
@@ -231,3 +498,5 @@ public class FirebaseInitlization : MonoBehaviour
     }
 
 }
+
+

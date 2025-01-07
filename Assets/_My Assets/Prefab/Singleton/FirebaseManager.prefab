@@ -44,3 +44,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 03dba1e071c2004498640bfc92c867a3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  firebaseData: {fileID: 11400000, guid: be48de5e0ed5a854daa68e12ed1b3651, type: 2}
+  leaderboardsNameData: []
+  leaderboardsScoreData: 
+  myRank: 0
+  canUseFirestore: 0

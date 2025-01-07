@@ -1,11 +1,12 @@
 <?xml version='1.0' encoding='utf-8'?>
-<resources xmlns:tools="http://schemas.android.com/tools" tools:keep="@string/firebase_database_url,@string/gcm_defaultSenderId,@string/google_storage_bucket,@string/project_id,@string/google_api_key,@string/google_crash_reporting_api_key,@string/google_app_id,@string/default_android_client_id">
+<resources xmlns:tools="http://schemas.android.com/tools" tools:keep="@string/firebase_database_url,@string/gcm_defaultSenderId,@string/google_storage_bucket,@string/project_id,@string/google_api_key,@string/google_crash_reporting_api_key,@string/google_app_id,@string/default_android_client_id,@string/default_web_client_id">
   <string name="firebase_database_url" translatable="false">https://speed-nation-8ec3b-default-rtdb.firebaseio.com</string>
   <string name="gcm_defaultSenderId" translatable="false">1016663705904</string>
-  <string name="google_storage_bucket" translatable="false">speed-nation-8ec3b.appspot.com</string>
+  <string name="google_storage_bucket" translatable="false">speed-nation-8ec3b.firebasestorage.app</string>
   <string name="project_id" translatable="false">speed-nation-8ec3b</string>
   <string name="google_api_key" translatable="false">AIzaSyC3auX3BihnneT-kxvaQ8CyZtAS72h6_jc</string>
   <string name="google_crash_reporting_api_key" translatable="false">AIzaSyC3auX3BihnneT-kxvaQ8CyZtAS72h6_jc</string>
   <string name="google_app_id" translatable="false">1:1016663705904:android:92862f81c7c1613b1da0f5</string>
   <string name="default_android_client_id" translatable="false">1016663705904-qnjtt0ca1f21gqno92n4hjd09oa2hi7j.apps.googleusercontent.com</string>
+  <string name="default_web_client_id" translatable="false">1016663705904-1umfle2cssru396gj09fl6iole8g3i6q.apps.googleusercontent.com</string>
 </resources>

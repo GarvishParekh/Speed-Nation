@@ -1,0 +1,40 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 64242ffe6452db24895aa8fea1d8f25e, type: 3}
+  m_Name: IAP Data
+  m_EditorClassIdentifier: 
+  basicTicketCard:
+    Name: Ticket basic card (500)
+    Id: ticket_card_500
+    Description: 
+    Price: $4.99
+  valueTicketCard:
+    Name: Ticket value card (750)
+    Id: ticket_card_750
+    Description: 
+    Price: $6.99
+  premiumTicketCard:
+    Name: Ticket premium card (1000)
+    Id: ticket_card_1000
+    Description: 
+    Price: $8.99
+  bestDealTicketCard:
+    Name: Best deal card (1500)
+    Id: ticket_card_1500
+    Description: 
+    Price: $9.99
+  adsSubscriptionItem:
+    Name: No ads subscription card
+    Id: no_ads_subscription
+    Description: 
+    Price: $1.99
+    timeDuration: 1
