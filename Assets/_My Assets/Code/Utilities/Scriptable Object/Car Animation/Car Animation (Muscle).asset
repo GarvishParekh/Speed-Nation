@@ -15,5 +15,5 @@ MonoBehaviour:
   maxWheelRotation: 30
   rotationDamping: 250
   wheelForwardRotation: 100
-  maxBodyRotaion: 8
-  bodyRotationDamping: 12
+  maxBodyRotaion: 5
+  bodyRotationDamping: 20

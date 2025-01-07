@@ -45,3 +45,5 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   adsData: {fileID: 11400000, guid: 67b1d3a00b2a99e4f9df8f4d1f2e4b09, type: 2}
+  economyData: {fileID: 11400000, guid: 77756bf4420c11548b5042519df5c908, type: 2}
+  settingsData: {fileID: 11400000, guid: d56ba94aba753ab4a9c3b5ae7327cd7e, type: 2}

@@ -6,6 +6,7 @@ public class GameSettingsData : ScriptableObject
     public PostProcessingStatus postProcessingStatus;
     public MusicStatus musicStatus;
     public SoundEffectsStatus soundEffectsStatus;
+    public int totalTimeSpent = 0;
 }
 
 public enum PostProcessingStatus

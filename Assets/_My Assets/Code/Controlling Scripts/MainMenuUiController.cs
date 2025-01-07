@@ -22,6 +22,7 @@ public class MainMenuUiController : MonoBehaviour
 
     [Header("<size=15>SCRIPTABLE")]
     [SerializeField] private FirebaseData firebaseData;
+    [SerializeField] private GameSettingsData settingsData;
 
     [Header("<size=15>UI EFFECTS")]
     [SerializeField] private GameObject arrowObject;
@@ -78,6 +79,7 @@ public class MainMenuUiController : MonoBehaviour
         uiManager = UiManager.instance;
         bgMusicManager = BgMusicManager.instance;
 
+        ShowRateGamePopup();
         PreparingSettingsButton(firebaseData.signInType);
         CheckSignIn();
 
@@ -450,6 +452,8 @@ public class MainMenuUiController : MonoBehaviour
 
         appleLoggingOff.SetActive(false);
         googleLoggingoff.SetActive(false);
+
+        uiManager.OpenPopUp(CanvasNames.LOGGED_OUT);
     }
 
     private void CheckForDevice()
@@ -460,4 +464,18 @@ public class MainMenuUiController : MonoBehaviour
         firebaseData.signInType = SignInType.APPLE;
 #endif
     }
+
+    private void ShowRateGamePopup()
+    {
+        if (settingsData.totalTimeSpent < 1000)
+            return;
+
+        uiManager.OpenPopUp(CanvasNames.RATE_OUR_GAME);
+
+        settingsData.totalTimeSpent = 0;
+        PlayerPrefs.SetInt(ConstantKeys.TOTAL_TIME_SPENT, 0);
+    }
+
+    public void _CloseRateUsButton() => uiManager.ClosePopUp(CanvasNames.RATE_OUR_GAME);
+    public void _CloseLogoutButton() => uiManager.ClosePopUp(CanvasNames.LOGGED_OUT);
 }

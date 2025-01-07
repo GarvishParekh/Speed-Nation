@@ -5,6 +5,7 @@ public static class ConstantKeys
     public static string SCENE_PRACTICE = "PracticeScene";
     public static string SCENE_GAMEPLAY = "GameplaySceneEndless";
     public static string STORY_SCENE = "StoryScene";
+    public static string TOTAL_TIME_SPENT = "TotalTimePSpent";
 
     // economy tags
     public static string TOTAL_TICKETS = "TotalTickets";

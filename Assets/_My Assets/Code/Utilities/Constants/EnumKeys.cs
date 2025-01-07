@@ -11,3 +11,9 @@ public enum RewardType
     TICKETS,
     ON_GAMEOVER
 }
+
+public enum E_CarControls
+{
+    LERPED,
+    RAW
+}

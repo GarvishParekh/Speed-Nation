@@ -1,8 +1,7 @@
 using System;
 using UnityEngine;
 using GoogleMobileAds.Api;
-
-
+using System.Collections;
 
 public class AdsManager : MonoBehaviour
 {
@@ -11,12 +10,15 @@ public class AdsManager : MonoBehaviour
     [Header (" [SCRIPTABLE OBJECT] ")]
     [SerializeField] private AdsData adsData;
     [SerializeField] private EconomyData economyData;
+    [SerializeField] private GameSettingsData settingsData;
 
     private string interstitialAdID;
     private string rewardedAdID;
     
     InterstitialAd interstitialAd;
     RewardedAd rewardedAd;
+
+    private int totalTimeSpent;
 
     void Awake()
     {
@@ -33,6 +35,8 @@ public class AdsManager : MonoBehaviour
 
     private void Start()
     {
+        StartCoroutine(nameof(TotalTimeSpent));
+
         // ads will carsh in android specially in video ads
         MobileAds.RaiseAdEventsOnUnityMainThread = true;
         FetchID();
@@ -248,5 +252,19 @@ public class AdsManager : MonoBehaviour
             Debug.LogError("Rewarded ad failed to open full screen content " + "with error : " + error);
             RequestRewardedAd();
         };
+    }
+
+    private WaitForSeconds tenSeconds = new WaitForSeconds(10);
+    private IEnumerator TotalTimeSpent()
+    {
+        while (true)
+        {
+            yield return tenSeconds;
+            totalTimeSpent = PlayerPrefs.GetInt(ConstantKeys.TOTAL_TIME_SPENT, 0);
+            totalTimeSpent += 10;
+
+            PlayerPrefs.SetInt(ConstantKeys.TOTAL_TIME_SPENT, totalTimeSpent);
+            settingsData.totalTimeSpent = totalTimeSpent;
+        }
     }
 }

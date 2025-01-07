@@ -33,7 +33,6 @@ public class CarController : MonoBehaviour
     [Space]
     [SerializeField] private Transform carBody;
 
-
     // how much rotation vehicle is having - related to controls
     private float rotationValue = -90;
     // how much rotation vehicle's body is having - related to animation 
@@ -84,26 +83,43 @@ public class CarController : MonoBehaviour
     {
         if (inputData.isPressed)
         {
-            rotationValue += inputData.lerpedSideValue * engine.turnSpeed * Time.deltaTime;
+            switch (inputData.carControls)
+            {
+                case E_CarControls.LERPED:
+                    rotationValue += inputData.lerpedSideValue * engine.turnSpeed * Time.deltaTime;
+                break;
+                case E_CarControls.RAW:
+                    rotationValue += inputData.sideValue * engine.turnSpeed * Time.deltaTime;
+                    break;
+            }
         }
         else
         {
-            rotationValue = Mathf.MoveTowards(rotationValue, -90, 4.0f * Time.deltaTime);
+            rotationValue = Mathf.Lerp(rotationValue, -90, inputData.returnDamping * Time.deltaTime);
         }
 
+        //rotationValue = Mathf.Clamp(rotationValue, -100, -80);
         rotationDisk.rotation = Quaternion.Euler(0, rotationValue, 0);
-        rotationValue = Mathf.Clamp(rotationValue, -135, -45);
 
         // rotation of the car model according to the disk
-        carModel.rotation = rotationDisk.rotation;  
+        carModel.rotation = rotationDisk.rotation;
 
-        // lerp the movement vecotor with rotation disk
-        rotationTransform.rotation = Quaternion.Lerp
-        (
-            rotationTransform.rotation, 
-            rotationDisk.rotation, 
-            engine.turnDamping * Time.deltaTime
-        );
+        switch (inputData.carControls)
+        {
+            case E_CarControls.LERPED:
+                // lerp the movement vecotor with rotation disk
+                rotationTransform.rotation = Quaternion.Lerp
+                (
+                    rotationTransform.rotation,
+                    rotationDisk.rotation,
+                    engine.turnDamping * Time.deltaTime
+                );
+            break;
+            
+            case E_CarControls.RAW:
+                rotationTransform.rotation = rotationDisk.rotation;
+            break;
+        }
     }
 
     // decrease the speed when the user turns
