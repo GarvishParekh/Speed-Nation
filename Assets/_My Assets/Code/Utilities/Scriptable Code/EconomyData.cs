@@ -8,4 +8,7 @@ public class EconomyData : ScriptableObject
 
     public int totalTickets = 0;
     public int startingTicketValue = 75;
+
+    public int gainedTicketsPerRound = 0;
+    public int gainedOilsPerRound = 0;
 }

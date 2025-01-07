@@ -13,8 +13,17 @@ public class ActionManager : MonoBehaviour
     public static Action<int> UpdateKillStreak;
     public static Action KillStreakCouterReset;
 
+    // login test 
+    public static Action InitiateSignIn;
+
     // economy related actions
     public static Action NoEnoghtBalance;
     public static Action<int> rewardOils;
     public static Action<int> rewardTickets;
+
+    // gameover reward ads watched
+    public static Action GameoverRewardAdsWatched;
+
+    // networking
+    public static Action<SignInType, bool> SignedInStatus;
 }

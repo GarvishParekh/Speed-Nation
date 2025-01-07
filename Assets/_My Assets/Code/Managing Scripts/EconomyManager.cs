@@ -39,7 +39,21 @@ public class EconomyManager : MonoBehaviour
     private void Start()
     {
         uiManager = UiManager.instance;
-        adsManager = AdsManager.instance;   
+        adsManager = AdsManager.instance;
+
+        SetInitialBalance();
+    }
+
+    private void SetInitialBalance()
+    {
+        if (PlayerPrefs.GetInt(ConstantKeys.KEYS_GENERATED, 0) == 0)
+        {
+            economyData.totalTickets = economyData.startingTicketValue;
+            economyData.totalOil = economyData.startingOilValue;
+
+            SaveEconomy();
+            PlayerPrefs.SetInt(ConstantKeys.KEYS_GENERATED, 1);
+        }
     }
 
     private int FetchTicketBalance()
@@ -124,7 +138,7 @@ public class EconomyManager : MonoBehaviour
         else return true;
     }
 
-    public void BasicCardPurrchase()
+    public void _BasicCardPurchase()
     {
         if (CheckTicketBalance(50))
         {
@@ -133,12 +147,39 @@ public class EconomyManager : MonoBehaviour
         }
     }
 
-    public void FreeOilCardPurchase()
+    public void _ValueCardPurchase()
+    {
+        if (CheckTicketBalance(50))
+        {
+            DebitTickets(50);
+            CreditOil(10000);
+        }
+    }
+
+    public void _EpicCardPurchase()
+    {
+        if (CheckTicketBalance(50))
+        {
+            DebitTickets(50);
+            CreditOil(10000);
+        }
+    }
+
+    public void _PremiumCardPurchase()
+    {
+        if (CheckTicketBalance(200))
+        {
+            DebitTickets(200);
+            CreditOil(100000);
+        }
+    }
+
+    public void _OilRewardCard()
     {
         adsManager.ShowRewardedAds(RewardType.OILS);
     }
 
-    public void FreeTicketCardPurchase()
+    public void _TicketRewardCard()
     {
         adsManager.ShowRewardedAds(RewardType.TICKETS);
     }
