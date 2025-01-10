@@ -12,11 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b779f75561a94cd47b8e5475ce933fd0, type: 3}
   m_Name: Input Data
   m_EditorClassIdentifier: 
-  controls: 1
+  controls: 0
   carControls: 0
   sideValue: 0
-  lerpedSideValue: 0.239822
-  turnDamping: 4
+  lerpedSideValue: -0.59904164
+  turnDamping: 3.3112173
   returnDamping: 1.5
   driftrValue: 0
-  isPressed: 0
+  isPressed: 1

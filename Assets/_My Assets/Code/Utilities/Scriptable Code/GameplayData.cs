@@ -25,4 +25,8 @@ public class GameplayData : ScriptableObject
     public int rampageValue;
     public int godlikeValue;
     public int unstopableValue;
+
+    [Header ("<size=15>DIFFICULTY LEVEL VALUES")]
+    public int mediumLevel;
+    public int difficultLevel;
 }

@@ -17,3 +17,10 @@ public enum E_CarControls
     LERPED,
     RAW
 }
+
+public enum TrafficLevel
+{
+    EASY,
+    MEDIUM,
+    DIFFICULT
+}
