@@ -3,7 +3,6 @@ using UnityEngine;
 
 public class TrafficCarController : MonoBehaviour
 {
-    
     Rigidbody rb;
     bool wasCollided = false;
 

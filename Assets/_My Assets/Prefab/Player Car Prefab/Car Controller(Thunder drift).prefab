@@ -171,6 +171,7 @@ MonoBehaviour:
   engineSFX: {fileID: 5517753381432372481}
   speedMultiplier: 0
   boostingSpeed: 30
+  gamepalayData: {fileID: 11400000, guid: d3f7cc77e46279646892dc9d453b1c7c, type: 2}
   engine: {fileID: 11400000, guid: 1a7515c8a3423004e92d7d09714d939c, type: 2}
   carAnime: {fileID: 11400000, guid: 5be007c757a5a74409627303a3e68504, type: 2}
   inputData: {fileID: 11400000, guid: db05a1c1057304743b70bed5b44f9e05, type: 2}
@@ -285,12 +286,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e7bda736addb227468133aec7cf73a37, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  gameplayData: {fileID: 11400000, guid: d3f7cc77e46279646892dc9d453b1c7c, type: 2}
   camController: {fileID: 0}
   crashLeft: {fileID: 8812395957035759798}
   crashRight: {fileID: 2281849210723214778}
   wallLayer:
     serializedVersion: 2
     m_Bits: 64
+  isCrashing: 0
   rayCastLenght: 1.6
 --- !u!136 &4884250784640524776
 CapsuleCollider:
@@ -15136,12 +15139,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e7bda736addb227468133aec7cf73a37, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  gameplayData: {fileID: 0}
   camController: {fileID: 0}
   crashLeft: {fileID: 0}
   crashRight: {fileID: 0}
   wallLayer:
     serializedVersion: 2
     m_Bits: 0
+  isCrashing: 0
   rayCastLenght: 0
 --- !u!1 &2490557904370839300
 GameObject:

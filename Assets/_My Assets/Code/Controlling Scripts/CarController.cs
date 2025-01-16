@@ -25,6 +25,7 @@ public class CarController : MonoBehaviour
     float boostingInputValue = 0;
 
     [Header("<size=15>SCRIPTABLE")]
+    [SerializeField] private GameplayData gamepalayData;
     [SerializeField] private CarEngine engine;
     [SerializeField] private CarAnimationData carAnime;
     [SerializeField] private InputData inputData;
@@ -90,7 +91,7 @@ public class CarController : MonoBehaviour
                 break;
                 case E_CarControls.RAW:
                     rotationValue += inputData.sideValue * engine.turnSpeed * Time.deltaTime;
-                    break;
+                break;
             }
         }
         else
@@ -98,7 +99,7 @@ public class CarController : MonoBehaviour
             rotationValue = Mathf.Lerp(rotationValue, -90, inputData.returnDamping * Time.deltaTime);
         }
 
-        //rotationValue = Mathf.Clamp(rotationValue, -100, -80);
+        rotationValue = Mathf.Clamp(rotationValue, gamepalayData.carRotationThreshold.x, gamepalayData.carRotationThreshold.y);
         rotationDisk.rotation = Quaternion.Euler(0, rotationValue, 0);
 
         // rotation of the car model according to the disk

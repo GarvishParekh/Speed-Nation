@@ -5,7 +5,7 @@ using System;
 
 public class GameoverController : MonoBehaviour
 {
-    public static Action Gameover;
+    
 
     UiManager uiManager;
     AdsManager adsManager;
@@ -32,12 +32,12 @@ public class GameoverController : MonoBehaviour
 
     private void OnEnable()
     {
-        CarStatsManager.NoTimeLeft += OnTimeComplete;
+        ActionManager.HealthCompleted += OnHealthCompleted;
     }
 
     private void OnDisable()
     {
-        CarStatsManager.NoTimeLeft -= OnTimeComplete;
+        ActionManager.HealthCompleted -= OnHealthCompleted;
     }
 
     private void Update()
@@ -51,12 +51,12 @@ public class GameoverController : MonoBehaviour
         }
     }
 
-    private void OnTimeComplete()
+    private void OnHealthCompleted()
     {
         if (adsManager.AdsAvailable()) adsNotAvailableObject.SetActive(false);
         else adsNotAvailableObject.SetActive(true);
 
-        Gameover?.Invoke();
+        ActionManager.Gameover?.Invoke();
         StartCoroutine(nameof(TakeScreenshotCoroutine));
     }
 

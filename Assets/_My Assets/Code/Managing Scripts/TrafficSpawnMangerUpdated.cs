@@ -5,6 +5,7 @@ public class TrafficSpawnMangerUpdated : MonoBehaviour
 {
     [Header ("<size=15>SCRIPTABLE")]
     [SerializeField] private GameplayData gameplayData;
+    
 
     [Header ("<size=15>SEEDS")]
     [SerializeField] private List<Transform> EasyTrafficSeeds = new List<Transform>();
@@ -56,4 +57,6 @@ public class TrafficSpawnMangerUpdated : MonoBehaviour
             else  return TrafficLevel.MEDIUM;
         }
     }
+
+    
 }

@@ -45890,7 +45890,6 @@ Transform:
   m_Children:
   - {fileID: 1033931287934016392}
   - {fileID: 4186691792050972304}
-  - {fileID: 8282856303806410262}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!54 &5934237841541055476
@@ -45942,6 +45941,7 @@ MonoBehaviour:
   engineSFX: {fileID: 3692363047369813712}
   speedMultiplier: 0
   boostingSpeed: 30
+  gamepalayData: {fileID: 11400000, guid: d3f7cc77e46279646892dc9d453b1c7c, type: 2}
   engine: {fileID: 11400000, guid: 587361c3193f87c409a9eb6beb80646f, type: 2}
   carAnime: {fileID: 11400000, guid: 847189dbb19800f469d82af88d994092, type: 2}
   inputData: {fileID: 11400000, guid: db05a1c1057304743b70bed5b44f9e05, type: 2}
@@ -46056,12 +46056,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e7bda736addb227468133aec7cf73a37, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  gameplayData: {fileID: 11400000, guid: d3f7cc77e46279646892dc9d453b1c7c, type: 2}
   camController: {fileID: 0}
   crashLeft: {fileID: 8028304742121902944}
   crashRight: {fileID: 6491144678751609739}
   wallLayer:
     serializedVersion: 2
     m_Bits: 64
+  isCrashing: 0
   rayCastLenght: 1.6
 --- !u!136 &3554943425080176097
 CapsuleCollider:
@@ -51398,81 +51400,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!1 &8778969357120876264
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 8282856303806410262}
-  - component: {fileID: 5884271692296521950}
-  - component: {fileID: 7765183670254380760}
-  m_Layer: 0
-  m_Name: Main Collider
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 0
---- !u!4 &8282856303806410262
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8778969357120876264}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.924, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 3993357223878476687}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!136 &5884271692296521950
-CapsuleCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8778969357120876264}
-  m_Material: {fileID: 13400000, guid: a002dd58f9aebeb4aaeea5598884e69d, type: 2}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Radius: 0.82
-  m_Height: 5.73
-  m_Direction: 2
-  m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &7765183670254380760
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8778969357120876264}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e7bda736addb227468133aec7cf73a37, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  camController: {fileID: 0}
-  crashLeft: {fileID: 0}
-  crashRight: {fileID: 0}
-  wallLayer:
-    serializedVersion: 2
-    m_Bits: 0
-  rayCastLenght: 0
 --- !u!1 &9005909119732477399
 GameObject:
   m_ObjectHideFlags: 0

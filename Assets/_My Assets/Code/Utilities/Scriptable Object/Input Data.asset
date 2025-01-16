@@ -19,4 +19,5 @@ MonoBehaviour:
   turnDamping: 3.3112173
   returnDamping: 1.5
   driftrValue: 0
+  carRotationThreshold: {x: -180, y: 0}
   isPressed: 1
