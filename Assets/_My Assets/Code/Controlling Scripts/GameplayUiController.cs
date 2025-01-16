@@ -1,7 +1,8 @@
+using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 using System.Collections;
 using System.Collections.Generic;
-using TMPro;
 
 public class GameplayUiController : MonoBehaviour
 {
@@ -9,6 +10,7 @@ public class GameplayUiController : MonoBehaviour
     AdsManager adsManager;
     [Header (("<size=15>SCRIPTABLE"))]
     [SerializeField] private GameplayData gameplayData;
+    [SerializeField] private InputData inputData;
 
     [Header (("<size=15>COMPONENTS"))]
     [SerializeField] private Camera mainCamera;
@@ -18,6 +20,10 @@ public class GameplayUiController : MonoBehaviour
     [Header (("<size=15>FILTER UI ELEMENTS"))]
     [SerializeField] private CanvasGroup boostFilter;
     [SerializeField] private CanvasGroup finalKillStreakFilter;
+
+    // handling slider
+    [SerializeField] private Slider handlingSlider;
+    [SerializeField] private TMP_Text handlingAmountText;
 
     [Header (("<size=15>KILL STREAK UI ELEMENTS"))]
     [SerializeField] private GameObject singleKillBanner;
@@ -68,6 +74,7 @@ public class GameplayUiController : MonoBehaviour
 
         //uiManager.OpenShutter();
         uiManager.OpenCanvasWithShutter(CanvasNames.GAMEPLAY);
+        SetHandlingSlider();
 
         StartCoroutine(nameof(StartCountDown));
     }
@@ -93,6 +100,7 @@ public class GameplayUiController : MonoBehaviour
     {
         Time.timeScale = 1;
         uiManager.OpenCanvasWithoutShutter(CanvasNames.GAMEPLAY);
+        PlayerPrefs.SetFloat(ConstantKeys.HANDLING, handlingSlider.value);
     }
 
     public void _RestartButton()
@@ -239,5 +247,19 @@ public class GameplayUiController : MonoBehaviour
 
         Debug.Log("Showing ads");
         adsManager.ShowRewardedAds(RewardType.ON_GAMEOVER);
+    }
+
+    
+    public void _UpdateHandling()
+    {
+        handlingAmountText.text = handlingSlider.value.ToString("0.0");
+        inputData.turnDamping = handlingSlider.value;
+    }
+
+    private void SetHandlingSlider ()
+    {
+        inputData.turnDamping = PlayerPrefs.GetFloat(ConstantKeys.HANDLING, 3.0f);
+        handlingAmountText.text = inputData.turnDamping.ToString("0.0");
+        handlingSlider.value = inputData.turnDamping;
     }
 }

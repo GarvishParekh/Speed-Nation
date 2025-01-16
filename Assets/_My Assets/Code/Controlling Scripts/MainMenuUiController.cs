@@ -22,6 +22,8 @@ public class MainMenuUiController : MonoBehaviour
 
     [Header("<size=15>SCRIPTABLE")]
     [SerializeField] private FirebaseData firebaseData;
+    [SerializeField] private GameSettingsData settingsData;
+    [SerializeField] private InputData inputData;
 
     [Header("<size=15>UI EFFECTS")]
     [SerializeField] private GameObject arrowObject;
@@ -31,6 +33,10 @@ public class MainMenuUiController : MonoBehaviour
     [SerializeField] private TMP_Text serverConnectionText;
 
     [Header("<size=15>SIGIN UI ASSETS")]
+    [Header("<size=10><I><color=#7DD2F6>SETTINGS")]
+    [SerializeField] private Slider handlingSlider;
+    [SerializeField] private TMP_Text handlingAmountText;
+
     [Header("<size=10><I><color=#7DD2F6>GOOGLE")]
     [SerializeField] private GameObject googleSiginButton;
     [SerializeField] private GameObject googleLoggedin;
@@ -78,8 +84,10 @@ public class MainMenuUiController : MonoBehaviour
         uiManager = UiManager.instance;
         bgMusicManager = BgMusicManager.instance;
 
+        ShowRateGamePopup();
         PreparingSettingsButton(firebaseData.signInType);
         CheckSignIn();
+        SetHandlingSlider();
 
 
         if (firebaseInitilization.GetConnectionStatus())
@@ -199,6 +207,7 @@ public class MainMenuUiController : MonoBehaviour
     public void _CloseSettingsButton()
     {
         uiManager.OpenCanvasWithShutter(CanvasNames.MAIN_MENU);
+        PlayerPrefs.SetFloat(ConstantKeys.HANDLING, inputData.turnDamping);
     }
 
     public void _PostProcessingToggle()
@@ -450,6 +459,8 @@ public class MainMenuUiController : MonoBehaviour
 
         appleLoggingOff.SetActive(false);
         googleLoggingoff.SetActive(false);
+
+        uiManager.OpenPopUp(CanvasNames.LOGGED_OUT);
     }
 
     private void CheckForDevice()
@@ -459,5 +470,32 @@ public class MainMenuUiController : MonoBehaviour
 #elif UNITY_IPHONE
         firebaseData.signInType = SignInType.APPLE;
 #endif
+    }
+
+    private void ShowRateGamePopup()
+    {
+        if (settingsData.totalTimeSpent < 1000)
+            return;
+
+        uiManager.OpenPopUp(CanvasNames.RATE_OUR_GAME);
+
+        settingsData.totalTimeSpent = 0;
+        PlayerPrefs.SetInt(ConstantKeys.TOTAL_TIME_SPENT, 0);
+    }
+
+    public void _CloseRateUsButton() => uiManager.ClosePopUp(CanvasNames.RATE_OUR_GAME);
+    public void _CloseLogoutButton() => uiManager.ClosePopUp(CanvasNames.LOGGED_OUT);
+
+    public void _UpdateHandling()
+    {
+        handlingAmountText.text = handlingSlider.value.ToString("0.0");
+        inputData.turnDamping = handlingSlider.value;
+    }
+
+    private void SetHandlingSlider()
+    {
+        inputData.turnDamping = PlayerPrefs.GetFloat(ConstantKeys.HANDLING, 3.0f);
+        handlingAmountText.text = inputData.turnDamping.ToString("0.0");
+        handlingSlider.value = inputData.turnDamping;
     }
 }

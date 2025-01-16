@@ -56,7 +56,7 @@ Material:
     - _DiterSize: 6
     - _QueueControl: 0
     - _QueueOffset: 0
-    - _canBlink: 0
+    - _canBlink: 1
     m_Colors:
     - _Color: {r: 1, g: 0.4186974, b: 0, a: 0}
   m_BuildTextureStacks: []

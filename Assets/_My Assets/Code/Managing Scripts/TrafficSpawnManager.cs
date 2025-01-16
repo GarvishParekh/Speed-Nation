@@ -54,6 +54,7 @@ public class TrafficSpawnManager : MonoBehaviour
 
         WaveTimer();
         DangerWave();
+        
         if (timer > 0)
         {
             timer -= Time.deltaTime;
@@ -64,6 +65,7 @@ public class TrafficSpawnManager : MonoBehaviour
             ResetTimer();
             trafficSpawnPoint.x = playerCar.position.x - 200;
             trafficSpawnPoint.y = 0.24f;
+           
             int randomIndex = Random.Range(0, trafficZSpawnPoints.Count);
             trafficSpawnPoint.z = trafficZSpawnPoints[randomIndex].position.z;
 
@@ -182,7 +184,7 @@ public class TrafficSpawnManager : MonoBehaviour
                 trafficSpawnPoint.z = -115f;
                 tollPrefab.position = trafficSpawnPoint;
             }
-            canSpawn = false;
+            //canSpawn = false;
         }
         else
         {
@@ -195,5 +197,4 @@ public class TrafficSpawnManager : MonoBehaviour
         canSpawn = true;
         spawnTollTimer = 0;
     }
-
 }

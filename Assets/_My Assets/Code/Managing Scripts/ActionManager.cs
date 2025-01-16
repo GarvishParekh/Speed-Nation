@@ -12,6 +12,9 @@ public class ActionManager : MonoBehaviour
     public static Action TrafficKilled;
     public static Action<int> UpdateKillStreak;
     public static Action KillStreakCouterReset;
+    public static Action<Transform> crossedMidPoint;
+    public static Action Gameover;
+    public static Action HealthCompleted;
 
     // login test 
     public static Action InitiateSignIn;

@@ -5,7 +5,7 @@ using System.Collections.Generic;
 
 public class CarStatsManager : MonoBehaviour
 {
-    public static Action NoTimeLeft;
+    
 
     [Header ("<size=15>User interface")]
     [SerializeField] private TMP_Text timerText;
@@ -67,7 +67,7 @@ public class CarStatsManager : MonoBehaviour
         healtCount--;
         if (healtCount < 0)
         {
-            NoTimeLeft?.Invoke();
+            ActionManager.HealthCompleted?.Invoke();
         }
     }
 

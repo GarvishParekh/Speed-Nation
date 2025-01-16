@@ -7,9 +7,6 @@ using Firebase.Extensions;
 using Firebase.Crashlytics;
 using Firebase.Firestore;
 using System.Collections.Generic;
-using System.Security.Cryptography;
-using System.Text;
-using System.Threading.Tasks;
 
 #if UNITY_IPHONE
 using AppleAuth;

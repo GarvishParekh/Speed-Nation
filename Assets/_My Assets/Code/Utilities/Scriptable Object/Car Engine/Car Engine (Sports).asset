@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c4bdc347bb9988f47a26443ba8ca776c, type: 3}
   m_Name: Car Engine (Sports)
   m_EditorClassIdentifier: 
-  carSpeed: 45
+  carSpeed: 35
   maxCarSpeed: 45
   speedOnTurn: 45
   turnSpeed: 100

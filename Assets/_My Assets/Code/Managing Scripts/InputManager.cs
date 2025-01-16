@@ -51,7 +51,7 @@ public class InputManager : MonoBehaviour
         }
         UpdateDriftValue(sideInput);
 
-        lerpedSideValue = Mathf.Lerp(lerpedSideValue, sideInput, 2.1f * Time.deltaTime);
+        lerpedSideValue = Mathf.Lerp(lerpedSideValue, sideInput, inputData.turnDamping * Time.deltaTime);
 
         inputData.sideValue = sideInput;
         inputData.lerpedSideValue = lerpedSideValue;

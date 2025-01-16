@@ -31,8 +31,8 @@ public class ScoreManager : MonoBehaviour
 
     private void OnEnable()
     {
-        GameoverController.Gameover += CalculateTotalScore;
-        GameoverController.Gameover += CalculateGainedEconomy;
+        ActionManager.Gameover += CalculateTotalScore;
+        ActionManager.Gameover += CalculateGainedEconomy;
         ActionManager.GameoverRewardAdsWatched += RewardAdsOil;
 
         ActionManager.countDownCompleted += OnCompleteCountdown;
@@ -42,8 +42,8 @@ public class ScoreManager : MonoBehaviour
 
     private void OnDisable()
     {
-        GameoverController.Gameover -= CalculateTotalScore;
-        GameoverController.Gameover -= CalculateGainedEconomy;
+        ActionManager.Gameover -= CalculateTotalScore;
+        ActionManager.Gameover -= CalculateGainedEconomy;
         ActionManager.GameoverRewardAdsWatched -= RewardAdsOil;
 
         ActionManager.countDownCompleted -= OnCompleteCountdown;
