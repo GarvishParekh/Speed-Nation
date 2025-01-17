@@ -12,19 +12,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9a8ff948a7e2ed241966924f4939006f, type: 3}
   m_Name: Gameplay Data
   m_EditorClassIdentifier: 
-  trafficSpeed: {x: 15, y: 0, z: 0}
+  trafficSpeed: {x: -15, y: 0, z: 0}
+  trafficLevel: 0
   isCrashing: 0
   carRotationThreshold: {x: -180, y: 0}
   carCollisionTime: 0
   carCollisionThreshold: 2.5
   isBoosting: 0
-  boostTimer: 0
+  boostTimer: -0.00072256965
   addingBoostValue: 2
-  scoreCount: 126.09535
+  scoreCount: 3855.2517
   scoreMultiplyer: 6
   normalScoreMultiplyer: 6
   boostedScoreMultiplyer: 30
-  totalScoreCount: 0
+  totalScoreCount: 4077.8926
   currentHighscoreCount: 48493
   singeKillValue: 1
   doubleKillValue: 2
@@ -34,5 +35,5 @@ MonoBehaviour:
   rampageValue: 10
   godlikeValue: 15
   unstopableValue: 25
-  mediumLevel: 0
-  difficultLevel: 0
+  mediumLevel: 1000
+  difficultLevel: 2000

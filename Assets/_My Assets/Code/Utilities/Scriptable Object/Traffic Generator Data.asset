@@ -12,7 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 17eb7cb4413f683428be8cab0bf86fba, type: 3}
   m_Name: Traffic Generator Data
   m_EditorClassIdentifier: 
-  minMaxDistance: {x: 30, y: 45}
+  minMaxDistance:
+  - {x: 30, y: 45}
+  - {x: 25, y: 30}
+  - {x: 15, y: 25}
   lanes:
   - 6.75
   - 2.25

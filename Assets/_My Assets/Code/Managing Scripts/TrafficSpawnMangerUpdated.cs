@@ -5,58 +5,84 @@ public class TrafficSpawnMangerUpdated : MonoBehaviour
 {
     [Header ("<size=15>SCRIPTABLE")]
     [SerializeField] private GameplayData gameplayData;
-    
+
+    [Header ("<size=15>COMPONENTS")]
+    [SerializeField] private Transform endPoint;
+    [SerializeField] private Transform carTransform;
+    public float carDistance;
 
     [Header ("<size=15>SEEDS")]
-    [SerializeField] private List<Transform> EasyTrafficSeeds = new List<Transform>();
-    [SerializeField] private List<Transform> MediumTrafficSeeds = new List<Transform>();
-    [SerializeField] private List<Transform> DifficultTrafficSeeds = new List<Transform>();
-
-    private void OnEnable() => ActionManager.crossedMidPoint += OnCrossedMidPoint;
-
-    private void OnDisable() => ActionManager.crossedMidPoint -= OnCrossedMidPoint;
-
-    private void OnCrossedMidPoint(Transform spawnPoint)
-    {
-        Transform spawnedSeed = null;
-        switch (GetTrafficLevel())
-        {
-            case TrafficLevel.EASY:
-                spawnedSeed = EasyTrafficSeeds[0];
-                spawnedSeed.GetComponent<ITraffic>().Reset();
-                spawnedSeed.position = spawnPoint.position;
-            break;
-            
-            case TrafficLevel.MEDIUM:
-
-                break;
-            case TrafficLevel.DIFFICULT:
-
-                break;
-        }
-        EasyTrafficSeeds.Remove(spawnedSeed);
-        EasyTrafficSeeds.Add(spawnedSeed);
-    }
+    public List<TrafficMidpointController> trafficSeeds = new List<TrafficMidpointController>();
 
     int mediumScore;
     int DifficultScore;
-    private TrafficLevel GetTrafficLevel()
+
+    private void OnEnable()
+    {
+        ActionManager.PlayCarSpawned += OnCarSpawnn;
+        //ActionManager.crossedMidPoint += ConfigureSeed;
+    }
+
+    private void OnDisable()
+    {
+        ActionManager.PlayCarSpawned -= OnCarSpawnn;
+        //ActionManager.crossedMidPoint -= ConfigureSeed;
+    }
+
+    private void Start()
+    {
+        GetTrafficLevel();
+        endPoint = trafficSeeds[trafficSeeds.Count - 1].GetEndPointTransform();
+    }
+
+    private void Update()
+    {
+        if (carTransform == null) return;
+        SpawnNextSeed();
+    }
+
+    private void SpawnNextSeed()
+    {
+        carDistance = Vector3.Distance(endPoint.position, carTransform.position);
+        if (carDistance <= 200) ConfigureSeed();
+    }
+
+    private void ConfigureSeed()
+    {
+        GetTrafficLevel();
+
+        // get tail and head of the traffic seed
+        TrafficMidpointController firstSeed = trafficSeeds[0];
+        TrafficMidpointController lastSeed = trafficSeeds[trafficSeeds.Count - 1];
+
+        // set position in-game
+        firstSeed.SetPosition(lastSeed.GetEndPointPosition());
+        firstSeed.Reset();
+
+        // set position in list
+        trafficSeeds.Remove(firstSeed);
+        trafficSeeds.Add(firstSeed);
+
+        endPoint = trafficSeeds[trafficSeeds.Count - 1].GetEndPointTransform();
+    }
+
+    private void GetTrafficLevel()
     {
         mediumScore = gameplayData.mediumLevel;
         DifficultScore = gameplayData.difficultLevel;
             
         if (gameplayData.scoreCount < mediumScore)
-            return TrafficLevel.EASY;
+            gameplayData.trafficLevel = TrafficLevel.EASY;
 
-        //else if (gameplayData.scoreCount > mediumScore)
         else 
         {
             if (gameplayData.scoreCount > DifficultScore)
-                return TrafficLevel.DIFFICULT;
-            //else if (gameplayData.scoreCount < DifficultScore)
-            else  return TrafficLevel.MEDIUM;
+                gameplayData.trafficLevel = TrafficLevel.DIFFICULT;
+
+            else gameplayData.trafficLevel = TrafficLevel.MEDIUM;
         }
     }
 
-    
+    // ------------------ OBSERVING FUNCTION -------------------------------
+    private void OnCarSpawnn(Transform spawnedCar) => carTransform = spawnedCar;
 }

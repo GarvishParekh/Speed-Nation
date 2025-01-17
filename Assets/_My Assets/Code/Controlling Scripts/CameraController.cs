@@ -1,5 +1,5 @@
-using System.Collections;
 using UnityEngine;
+using System.Collections;
 
 public class CameraController : MonoBehaviour
 {
@@ -14,7 +14,6 @@ public class CameraController : MonoBehaviour
     [SerializeField] private float boostingFieldOfView;
     [SerializeField] private float NormalCamSize;
     [SerializeField] private float camFieldOfView = 55f;
-
 
     [Header ("<size=15>COMPONENTS")]
     [SerializeField] private Camera mainCamera;

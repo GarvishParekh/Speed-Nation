@@ -11,7 +11,7 @@ public class TrafficCarController : MonoBehaviour
 
     private void Awake()
     {
-        rb = GetComponent<Rigidbody>();
+        //rb = GetComponent<Rigidbody>();
     }
 
     private void OnTriggerEnter(Collider other)

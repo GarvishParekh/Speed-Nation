@@ -5,6 +5,7 @@ public class GameplayData : ScriptableObject
 {
     [Header("<size=15>TRAFFIC SETTINGS")]
     public Vector3 trafficSpeed;
+    public TrafficLevel trafficLevel;
 
     [Header("<size=15>CAR SETTINGS")]
     public bool isCrashing = false;
